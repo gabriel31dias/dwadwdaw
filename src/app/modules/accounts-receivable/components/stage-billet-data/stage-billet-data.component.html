@@ -1,0 +1,61 @@
+<!-- Dados do boleto -->
+<div class="row mt-2 pb-1">
+  <span class="title-register ps-0">
+    {{ 'dadosDoBoleto' | translate }}
+  </span>
+</div>
+
+<div class="row mt-3">
+  <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 ps-0 pe-3 mb-sm-2 mb-4">
+    <app-input label="numDoBoleto"
+      [readonly]="true"
+      [entry]="billetData.numeroBoleto">
+    </app-input>
+  </div>
+
+  <div class="col-12 col-sm-7 col-md-5 col-lg-4 col-xl-3 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-input label="dataDeEmissao"
+      [readonly]="true"
+      [entry]="billetData.dataEmissao">
+    </app-input>
+  </div>
+
+  <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-input label="juros"
+      [readonly]="true"
+      [entry]="billetData.juros">
+    </app-input>
+  </div>
+
+  <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-input label="multa"
+      [readonly]="true"
+      [entry]="billetData.multa">
+    </app-input>
+  </div>
+
+  <div class="col-12 col-sm-5 col-md-4 col-lg-3 col-xl-2 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-input label="status"
+      [readonly]="true"
+      [entry]="billetData.status">
+    </app-input>
+  </div>
+</div>
+
+<div class="row ">
+  <div class="col-12 col-sm-12 col-md-10 col-lg-5 col-xl-5 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-input label="codigoDeBarras"
+      [copy]="true"
+      [readonly]="true"
+      [entry]="billetData.codigoBarras">
+    </app-input>
+  </div>
+
+  <div class="col-12 col-sm-12 col-md-10 col-lg-5 col-xl-5 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-input label="codigoPix"
+      [copy]="true"
+      [readonly]="true"
+      [entry]="billetData.codigoPix">
+    </app-input>
+  </div>
+</div>

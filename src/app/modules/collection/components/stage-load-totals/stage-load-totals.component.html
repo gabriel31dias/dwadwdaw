@@ -1,0 +1,84 @@
+<div class="flex-row mt-2">
+  <span class="title-register">
+    {{ 'totaisDaCarga' | translate }}
+  </span>
+</div>
+
+<div class="flex-row mt-4">
+  <div class="col-2 pe-3">
+    <app-input label="quantidadeDeNotas"
+      placeholder="0"
+      mask="0*"
+      [entry]="loadTotals.qtdNotas"
+      (entryChanged)="loadTotals.qtdNotas = $event"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="quantidadeDeVolumes"
+      placeholder="0"
+      mask="0*"
+      [entry]="loadTotals.qtdVolumes"
+      (entryChanged)="loadTotals.qtdVolumes = $event !== '' ? $event : null"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="pesoLiquidoTotal"
+      placeholder="0"
+      [currency]="true"
+      [noPrefix]="true"
+      [entry]="loadTotals.pesoLiquido"
+      (entryChanged)="loadTotals.pesoLiquido = $event"
+      [readonly]="readonly"
+      [maxLength]="9">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="pesoBrutoTotal"
+      placeholder="0"
+      [currency]="true"
+      [noPrefix]="true"
+      [entry]="loadTotals.pesoBruto"
+      (entryChanged)="loadTotals.pesoBruto = $event"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input-m3 [entry]="loadTotals.metragemCubica"
+      (entryChanged)="loadTotals.metragemCubica = $event ? $event : 0"
+      [measures]="loadTotals.medidas"
+      (measuresChanged)="loadTotals.medidas = $event"
+      [readonly]="readonly">
+    </app-input-m3>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="valorTotalMercadoria"
+      placeholder="0"
+      [currency]="true"
+      [entry]="loadTotals.valorMercadoria"
+      (entryChanged)="loadTotals.valorMercadoria = $event"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+</div>
+
+<div class="mt-4">
+  <app-gm-selection-nf [setNFs]="loadTotals.nfs"
+    (getNFs)="getNFs($event)"
+    [readonly]="readonly">
+  </app-gm-selection-nf>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>

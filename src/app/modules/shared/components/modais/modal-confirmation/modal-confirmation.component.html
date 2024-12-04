@@ -1,0 +1,17 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ title | translate}}</p>
+    <p class="text-modal">{{ text | translate }}</p>
+
+    <div class="section-btns-confirm">
+      <button class="button-secondary button-fill button-me me-2" (click)="close()">{{ textBtnCancel | translate }}</button>
+      <button class="button-fill button-me" [ngClass]="[style, style === 'red' ? 'button-danger' : 'button-primary']" (click)="confirm()">{{ textBtnConfirm | translate }}</button>
+    </div>
+  </div>
+</div>

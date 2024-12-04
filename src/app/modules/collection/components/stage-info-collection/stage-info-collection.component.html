@@ -1,0 +1,223 @@
+<div class="flex-row mt-3 mb-1">
+  <div class="col-2 pe-3">
+    <app-input label="nColeta" placeholder="- - -" mask="0*" [entry]="collection.nColeta"
+      (entryChanged)="collection.nColeta = $event" [readonly]="true">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="dataInclusao" [required]="true" [changed]="alertRequired"
+      mask="date-time" [entry]="collection.dataInclusao"
+      (entryChanged)="collection.dataInclusao = $event" [readonly]="true">
+    </app-input>
+  </div>
+
+  <div class="col-4 pe-3">
+    <app-input label="filialInclusao" [changed]="alertRequired"
+      [entry]="collection.filialInclusao" [readonly]="true"
+      (entryChanged)="collection.filialInclusao = $event">
+    </app-input>
+  </div>
+
+  <div class="col-4 pe-3">
+    <app-select label="tipoDeServico" placeholder="selecionarTipoDeServico" [options]="getListTypesService()"
+      (optionChanged)="collection.tipoServico = typesServices[$event!].idServico" [shortListed]="getTypeServiceSelected()"
+      [readonly]="readonly">
+    </app-select>
+  </div>
+</div>
+
+<div class="row mb-2">
+  <div class="col-4 ps-0 pe-3">
+    <app-select label="tipoDeColeta" [required]="true" [changed]="alertRequired" placeholder="selecionar"
+      [options]="typesCollection" (optionChanged)="typeCollectionEmitter.emit(typeCollectionSelected = $event)"
+      [shortListed]="typesCollection[typeCollectionSelected!]" [readonly]="readonly">
+    </app-select>
+  </div>
+</div>
+
+<div class="flex-row mb-4">
+  <span class="title-register">
+    {{ 'solicitante' | translate }}
+  </span>
+  
+</div>
+
+
+<div class="flex-row mt-4">
+  <div class="col-6 pe-3">
+    <app-dropdown-default class="loading-indicator" label="cnpjCpfNomeFantasia" [searchable]="true" [required]="true" [changed]="alertRequired"
+      placeholder="placeholderSolicitanteCpfCnpj" [options]="companiesList"
+      [shortListed]="collection.cnpjCpfSolicitante ? collection.cnpjCpfSolicitante : null"
+      (optionChanged)="cnpjSelected($event, 1)" [advanced]="true" (advancedOpen)="openModalSearchClient(1)"
+      (search)="search($event, 1)" [isCnpj]="true" (editClient)="openEditClient(1)" [readonly]="readonly"
+      [loading]="loadingCpfCnpjSolicitante">
+    </app-dropdown-default>
+  </div>
+</div>
+
+<div class="flex-row mt-1">
+  <span class="title-register">
+    {{ 'coletarEm' | translate }}
+  </span>
+</div>
+
+<div class="flex-row mt-4">
+  <div class="col-2 pe-3">
+    <app-input-date label="dataColeta"
+      [required]="true"
+      [changed]="alertRequired || dateTimeValidations.alertDate"
+      [date]="collection.dataColeta"
+      (dateChanged)="collection.dataColeta = $event; verifyDateTime()"
+      [readonly]="readonly"
+      [minDate]="dateNow"
+      [alertMessage]="dateTimeValidations.alertDateMessage">
+    </app-input-date>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input-time-b label="horaInicial"
+      [required]="true"
+      [searchable]="true"
+      [changed]="alertRequired || dateTimeValidations.alertTimeInit"
+      [optionSelected]="collection.horaInicial"
+      [readonly]="readonly"
+      [txtAlert]="dateTimeValidations.alertTimeInitMessage"
+      (optionChanged)="collection.horaInicial = $event ?? ''; verifyDateTime()">
+    </app-input-time-b>
+  </div>
+  <div class="col-2 pe-3">
+    <app-input-time-b label="horaFinal"
+      [required]="true"
+      [searchable]="true"
+      [changed]="alertRequired || dateTimeValidations.alertTimeFinal"
+      [optionSelected]="collection.horaFinal"
+      [readonly]="readonly"
+      [txtAlert]="dateTimeValidations.alertTimeFinalMessage"
+      (optionChanged)="collection.horaFinal = $event ?? ''; verifyDateTime()">
+    </app-input-time-b>
+  </div>
+</div>
+
+<div class="flex-row mt-2">
+  <span class="title-register">
+    {{ 'localDeColeta' | translate }}
+  </span> 
+</div>
+
+<ng-container *ngIf="readonly == false">
+  <div  class="flex-row ps-1 mt-4">
+    <app-toggle label="Ativar"
+      [value]="sameAdress"
+      (setValue)="sameAdress = !sameAdress; sameAdressChecked(sameAdress)"
+      label="{{ 'mesmoEnderecoSolicitante' | translate }}"
+      name="ativar"
+      [disabled]="readonly"
+    ></app-toggle>
+  </div>
+
+  
+</ng-container>
+
+<div class="flex-row mt-4">
+  <div class="col-6 pe-3">
+    <app-dropdown-default label="cnpjCpfNomeFantasia" [required]="true" [changed]="alertRequired" [searchable]="true"
+      placeholder="placeholderLocalColetaCpfCnpj" [options]="companiesList2"
+      [shortListed]="collection.cnpjCpfColeta ? collection.cnpjCpfColeta : null" (optionChanged)="cnpjSelected($event, 2)"
+      [advanced]="true" (advancedOpen)="openModalSearchClient(2)" (search)="search($event, 2)" [isCnpj]="true"
+      (editClient)="openEditClient(2)" [readonly]="readonly" [loading]="loadingCpfCnpjLocal">
+    </app-dropdown-default>
+  </div>
+</div>
+
+<div class="flex-row mt-2">
+  <div class="col-3 pe-3">
+    <app-input label="cep" [required]="true" [changed]="alertRequired" placeholder="placeholderCEP" mask="cep"
+      [entry]="collection.cep" (entryChanged)="collection.cep = $event" [keydownEnter]="true"
+      (keydownPress)="searchCep()" (lostFocus)="searchCep()" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-5 pe-3">
+    <app-input label="endereco" [required]="true" [changed]="alertRequired" placeholder="placeholderEndereco"
+      [entry]="collection.endereco" (entryChanged)="collection.endereco = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="numero" [required]="true" [changed]="alertRequired" placeholder="placeholderNumero"
+      [entry]="collection.numero" (entryChanged)="collection.numero = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+</div>
+
+<div class="flex-row mt-2">
+  <div class="col-3 pe-3">
+    <app-input label="complemento" placeholder="placeholderComplemento" [entry]="collection.complemento"
+      (entryChanged)="collection.complemento = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-3 pe-3">
+    <app-input label="bairro" [required]="true" [changed]="alertRequired" placeholder="placeholderBairro"
+      [entry]="collection.bairro" (entryChanged)="collection.bairro = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-3 pe-3">
+    <app-select label="cidade" [required]="true" [changed]="alertRequired" [searchable]="true"
+      placeholder="placeholderCidade" [options]="citiesList.citiesName" [shortListed]="collection.cidade ? collection.cidade : null"
+      (optionChanged)="selectCity($event)" (search)="clearFieldsCity(); !collection.uf ? searchCity($event) : ''" [readonly]="readonly" [loading]="loadingCity">
+    </app-select>
+  </div>
+
+  <div class="col-1 pe-3">
+    <app-select label="uf" placeholder="placeholderUF" [required]="true" [changed]="alertRequired" [options]="ufs"
+      [shortListed]="collection.uf" (optionChanged)="selectUF($event)"
+      [readonly]="readonly">
+    </app-select>
+  </div>
+</div>
+
+<div class="flex-row mt-2">
+  <div class="col-3 pe-3">
+    <app-input label="responsavel" [required]="true" [changed]="alertRequired"
+      placeholder="placeholderResponsavel" [entry]="collection.responsavel" (entryChanged)="collection.responsavel = $event"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="celularWpp" placeholder="placeholderCelularWpp" mask="cellphone" [entry]="collection.celular"
+      (entryChanged)="collection.celular = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-3 pe-3">
+    <app-input label="email" placeholder="placeholderEmail" [entry]="collection.email"
+      (entryChanged)="collection.email = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-select label="filialResponsavel" [required]="true" [changed]="alertRequired"
+      placeholder="placeholderFilialResponsavel" [options]="subsidiariesName"
+      [shortListed]="collection.filialResponsavel ? collection.filialResponsavel : null"
+      (optionChanged)="selectSubsidiary($event)" [readonly]="readonly">
+    </app-select>
+  </div>
+</div>
+
+<div class="col-10 pe-3 mt-2 mb-3">
+  <app-input-text-area label="observacoes" placeholder="placeholderObservacoes" [maxLength]="500" [entry]="collection.observacoes"
+    (entryChanged)="collection.observacoes = $event" [readonly]="readonly">
+  </app-input-text-area>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

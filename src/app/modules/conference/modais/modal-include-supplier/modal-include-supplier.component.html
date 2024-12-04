@@ -1,0 +1,131 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg" />
+    </button>
+  </div>
+
+
+  <div class="content-modal">
+    <div class="mb-3">
+      <p class="title-modal">
+        {{ "incluirFornecedor" | translate }}
+      </p>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-3 ps-0">
+        <app-input
+          label="cnpj"
+          placeholder="XX.XXX.XXX/0001-XX">
+        </app-input>
+      </div>
+
+      <div class="col-5 ps-0">
+        <app-input
+          label="empresa"
+          placeholder="nomeDaEmpresa">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-0">
+        <app-input
+          label="inscriçãoEstadual"
+          placeholder="XXX.XXX.XXX.XXX">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-3 ps-0">
+        <app-input
+          label="cep"
+          placeholder="XXXXX-000">
+        </app-input>
+      </div>
+
+      <div class="col-5 ps-0">
+        <app-input
+          label="endereco"
+          placeholder="endereco">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-0">
+        <app-input
+          label="numero"
+          placeholder="12345">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row mb-0">
+      <div class="col-3 ps-0">
+        <app-input
+          label="complemento"
+          placeholder="Próximo ao...">
+        </app-input>
+      </div>
+
+      <div class="col-3 ps-0">
+        <app-input
+          label="bairro"
+          placeholder="nomeDoBairro">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-0">
+        <app-input
+          label="cidade"
+          placeholder="nomeDaCidade">
+        </app-input>
+      </div>
+      <div class="col-1 ps-0">
+        <app-dropdown-default
+              label="uf"
+              placeholder="uf"
+              [required]="true"
+              [changed]="alertRequired"
+              [options]="optionsUfs"
+              [readonly]="false">
+            </app-dropdown-default>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-4 ps-0">
+        <app-input
+          label="responsavel"
+          placeholder="nomeDoResponsavel">
+        </app-input>
+      </div>
+
+      <div class="col-3 ps-0">
+        <app-input
+          label="departamento"
+          placeholder="nomeDoDepartamento">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-0">
+        <app-input
+          label="celularWhatsapp"
+          placeholder="(11) 96668-0000">
+        </app-input>
+      </div>
+
+      <div class="col-3 ps-0">
+        <app-input
+          label="email"
+          placeholder="exemplo@meuemail.com">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="section-btns-confirm mt-2">
+      <app-btn-confirm-action label="Concluir e Selecionar" (clicked)="close()">
+      </app-btn-confirm-action>
+    </div>
+  </div>
+
+</div>

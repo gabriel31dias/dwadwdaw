@@ -1,0 +1,140 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg" />
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <div class="mb-3">
+      <p class="title-modal">
+        {{ "gerarTitulo" | translate }}
+      </p>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-6 ps-0">
+        <app-dropdown-default
+          label="Filial"
+          placeholder="selecionarFilialResponsavelPeloTitulo"
+          [required]="true"
+          [changed]="alertRequired"
+          [options]="optionsFilial"
+          [shortListed]="filiais.tipo"
+          [readonly]="false">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-3 ps-0">
+        <app-input
+          label="data"
+          placeholder="DD/MM/AAAA"
+          mask="date">
+        </app-input>
+      </div>
+
+      <div class="col-3 ps-0">
+        <app-dropdown-default
+            label="Banco"
+            placeholder="selecionarBanco"
+            [required]="true"
+            [changed]="alertRequired"
+            [options]="optionsFilial"
+            [shortListed]="filiais.tipo"
+            [readonly]="false">
+          </app-dropdown-default>
+      </div>
+    </div>
+
+
+    <div class="row mb-2">
+      <div class="col-3 ps-0">
+        <app-dropdown-default
+          label="Grupo de pagamento"
+          placeholder="selecionarGrupoDePagamento"
+          [required]="true"
+          [changed]="alertRequired"
+          [options]="optionsBancos"
+          [shortListed]="bancos.tipo"
+          [readonly]="false">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-3 ps-0">
+        <app-dropdown-default
+          label="Contas de pagamento"
+          placeholder="selecionarContasDePagamento"
+          [required]="true"
+          [changed]="alertRequired"
+          [options]="optionsBancos"
+          [shortListed]="bancos.tipo"
+          [readonly]="false">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-3 ps-0">
+        <app-dropdown-default
+          label="Centro de custo"
+          placeholder="selecionarCentroDeCusto"
+          [required]="true"
+          [changed]="alertRequired"
+          [options]="optionsBancos"
+          [shortListed]="bancos.tipo"
+          [readonly]="false">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-3 ps-0">
+        <app-dropdown-default
+          label="Qtde. de parcelas"
+          placeholder="selecionarQuantidadeDeParcelas"
+          [required]="true"
+          [changed]="alertRequired"
+          [options]="optionsBancos"
+          [shortListed]="bancos.tipo"
+          [readonly]="false">
+        </app-dropdown-default>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-6 ps-0">
+          <app-dropdown-default label="Fornecedor" [searchable]="true" [changed]="alertRequired"
+            placeholder="selecionarFornecedor" [options]="buscaAvancada"
+            [advanced]="true" (advancedOpen)="openModalSearchSupplier()"
+            (optionChanged)="openModalSearchSupplier()"
+            [readonly]="readonly">
+          </app-dropdown-default>
+        </div>
+      <div class="col-3 ps-0">
+        <app-input
+          label="notaFiscal"
+          placeholder="0"
+          mask="date">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-2">
+      <button class="btn-confirm btn-transparent-cancel" (click)="close()">
+        {{ "cancelar" | translate }}
+      </button>
+      <button class="btn-confirm green" (click)="close()">
+        {{ "gerar" | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

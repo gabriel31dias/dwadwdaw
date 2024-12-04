@@ -1,0 +1,24 @@
+<div class="input-group">
+  <label class="label-textarea">
+    {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+  </label>
+
+  <textarea class="custom-textarea"
+    [ngStyle]="{'height': height}"
+    [(ngModel)]="entry"
+    (ngModelChange)="entryChanged.emit(entry)"
+    [ngClass]="{ 'filled': entry, 'required': validator() }"
+    (blur)="changed = true"
+    (focus)="entry ? changed = false : ''"
+    [maxlength]="maxLength !== 'no-limit' ? maxLength : ''"
+    [disabled]="readonly"
+    [placeholder]="placeholder | translate">
+  </textarea>
+
+  <!-- <span class="text-max" *ngIf="!entry && maxLength !== 'no-limit' && !desativeInformationMaxLenght">
+    {{ 'maximo' | translate }} {{ maxLength }} {{ 'caracteres' | translate }}
+  </span> -->
+</div>
+
+<p class="required-mensage" *ngIf="required && !txtAlert" [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+<p class="required-mensage" *ngIf="txtAlert" [ngClass]="txtAlert ? '' : 'hidden-text'">{{ txtAlert | translate }}</p>

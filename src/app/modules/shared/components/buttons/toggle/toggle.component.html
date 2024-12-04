@@ -1,0 +1,13 @@
+<div class="content-toggle-defalt">
+  <input class="default-toggle"
+    type="checkbox"
+    [id]="randomNumber"
+    [(ngModel)]="value"
+    (ngModelChange)="setValue.emit(value)"
+    [disabled]="disabled"/>
+  <label class="toggle-label"
+    [for]="randomNumber">
+  </label>
+  <span class="toggle-text" *ngIf="label" [innerHTML]="label | translate"></span>
+  <!-- <span class="toggle-text-biling" *ngIf="labelBiling">{{ labelBiling }}</span> -->
+</div>

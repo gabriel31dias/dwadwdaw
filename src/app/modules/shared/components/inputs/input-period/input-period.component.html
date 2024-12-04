@@ -1,0 +1,98 @@
+<div class="input-period">
+  <div class="section-period"
+    [ngClass]="{ 'filled' : initialDate && finalDate, 'focused' : picker.opened || focusInputPeriod , 'required': validator() }">
+
+    <mat-date-range-input #rangeInput class="app-datepicker-period" [rangePicker]="picker" [min]="minDate">
+      <input matStartDate class="input-transparent"
+        placeholder="__/__/____"
+        [(ngModel)]="initialDateFormatted"
+        (dateChanged)="onDateChanged($event)"
+        [min]="minDateFormatted"
+        readonly>
+      <input #endInput matEndDate class="input-transparent"
+        placeholder="__/__/____"
+        [(ngModel)]="finalDateFormatted"
+        (dateChanged)="onDateChanged($event)"
+        [min]="minDateFormatted"
+        readonly
+        [autofocus]="true">
+    </mat-date-range-input>
+
+    <mat-date-range-picker panelClass="app-datepicker-period" #picker >
+      <mat-date-range-picker-actions panelClass="app-datepicker-period-actions">
+        <div class="section-chips-filter">
+          <div matDatepickerApply class="chips-filter-xsm"
+            [ngClass]="{ 'selected' : periodFilter.period ===  periodsFilter.Today }"
+            (click)="changePeriod(periodsFilter.Today)">
+            {{ 'hoje' | translate }}
+          </div>
+
+          <div matDatepickerApply class="chips-filter-xsm"
+            [ngClass]="{ 'selected' : periodFilter.period ===  periodsFilter.Week }"
+            (click)="changePeriod(periodsFilter.Week)">
+            {{ 'ultimaSemana' | translate }}
+          </div>
+
+          <div matDatepickerApply class="chips-filter-xsm"
+            [ngClass]="{ 'selected' : periodFilter.period ===  periodsFilter.Month }"
+            (click)="changePeriod(periodsFilter.Month)">
+            {{ 'ultimoMes' | translate }}
+          </div>
+
+          <div matDatepickerApply class="chips-filter-xsm"
+            [ngClass]="{ 'selected' : periodFilter.period ===  periodsFilter.Semester }"
+            (click)="changePeriod(periodsFilter.Semester)">
+            {{ 'ultimoSemestre' | translate }}
+          </div>
+
+          <div matDatepickerApply class="chips-filter-xsm"
+            [ngClass]="{ 'selected' : periodFilter.period ===  periodsFilter.Year }"
+            (click)="changePeriod(periodsFilter.Year)">
+            {{ 'ultimoAno' | translate }}
+          </div>
+        </div>
+        <button matDatepickerCancel class="button-secondary button-fill button-xsm me-2">{{ 'cancelar' | translate }}</button>
+        <button matDatepickerApply class="button-primary button-fill button-xsm" (click)="applyFilter()">{{ 'aplicar' | translate }}</button>
+      </mat-date-range-picker-actions>
+    </mat-date-range-picker>
+  </div>
+
+  <div *ngIf="initialDate && finalDate"
+    class="icon-clear-position clickable"
+    (click)="clearDates()">
+  </div>
+
+  <div class="icon-calendar-position clickable" (click)="setFocusEnd(); picker.open()">
+    <img src="../../../../../assets/icons/calendar.svg">
+  </div>
+
+  <div class="section-custom-inputs-period">
+    <input class="custom-input-period"
+      [ngClass]="{ 'custom-padding' : !initialDate }"
+      placeholder="  __/__/____"
+      [(ngModel)]="initialDate"
+      [dropSpecialCharacters]="false"
+      [mask]="'00/00/0000'"
+      [showMaskTyped]="true"
+      (keydown.enter)="emitValue('start')"
+      (focus)="focusInputPeriod = true"
+      (blur)="focusInputPeriod = false">
+
+    <span class="separator"> {{ 'ate' | translate }} </span>
+
+    <input class="custom-input-period"
+      placeholder="  __/__/____"
+      [(ngModel)]="finalDate"
+      [dropSpecialCharacters]="false"
+      [mask]="'00/00/0000'"
+      [showMaskTyped]="true"
+      (keydown.enter)="emitValue('end')"
+      (focus)="focusInputPeriod = true"
+      (blur)="focusInputPeriod = false">
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

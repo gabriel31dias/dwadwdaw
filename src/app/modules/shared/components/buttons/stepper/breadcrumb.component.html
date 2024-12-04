@@ -1,0 +1,18 @@
+<div *ngIf="steppers.length >= 1">
+  <ol class="breadcrumb">
+    <div *ngFor="let stepper of steppers; let i = index" class="clickable">
+      <li class="breadcrumb-level"
+        [ngClass]="stepper.class"
+        [ngStyle]="{ 'width': stepper.width }"
+        (click)="!stepper.disabled ? changeStepper(i) : null">
+        <a class="step-name">
+          <img class="breadcrumb-icon" [style.mask]="'url(' + srcUrl + stepper.src + ')'">
+          {{ stepper.text | translate }}
+          <ng-container *ngIf="i !== steppers.length - 1">
+            <img class="svg-icon" [style.mask]="'url(../../../../../../assets/icons/arrow-down-white.svg)'" [style.transform]="'rotate(-90deg)'">
+          </ng-container>
+        </a>
+      </li>
+    </div>
+  </ol>
+</div>

@@ -1,0 +1,237 @@
+<ng-container *ngIf="this.permissions.includes(authReceivable.Incluir)
+  || this.permissions.includes(authReceivable.Editar)
+  || this.permissions.includes(authReceivable.Visualizar)">
+
+  <div class="custom-content tab-enter">
+    <div class="row">
+      <div class="col-9 ps-2">
+        <app-breadcrumb [steppers]="steppers"
+          [stepperIndex]="stepperIndex"
+          (stepperEmitter)="stepperIndex = $event">
+        </app-breadcrumb>
+      </div>
+
+      <div class="col-3" *ngIf="idBill">
+        <div class="box-status">
+          <span class="text-status">
+            {{ 'status' | translate }}:
+            <span class="color-green-700" [ngClass]="disableEdit ? 'clickable hover-underline' : ''"
+              (click)="disableEdit ? openModalDetailsReceivable() : null">
+              {{ billData.status }}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="inside-content-actions">
+      <!-- Se a fatura NÃO tiver boleto vinculado à ela -->
+      <ng-container *ngIf="!stageBillet && showCustomField">
+        <div *ngIf="stepperIndex == 0">
+          <app-stage-bill-data [lists]="lists"
+            [billData]="billData"
+            (billDataEmitter)="billData = $event"
+            (nameClientEmitter)="clientNameFilter = $event"
+            [alertRequired]="alertRequired"
+            (indexOptionsEmitter)="indexSelecteds = $event"
+            (receiptEmitter)="getReceiptAccount()"
+            [dropdownsBack]="dropdownsBack"
+            [disableFields]="disableFields()"
+            [disableValueBill]="disableValueBill"
+            [banksList]="banksList"
+            (accountsOfBankEmitter)="bankSeleced($event)">
+          </app-stage-bill-data>
+        </div>
+
+        <div *ngIf="stepperIndex == 1">
+          <app-stage-freight-documents [ctes]="ctes"
+            (ctesEmitter)="ctesChanged($event)"
+            [clientNameFilter]="clientNameFilter"
+            [disableFields]="disableFields()">
+          </app-stage-freight-documents>
+        </div>
+
+        <div class="custom-step" *ngIf="stepperIndex == 2">
+          <app-template-custom-field
+            [fields]="customField"
+            (fieldsEmitter)="handleFieldsUpdate($event)"
+            />
+        </div>
+
+        <div *ngIf="stepperIndex == 3">
+          <app-stage-movements [movements]="movements"
+            (updateAll)="updateAll()"
+            [disableFields]="disableFields()">
+          </app-stage-movements>
+        </div>
+      </ng-container>
+
+      <!-- Se a fatura NÃO tiver boleto vinculado à ela e campos personalizados desabilitados-->
+      <ng-container *ngIf="!stageBillet && !showCustomField">
+        <div *ngIf="stepperIndex == 0">
+          <app-stage-bill-data [lists]="lists"
+            [billData]="billData"
+            (billDataEmitter)="billData = $event"
+            (nameClientEmitter)="clientNameFilter = $event"
+            [alertRequired]="alertRequired"
+            (indexOptionsEmitter)="indexSelecteds = $event"
+            (receiptEmitter)="getReceiptAccount()"
+            [dropdownsBack]="dropdownsBack"
+            [disableFields]="disableFields()"
+            [disableValueBill]="disableValueBill"
+            [banksList]="banksList"
+            (accountsOfBankEmitter)="bankSeleced($event)">
+          </app-stage-bill-data>
+        </div>
+
+        <div *ngIf="stepperIndex == 1">
+          <app-stage-freight-documents [ctes]="ctes"
+            (ctesEmitter)="ctesChanged($event)"
+            [clientNameFilter]="clientNameFilter"
+            [disableFields]="disableFields()">
+          </app-stage-freight-documents>
+        </div>
+
+        <div *ngIf="stepperIndex == 2">
+          <app-stage-movements [movements]="movements"
+            (updateAll)="updateAll()"
+            [disableFields]="disableFields()">
+          </app-stage-movements>
+        </div>
+      </ng-container>
+
+
+      <!-- Se a fatura tiver boleto vinculado à ela -->
+      <ng-container *ngIf="stageBillet && showCustomField">
+        <div *ngIf="stepperIndex == 0">
+          <app-stage-bill-data [lists]="lists"
+            [billData]="billData"
+            (billDataEmitter)="billData = $event"
+            [alertRequired]="alertRequired"
+            (indexOptionsEmitter)="indexSelecteds = $event"
+            (receiptEmitter)="getReceiptAccount()"
+            [dropdownsBack]="dropdownsBack"
+            [disableFields]="disableFields()"
+            [disableValueBill]="disableValueBill"
+            [banksList]="banksList"
+            (accountsOfBankEmitter)="bankSeleced($event)">
+          </app-stage-bill-data>
+        </div>
+
+        <div *ngIf="stepperIndex == 1">
+          <app-stage-billet-data [billetData]="billetData"
+            [disableFields]="disableFields()">
+          </app-stage-billet-data>
+        </div>
+
+        <div *ngIf="stepperIndex == 2">
+          <app-stage-freight-documents [ctes]="ctes"
+            (ctesEmitter)="ctesChanged($event)"
+            [clientNameFilter]="clientNameFilter"
+            [disableFields]="disableFields()">
+          </app-stage-freight-documents>
+        </div>
+
+        <div class="custom-step" *ngIf="stepperIndex == 3">
+          <app-template-custom-field
+            [fields]="customField"
+            (fieldsEmitter)="handleFieldsUpdate($event)"
+            />
+        </div>
+
+        <div *ngIf="stepperIndex == 4">
+          <app-stage-movements [movements]="movements"
+            (updateAll)="updateAll()"
+            [disableFields]="disableFields()">
+          </app-stage-movements>
+        </div>
+      </ng-container>
+
+      <!-- Se a fatura tiver boleto vinculado à ela e campos personalizados desabilitados -->
+      <ng-container *ngIf="stageBillet && !showCustomField">
+        <div *ngIf="stepperIndex == 0">
+          <app-stage-bill-data [lists]="lists"
+            [billData]="billData"
+            (billDataEmitter)="billData = $event"
+            [alertRequired]="alertRequired"
+            (indexOptionsEmitter)="indexSelecteds = $event"
+            (receiptEmitter)="getReceiptAccount()"
+            [dropdownsBack]="dropdownsBack"
+            [disableFields]="disableFields()"
+            [disableValueBill]="disableValueBill"
+            [banksList]="banksList"
+            (accountsOfBankEmitter)="bankSeleced($event)">
+          </app-stage-bill-data>
+        </div>
+
+        <div *ngIf="stepperIndex == 1">
+          <app-stage-billet-data [billetData]="billetData"
+            [disableFields]="disableFields()">
+          </app-stage-billet-data>
+        </div>
+
+        <div *ngIf="stepperIndex == 2">
+          <app-stage-freight-documents [ctes]="ctes"
+            (ctesEmitter)="ctesChanged($event)"
+            [clientNameFilter]="clientNameFilter"
+            [disableFields]="disableFields()">
+          </app-stage-freight-documents>
+        </div>
+
+        <div *ngIf="stepperIndex == 3">
+          <app-stage-movements [movements]="movements"
+            (updateAll)="updateAll()"
+            [disableFields]="disableFields()">
+          </app-stage-movements>
+        </div>
+      </ng-container>
+
+
+    </div>
+
+    <div class="section-btn-close-register">
+      <button class="btn-confirm btn-transparent-close" (click)="close()">
+        {{ 'fechar' | translate }}
+      </button>
+    </div>
+
+    <div class="section-btns-register">
+      <ng-container *ngIf="verifyPermissionsToShowBtn()">
+        <div style="width: 8.3125rem;" *ngIf="!disableEdit">
+          <app-btn-confirm-action [label]="idBill ? 'salvar' : 'concluir'"
+            iconUrl="../../../../../assets/icons/checked.svg"
+            (clicked)="setReceivable()"
+            [disabled]="loading">
+          </app-btn-confirm-action>
+        </div>
+      </ng-container>
+
+      <div class="ms-3" *ngIf="stepperIndex !== 0">
+        <button class="btn-next" (click)="backStepper()">
+          <img class="back-icon" src="../../../../../assets/icons/arrow-left-green.svg">
+          {{ 'anterior' | translate }}&nbsp;
+        </button>
+      </div>
+
+      <div class="ms-3" *ngIf="stepperIndex < (steppers.length - 1) && !steppers[stepperIndex + 1].disabled">
+        <button class="btn-next" (click)="nextStepper()">
+          &nbsp;{{ 'proximo' | translate }}
+          <img src="../../../../../assets/icons/arrow-left-green.svg">
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

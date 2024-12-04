@@ -1,0 +1,17 @@
+<button (click)="btnClicked(true)"
+  class="btn-confirm-action"
+  [ngStyle]="{'height': height}"
+  [disabled]="disabled"
+  [ngClass]="{ 'tooltip-content': tooltip }">
+
+  <img [class]="classIcon" *ngIf="iconUrl" [src]="iconUrl">
+
+  <span *ngIf="label" [ngStyle]="{'font-size': fontSize}">
+    {{ label | translate }}
+  </span>
+
+  <span *ngIf="tooltip" class="tooltip-default">
+    {{ tooltip | translate }}
+  </span>
+
+</button>

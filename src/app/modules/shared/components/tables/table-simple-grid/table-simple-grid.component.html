@@ -1,0 +1,11 @@
+<div class="section-grid">
+  <div [id]="idGrid" class="slickgrid">
+    <angular-slickgrid [gridId]="idGrid + '2'" class="simple-grid"
+                        [dataset]="dataset"
+                        [columnDefinitions]="columnDefinitions"
+                        [gridOptions]="gridOptions"
+                        (onAngularGridCreated)="angularGridReady($event)"
+                        (onGridStateChanged)="gridStateChanged($event)">
+    </angular-slickgrid>
+  </div>
+</div>

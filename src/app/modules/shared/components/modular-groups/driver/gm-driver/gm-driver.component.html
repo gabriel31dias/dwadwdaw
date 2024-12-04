@@ -1,0 +1,84 @@
+<ng-container *ngIf="!readonly">
+  <div class="dropdown-group" (click)="changed = true">
+    <ng-container *ngIf="(gmDriver.isOpen || mouseIndicator) && driversNames.length === 0 && !loadingField">
+      <div class="section-advanced-search"
+        [ngClass]="{ 'invisible-advanced-search' : !gmDriver.isOpen}">
+        <span class="advanced-search pe-2" style="background-color: white;"
+          [ngClass]="{ 'invisible-advanced-search' : !gmDriver.isOpen}"
+          (click)="openModalAdvancedSearch(); mouseIndicator = false"
+          (mouseenter)="mouseIndicator = true" (mouseleave)="mouseIndicator = false">
+          {{ 'abrirBuscaAvancada' | translate }}
+        </span>
+        ou
+        <span class="advanced-search ps-2"
+          [ngClass]="{ 'invisible-advanced-search' : !gmDriver.isOpen}"
+          (click)="openModalCreate(); mouseIndicator = false"
+          (mouseenter)="mouseIndicator = true" (mouseleave)="mouseIndicator = false">
+          {{ 'incluirNovoMotorista' | translate }}
+        </span>
+      </div>
+    </ng-container>
+
+    <ng-select #gmDriver
+      class="select-with-search"
+      [searchable]="true"
+      [placeholder]="'placeholderMotorista' | translate"
+      [(ngModel)]="nameDriverSelected"
+      (ngModelChange)="emitValue()"
+      [ngClass]="{ 'is-selected': this.nameDriverSelected !== null, 'required': validator() || alert || driverSelected.cnh_vencida }"
+      (search)="searchDriver($event)"
+      [loading]="loadingField"
+      (clear)="clear()"
+      notFoundText="."
+      (close)="nameDriverSelected ? null : clear()">
+
+      <ng-option *ngFor="let driver of driversNames" [value]="driver">
+        {{ driver }}
+      </ng-option>
+    </ng-select>
+
+    <label class="label-dropdown">
+      {{ 'motorista' | translate }}
+      <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+    </label>
+
+    <div class="buttons-select clickable">
+      <button *ngIf="!nameDriverSelected" class="button-transparent" (click)="openModalAdvancedSearch()">
+        <div class="icon-search-select"></div>
+      </button>
+      <button *ngIf="nameDriverSelected" class="button-transparent" (click)="openModalEdit(driverSelected)">
+        <div class="icon-edit-select"></div>
+      </button>
+    </div>
+  </div>
+
+  <p class="required-mensage" *ngIf="required && !alert && !driverSelected.cnh_vencida"
+    [ngClass]="validator() ? '' : 'hidden-text'">
+    {{ "campoObrigatorio" | translate }}
+  </p>
+  <p class="required-mensage" *ngIf="alert && !required && !driverSelected.cnh_vencida"
+    [ngClass]="validator() || alert ? '' : 'hidden-text'">
+    {{ txtAlert | translate }}
+  </p>
+  <p class="required-mensage" *ngIf="driverSelected.cnh_vencida">
+    {{ 'motoristaCNHVencida' | translate }}
+  </p>
+</ng-container>
+
+<ng-container *ngIf="readonly">
+  <app-input [label]="'motorista'"
+    [entry]="nameDriverSelected"
+    [readonly]="readonly"
+    [required]="required">
+  </app-input>
+</ng-container>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

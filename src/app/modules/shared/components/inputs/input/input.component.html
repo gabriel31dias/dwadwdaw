@@ -1,0 +1,52 @@
+<div class="position-relative">
+  <input appEnterKeySubmit *ngIf="!currency" class="input-default input-padding"
+    [type]="verifyTypePassword() ? 'text' : type"
+    [placeholder]="placeholder | translate"
+    [(ngModel)]="entry"
+    (ngModelChange)="entryChanged.emit(entry)"
+    [ngClass]="{ 'filled': hasValueEntry(), 'required': validator(), 'uppercase' : uppercase }"
+    (blur)="changed = true; lostFocus.emit()"
+    (focus)="entry ? changed = false : ''"
+    [mask]="mask"
+    [dropSpecialCharacters]="dropSpecialCharacters"
+    [disabled]="readonly"
+    (keydown.enter)="keydownEnter ? keydown() : ''"
+    [maxlength]="maxLength">
+
+  <input appEnterKeySubmit currencyMask *ngIf="currency"
+    class="input-default"
+    [type]="verifyTypePassword() ? 'text' : type"
+    [placeholder]="placeholder | translate"
+    [(ngModel)]="entry"
+    (ngModelChange)="entryChanged.emit(entry)"
+    [ngClass]="{ 'filled': hasValueEntry(), 'required': validator() }"
+    (blur)="changed = true; lostFocus.emit()"
+    (focus)="entry ? changed = false : ''"
+    [disabled]="readonly"
+    [options]="optionsCurrency"
+    [maxlength]="maxLength">
+
+  <label class="label-input-default">
+    {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+  </label>
+</div>
+
+<div *ngIf="type == 'password'" class="eye-position">
+  <img *ngIf="showPassword" class="clickable absolute" src="../../../../../assets/icons/eye-password-show.svg" (click)="showPassword = !showPassword">
+  <img *ngIf="!showPassword" class="clickable absolute" src="../../../../../assets/icons/eye-password-hide.svg" (click)="showPassword = !showPassword">
+</div>
+
+<div *ngIf="iconBarCode" class="bar-code-position clickable" (click)="keydown()">
+  <img src="../../../../../assets/icons/bar-code.svg">
+</div>
+
+<div *ngIf="copy" class="bar-code-position clickable copy" (click)="copyText()">
+  <img src="../../../../../assets/icons/file-copy.svg">
+</div>
+
+<div *ngIf="icon" class="bar-code-position clickable" (click)="keydown()">
+  <img [src]="icon">
+</div>
+
+<p class="required-mensage" *ngIf="required && !txtAlert" [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+<p class="required-mensage" *ngIf="txtAlert" [ngClass]="txtAlert ? '' : 'hidden-text'">{{ txtAlert | translate }}</p>

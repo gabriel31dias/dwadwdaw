@@ -1,0 +1,79 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal tab-enter">
+    <span class="title-modal mb-3">{{ 'buscaAvancadaMotorista' | translate }}</span>
+
+    <div class="col-3 ps-0 pe-0 mb-3">
+      <button class="button-primary button-fill button-sm" (click)="openModalCreate()">
+        <img src="../../../../../assets/icons/add.svg">
+        {{ 'incluirMotorista' | translate }}
+      </button>
+    </div>
+
+    <div class="row header-filters-advanced-search mb-3">
+      <div class="ps-0 pe-0 search-driver">
+        <app-input-search placeholder="placeholderBuscaVancadaMotorista"
+          [entry]="search"
+          (entryChanged)="doSearch($event)"
+          (lostFocus)="doSearch($event, true)">
+        </app-input-search>
+      </div>
+
+      <div class="adavanced-filter-driver ps-3 pe-0">
+        <app-filter-columns [columns]="columnsFilter"
+          [filtersSearch]="configFilterColumnSelected"
+          (sendRequest)="setAdvancedFilter($event)"
+          (clearFilters)="clearFilters()">
+        </app-filter-columns>
+      </div>
+
+      <div *ngIf="driverSelected !== null" class="d-flex justify-content-end section-actions-advanced-driver">
+        <button  class="icon-button-primary tooltip-content me-2"
+          (click)="openModalEdit(driverSelected)">
+          <img src="../../../../../assets/icons/edit.svg">
+          <span class="tooltip-default">{{ 'editar' | translate }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="drivers.length > 0" class="margin-advanced-table-driver mb-3">
+      <app-table-advanced [idGrid]="'advanced-search-driver'"
+        [columnsHeader]="columns"
+        [columnsHide]="columnsHide"
+        [dataset]="drivers"
+        (columnsChanges)="columnsChanges($event)"
+        (idSelected)="selectDriver($event)"
+        (confirmSelected)="confirmDriver()"
+        [enableReset]="true"
+        (resetGrid)="resetGrid()">
+      </app-table-advanced>
+    </div>
+
+
+    <div class="d-flex justify-content-end">
+      <button class="button-primary button-fill button-me"
+        [disabled]="loading || driverSelected === null"
+        (click)="confirmDriver()">
+        {{ 'selecionar' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

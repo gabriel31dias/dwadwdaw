@@ -1,0 +1,73 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">
+      {{ 'consultaDeVolumes' | translate }}
+    </p>
+
+    <p class="text-modal">
+      {{ 'textoConsultaDeVolumes' | translate }}
+    </p>
+
+    <div class="flex-row mt-1 mb-3 col-11" style="z-index: 2;">
+      <div class="col-3 pe-3">
+        <app-dropdown-default label="etiqueta"
+          placeholder="selecionarEtiqueta"
+          [shortListed]="tagSelected.dcConfigEtiqueta ? tagSelected.dcConfigEtiqueta : null"
+          [options]="tagsName"
+          (optionChanged)="selectTag($event)">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-4 pe-3">
+        <app-input label="codigoDeBarras"
+          placeholder="digitarCodigoDeBarras"
+          [iconBarCode]="true"
+          [entry]="barCode"
+          (entryChanged)="barCode = $event"
+          [keydownEnter]="true"
+          (keydownPress)="searchVolume()"
+          [maxLength]="9999">
+        </app-input>
+      </div>
+    </div>
+
+    <div [ngClass]="volumes.length >= 1 ? '' : 'custom-margin-button'">
+      <div *ngIf="volumes.length >= 1">
+        <app-table-simple-grid idGrid="nf-conference"
+          [columnsHeader]="headers"
+          [dataset]="volumes"
+          [enableActionRow]="true"
+          [fitColumns]="false">
+        </app-table-simple-grid>
+
+      </div>
+    </div>
+
+    <hr *ngIf="volumes.length === 0">
+
+    <div class="section-btns-confirm">
+      <button class="btn-confirm btn-transparent-close" (click)="close()">
+        {{ 'fechar' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

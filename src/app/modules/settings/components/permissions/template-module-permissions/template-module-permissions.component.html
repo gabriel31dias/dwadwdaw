@@ -1,0 +1,10 @@
+<ng-container *ngFor="let permission of listPermissions">
+  <div class="section-permission">
+    <app-toggle [value]="permission.habilitado"
+      (setValue)="permission.habilitado = $event; updatePermission()">
+    </app-toggle>
+    <span class="text-permission ps-2">
+      {{ permission.nomePermissao }}
+    </span>
+  </div>
+</ng-container>

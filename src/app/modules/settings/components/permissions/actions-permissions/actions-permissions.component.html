@@ -1,0 +1,137 @@
+<div class="custom-content">
+  <div class="inside-content-actions-without-stepper">
+    <div class="row mt-2">
+      <span class="title-register ps-0 mb-4">
+        {{ 'permissoes' | translate }}
+      </span>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-5 ps-0 pe-3">
+        <app-input label="nomeDoGrupo"
+          placeholder="Nome"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="group.nome"
+          (entryChanged)="group.nome = $event">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <span class="title-register ps-0 mb-4">
+        {{ 'usuariosAssociados' | translate }}
+      </span>
+    </div>
+
+    <div class="row search-and-add mt-1">
+      <div class="col-5 ps-0 pe-3">
+        <app-dropdown-default label="pesquisarUsuario"
+          [searchable]="true"
+          placeholder="pesquisarUsuarioPlaceholder"
+          [options]="usersListSearch"
+          (optionChanged)="setUserSelected($event)"
+          [shortListed]="userSelected"
+          (search)="searchUser($event)"
+          (btnSearchClicked)="openModalSearchUserPermissions('')">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-7 ps-0">
+        <div style="width: 3.5rem;">
+          <app-btn-confirm-action iconUrl="../../../../../assets/icons/add.svg"
+            height="2.1875rem"
+            (clicked)="createNewUser()">
+          </app-btn-confirm-action>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-custom-grid mt-2" *ngIf="!updateTable">
+      <app-table-simple-grid idGrid="users-permissions"
+        [columnsHeader]="columns"
+        [dataset]="usersGroup"
+        [enableActionRow]="true"
+        [fitColumns]="false"
+        [forceHeightGrid]="customHeight"
+        [fitColumns]="true"
+        [enableMenu]="false"
+        [enableDelete]="true"
+        (dataToDelete)="openModalRemoveUserGroupPermissionConfirmation($event)">
+      </app-table-simple-grid>
+    </div>
+
+    <div class="row mt-4 mb-2">
+      <div class="ps-0 pe-0">
+        <app-tabs [steppers]="steppers"
+          [currentStepper]="currentStepper"
+          (setCurrentStepper)="changeStepper($event)">
+        </app-tabs>
+      </div>
+    </div>
+
+    <ng-container *ngIf="currentStepper === 'configuracoes'">
+      <app-template-module-permissions [listPermissions]="settingsPermissions"
+        (setListPermissions)="settingsPermissions = $event">
+      </app-template-module-permissions>
+    </ng-container>
+
+    <ng-container *ngIf="currentStepper === 'coleta'">
+      <app-template-module-permissions [listPermissions]="collectionPermissions"
+        (setListPermissions)="collectionPermissions = $event">
+      </app-template-module-permissions>
+    </ng-container>
+
+    <ng-container *ngIf="currentStepper === 'conferencia'">
+      <app-template-module-permissions [listPermissions]="conferencePermissions"
+        (setListPermissions)="conferencePermissions = $event">
+      </app-template-module-permissions>
+    </ng-container>
+
+    <ng-container *ngIf="currentStepper === 'contasReceber'">
+      <app-template-module-permissions [listPermissions]="accountReceivablePermissions"
+        (setListPermissions)="accountReceivablePermissions = $event">
+      </app-template-module-permissions>
+    </ng-container>
+
+    <ng-container *ngIf="currentStepper === 'contasPagar'">
+      <app-template-module-permissions [listPermissions]="accountsPayPermissions"
+        (setListPermissions)="accountsPayPermissions = $event">
+      </app-template-module-permissions>
+    </ng-container>
+  </div>
+
+
+  <div class="section-btn-close-register">
+    <button class="btn-confirm btn-transparent-close" (click)="close()">
+      {{ "fechar" | translate }}
+    </button>
+  </div>
+
+  <div class="section-btns-register">
+    <div class="me-3" *ngIf="groupId !== null">
+      <button class="btn-next" (click)="openModalViewGroupPermissions()">
+        <img class="back-icon" src="../../../../../assets/icons/preview-group-permission.svg"/>
+        {{ "preVisualizar" | translate }}&nbsp;
+      </button>
+    </div>
+
+    <div style="width: 8.3125rem">
+      <app-btn-confirm-action
+        [label]="'salvar'"
+        iconUrl="../../../../../assets/icons/checked.svg"
+        (clicked)="setGroup()"
+        [disabled]="loading">
+      </app-btn-confirm-action>
+    </div>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>
+

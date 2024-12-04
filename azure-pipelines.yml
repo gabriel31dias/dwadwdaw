@@ -1,0 +1,46 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build --configuration production
+  displayName: 'npm install and build'
+
+- task: SonarCloudPrepare@2
+  inputs:
+    SonarCloud: 'ActiveTrans-Front'
+    organization: 'evo-systems'
+    scannerMode: 'CLI'
+    configMode: 'manual' 
+    cliProjectKey: 'activetrans-front'
+    cliProjectName: 'ActiveTrans-Front'
+    cliSources: '.' 
+    
+- script: |
+    npm install -g @angular/cli
+    npm install
+    npm run build
+  displayName: 'npm install and build for SonarCloud'
+  
+- task: SonarCloudAnalyze@2
+  inputs:
+    jdkversion: 'JAVA_HOME_17_X64'
+
+- task: SonarCloudPublish@2
+  inputs:
+    pollingTimeoutSec: '300'

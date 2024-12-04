@@ -1,0 +1,42 @@
+<div class="row mt-2 pb-1">
+  <span class="title-register ps-0">
+    {{ 'documentosDaFatura' | translate }}
+  </span>
+</div>
+
+<div class="flex-row actions-section mt-3" style="width: 95%;">
+  <ng-container>
+    <div class="col-5">
+      <app-input-search label="numeroDoDocumento"
+        placeholder="numeroDoDocumento"
+        (entryChanged)="doSearch()"
+        [mask]="'0*'"
+        [maxLength]="44"
+        [openModal]="true"
+        (click)="openModalSearchResult()">
+      </app-input-search>
+    </div>
+  </ng-container>
+</div>
+
+<div class="mt-custom-grid" *ngIf="documents.length >= 1" [ngClass]="disableEdit ? 'pt-2' : ''">
+  <app-table-simple-grid
+  [columnsHeader]="columns"
+  [dataset]="documents"
+  [enableActionRow]="true"
+  [fitColumns]="true"
+  [heightGrid]="220"
+  [enableDelete]="disableEdit ? false : true"
+    (dataToDelete)="goToDelete($event)">
+  </app-table-simple-grid>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>

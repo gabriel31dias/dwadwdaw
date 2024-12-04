@@ -1,0 +1,144 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal"> {{ 'faturar' | translate }}</p>
+
+    <div class="mb-2 mt-1">
+      <app-toggle label="faturarUtilizandoRegrasConfig"
+        [value]="useConfigBilling"
+        (setValue)="useConfigBilling = $event">
+      </app-toggle>
+    </div>
+
+    <ng-container *ngIf="!useConfigBilling">
+      <div class="row mt-3" style="margin-bottom: 4px;">
+        <div class="col-6 ps-0 pe-2">
+          <app-dropdown-default label="banco"
+            [required]="true"
+            [changed]="alertRequired"
+            placeholder="selecionarBanco"
+            [options]="lists.bancos"
+            (optionChanged)="$event !== null ? selectedOption('banco', $event) : clearBankSelected()"
+            [shortListed]="billData.banco">
+          </app-dropdown-default>
+        </div>
+
+        <div class="col-6 ps-2 pe-0">
+          <app-dropdown-default label="agenciaEContaCorrente"
+            [required]="true"
+            [changed]="alertRequired"
+            placeholder="selecionar"
+            [options]="lists.contasCorrenteAgencia"
+            (optionChanged)="$event !== null ? selectedOption('contaCorrenteAgencia', $event) : this.billData.contaCorrenteAgencia = null"
+            [shortListed]="billData.contaCorrenteAgencia">
+          </app-dropdown-default>
+        </div>
+      </div>
+
+      <div class="row mt-1" style="margin-bottom: 4px;">
+        <div class="col-6 ps-0 pe-2">
+          <app-dropdown-default label="condicaoPagamento"
+            placeholder="selecionarCondicaoDePagamento"
+            [options]="lists.descricoes"
+            (optionChanged)="$event !== null ? selectedOption('descricao', $event) : billData.descricao = null"
+            [shortListed]="billData.descricao">
+          </app-dropdown-default>
+        </div>
+
+        <div class="col-6 ps-2 pe-0">
+          <app-input-date label="dataVencimento"
+            [readonly]="billData.descricao ? true : false"
+            [required]="true"
+            [changed]="alertRequired"
+            [date]="billData.dataVencimento ? billData.dataVencimento : ''"
+            (dateChanged)="billData.dataVencimento = $event">
+          </app-input-date>
+        </div>
+      </div>
+
+      <div class="row mt-1">
+        <div class="col-6 ps-0 pe-2">
+          <app-dropdown-default label="grupoDeReceita"
+            placeholder="selecionarGrupoDeReceita"
+            [options]="lists.gruposReceita"
+            (optionChanged)="$event !== null ? selectedOption('grupoReceita', $event) : clearReceipt()"
+            [shortListed]="billData.grupoReceita">
+          </app-dropdown-default>
+        </div>
+
+        <div class="col-6 ps-2 pe-0">
+          <app-dropdown-default *ngIf="billData.grupoReceita"
+            label="contaDeReceita"
+            placeholder="selecionarContaDeReceita"
+            [options]="lists.contasReceita"
+            (optionChanged)="$event !== null ? selectedOption('contaReceita', $event) : billData.contaReceita = null"
+            [shortListed]="billData.contaReceita">
+        </app-dropdown-default>
+
+        <app-input *ngIf="!billData.grupoReceita"
+            placeholder="selecioneUmGrupo"
+            label="contaDeReceita"
+            [readonly]="true">
+        </app-input>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-6 ps-0 pe-2">
+          <app-dropdown-default label="filialDeCobranca"
+            placeholder="selecionarFilialDeCobranca"
+            [options]="lists.filiaisCobranca"
+            (optionChanged)="$event !== null ? selectedOption('filialCobranca', $event) : billData.filialCobranca = null"
+            [shortListed]="billData.filialCobranca">
+          </app-dropdown-default>
+        </div>
+
+        <div class="col-6 ps-2 pe-0">
+          <app-dropdown-default label="centroDeCusto"
+            placeholder="selecionarCentroDeCusto"
+            [options]="lists.centrosCusto"
+            (optionChanged)="$event !== null ? selectedOption('centroCustos', $event) : billData.centroCustos = null"
+            [shortListed]="billData.centroCustos">
+          </app-dropdown-default>
+        </div>
+      </div>
+
+      <div class="row mt-4 mb-3">
+        <div class="col-12 ps-0 pe-0">
+          <app-input-text-area label="observacoes"
+            [maxLength]="250"
+            [entry]="billData.observacaoInterna"
+            (entryChanged)="billData.observacaoInterna = $event">
+          </app-input-text-area>
+        </div>
+      </div>
+
+      <div class="mb-1">
+        <app-toggle label="agruparDocumentos"
+          [value]="groupDocuments"
+          (setValue)="groupDocuments = $event">
+        </app-toggle>
+      </div>
+    </ng-container>
+
+    <div class="section-btns-confirm justify-content-end">
+      <button class="btn-confirm btn-transparent-cancel" (click)="close()">{{ 'cancelar' | translate }}</button>
+      <button class="btn-confirm green" (click)="confirm()" [disabled]="loading">{{ 'faturar' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

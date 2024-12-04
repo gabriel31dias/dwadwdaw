@@ -1,0 +1,21 @@
+::ng-deep .advanced-table .slick-header-column:first-child {
+  -webkit-user-drag: none;
+}
+
+::ng-deep .advanced-table .slickgrid-container .slick-preheader-panel {
+  position: static !important;
+  display: block;
+}
+
+::ng-deep .advanced-table .slickgrid-container .slick-row .slick-cell.frozen:last-child {
+  border: none !important;
+}
+
+// ::ng-deep .advanced-table .slickgrid-container .grid-canvas .slick-row:hover {
+//   background-color: transparent !important;
+// }
+
+::ng-deep .advanced-table .slickgrid-container .slick-row .slick-cell.active {
+  box-shadow: none !important;
+}
+

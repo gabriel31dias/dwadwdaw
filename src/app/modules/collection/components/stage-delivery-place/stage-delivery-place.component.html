@@ -1,0 +1,126 @@
+<div class="flex-row mt-2">
+  <span class="title-register">
+    {{ 'entregarEm' | translate }}
+  </span>
+</div>
+
+<div class="flex-row mt-4">
+  <div class="col-2 pe-3">
+    <app-input-date label="dataEntrega"
+      [date]="deliveryPlace.dataEntrega"
+      (dateChanged)="deliveryPlace.dataEntrega = $event; onDateChanged($event)"
+      [changed]="alertRequired || dateTimeValidations.alertDate"
+      [readonly]="readonly"
+      [minDate]="dateNow"
+      [alertMessage]="dateTimeValidations.alertDateMessage">
+    </app-input-date>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input-time-b label="horaInicial"
+      [searchable]="true"
+      [optionSelected]="deliveryPlace.horaInicial"
+      [changed]="alertRequired || dateTimeValidations.alertTimeInit "
+      [readonly]="readonly"
+      (optionChanged)="deliveryPlace.horaInicial = $event ; onDateChanged($event)"
+      [txtAlert]="dateTimeValidations.alertTimeInitMessage">
+    </app-input-time-b>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input-time-b label="horaFinal"
+      [searchable]="true"
+      [optionSelected]="deliveryPlace.horaFinal"
+      [changed]="alertRequired || dateTimeValidations.alertTimeFinal"
+      [readonly]="readonly"
+      (optionChanged)="deliveryPlace.horaFinal = $event ; onDateChanged($event)"
+      [txtAlert]="dateTimeValidations.alertTimeFinalMessage">
+    </app-input-time-b>
+  </div>
+</div>
+
+<div class="flex-row" [ngClass]="dateTimeValidations.alertTimeInit || dateTimeValidations.alertDate || dateTimeValidations.alertTimeFinalMessage  ? '' : 'mt-3'">
+  <span class="title-register" >
+    {{ 'localDeEntrega' | translate }}
+  </span>
+</div>
+
+<div class="flex-row mt-4 mb-4">
+  <div class="col-6 pe-3">
+    <app-dropdown-default label="cnpjCpfNomeFantasia" [searchable]="true" placeholder="placeholderLocalEntregaCpfCnpj"
+      [options]="companiesList" [shortListed]="deliveryPlace.cnpjCpf" (optionChanged)="cnpjSelected($event)"
+      [advanced]="true" (advancedOpen)="openModalSearchClient()" (search)="search($event,1)" [isCnpj]="true"
+      (editClient)="openEditClient()" [readonly]="readonly" [loading]="loadingCpfCnpjLocal">
+    </app-dropdown-default>
+  </div>
+</div>
+
+<div class="flex-row mt-1">
+  <div class="col-3 pe-3">
+    <app-input label="cep" placeholder="placeholderCEP" mask="cep" [entry]="deliveryPlace.cep"
+      (entryChanged)="deliveryPlace.cep = $event" [keydownEnter]="true" (keydownPress)="searchCep()" (lostFocus)="searchCep()"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-5 pe-3">
+    <app-input label="endereco" placeholder="placeholderEndereco" [entry]="deliveryPlace.endereco"
+      (entryChanged)="deliveryPlace.endereco = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="numero" placeholder="placeholderNumero" mask="0*" [entry]="deliveryPlace.numero"
+      (entryChanged)="deliveryPlace.numero = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+</div>
+
+<div class="flex-row mt-4 mb-4">
+  <div class="col-3 pe-3">
+    <app-input label="complemento" placeholder="placeholderComplemento" [entry]="deliveryPlace.complemento"
+      (entryChanged)="deliveryPlace.complemento = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-3 pe-3">
+    <app-input label="bairro" placeholder="placeholderBairro" [entry]="deliveryPlace.bairro"
+      (entryChanged)="deliveryPlace.bairro = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-3 pe-3">
+    <app-select label="cidade" [searchable]="true" placeholder="placeholderCidade" [options]="citiesList.citiesName"
+      [shortListed]="deliveryPlace.cidade ? deliveryPlace.cidade : null" (optionChanged)="selectCity($event)"
+      (search)="clearFieldsCity(); !deliveryPlace.uf ? searchCity($event) : ''" [readonly]="readonly" [loading]="loadingCity">
+    </app-select>
+  </div>
+
+  <div class="col-1 pe-3">
+    <app-select label="uf" placeholder="placeholderUF"  [options]="ufs"
+      [shortListed]="deliveryPlace.uf ? deliveryPlace.uf : null" (optionChanged)="selectUF($event)" [readonly]="readonly">
+    </app-select>
+  </div>
+</div>
+
+<div class="flex-row mt-1">
+  <div class="col-4 pe-3">
+    <app-input label="responsavel" placeholder="placeholderResponsavel" [entry]="deliveryPlace.responsavel"
+      (entryChanged)="deliveryPlace.responsavel = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 pe-3">
+    <app-input label="celularWpp" placeholder="placeholderCelularWpp" mask="cellphone"
+      [entry]="deliveryPlace.celular" (entryChanged)="deliveryPlace.celular = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-4 pe-3">
+    <app-input label="email" placeholder="placeholderEmail" [entry]="deliveryPlace.email"
+      (entryChanged)="deliveryPlace.email = $event" [readonly]="readonly">
+    </app-input>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>

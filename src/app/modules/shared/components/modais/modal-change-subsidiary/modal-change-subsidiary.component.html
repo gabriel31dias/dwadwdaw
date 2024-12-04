@@ -1,0 +1,40 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <div class="mb-2">
+      <p class="title-modal">{{ 'escolherFilial' | translate }}</p>
+    </div>
+
+    <app-dropdown-default label="selecioneFilial"
+      [options]="subsidiariesName"
+      (optionChanged)="subsidiarySelected = $event"
+      [enableKeydown]="true"
+      (keydownPress)="setCompany()">
+    </app-dropdown-default>
+
+    <div class="section-btns-confirm mt-4">
+      <button class="btn-confirm btn-transparent-cancel" (click)="close()">
+        {{ 'cancelar' | translate }}
+      </button>
+      <button class="btn-confirm green" [disabled]="subsidiarySelected === null" (click)="setCompany()">
+        {{ 'concluir' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>

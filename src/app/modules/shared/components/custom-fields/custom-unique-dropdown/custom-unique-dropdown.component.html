@@ -1,0 +1,24 @@
+<ng-container *ngIf="!readonly">
+  <div class="dropdown-group" (click)="changed = true">
+    <ng-select #dropdownDefault
+      class="unique-dropdown"
+      [placeholder]="placeholder | translate"
+      [(ngModel)]="optionSelected"
+      [searchable]="false"
+      [ngClass]="{ 'is-selected': selected(), 'required': validator() }"
+      (ngModelChange)="optionChanged.emit(optionSelected)">
+
+      <ng-option *ngFor="let option of options" [value]="option">
+        <span>{{ option }}</span>
+      </ng-option>
+    </ng-select>
+
+    <label class="label-dropdown">
+      {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+    </label> 
+   
+  </div>
+
+  <p class="required-mensage" *ngIf="required" [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+</ng-container>
+ 

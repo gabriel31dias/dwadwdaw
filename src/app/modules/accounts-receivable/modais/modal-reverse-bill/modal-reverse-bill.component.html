@@ -1,0 +1,34 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'estornarBaixaFatura' | translate }}</p>
+    <span class="text-modal items-modal mt-1 mb-1">
+      <strong>{{ 'quantidadeFaturas' | translate }}:</strong> {{ billSelecteds }}
+    </span>
+    <span class="text-modal items-modal">
+      <strong>{{ 'valorTotal' | translate }}:</strong> {{ valueBills }}
+    </span>
+
+    <p class="text-modal mt-4">{{ 'textoModalEstornarBaixaFatura' | translate }}</p>
+
+    <div class="d-flex justify-content-end mt-2">
+      <button class="btn-confirm btn-transparent-cancel" (click)="close()">{{ 'cancelar' | translate }}</button>
+      <button class="btn-confirm red" (click)="confirm()">{{ 'estornar' | translate }}</button>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+

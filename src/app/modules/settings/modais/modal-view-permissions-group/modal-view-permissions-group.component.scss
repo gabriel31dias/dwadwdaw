@@ -1,0 +1,106 @@
+* {
+  gap: 1.25rem;
+}
+
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.75rem;
+  line-height: normal;
+  color: #263238;
+}
+
+.permission-modal {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 1.875rem;
+  overflow: hidden;
+  z-index: 1;
+  border-radius: 0.625rem;
+  background: #fff;
+  line-height: 1.25rem;
+  max-height: 50rem;
+}
+
+.title-modal {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  letter-spacing: 0.15px;
+  font-style: normal;
+  color: #000;
+}
+
+.body-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4375rem;
+  overflow-y: auto;
+  max-height: 40rem;
+}
+
+.users-group {
+  display: flex;
+  flex-direction: column;
+  color: #000;
+  margin-bottom: 0.625rem;
+}
+
+.users-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+}
+
+.users-label-container {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.modulo-permission {
+  font-size: 0.875rem;
+  font-weight: 400;
+  margin: 1rem;
+}
+
+.modulo-overflow {
+  max-height: 28rem;
+  overflow-y: auto;
+}
+
+.list-permission {
+  align-items: center;
+  border-top: 0.03125rem solid #eceff1;
+  border-bottom: 0.03125rem solid #eceff1;
+  font-weight: 400;
+  font-size: 0.75rem;
+  padding: 1.125rem 0 1.125rem 1.8125rem;
+}
+
+.footer-modal {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1.4375rem;
+}
+
+.btn-modal-close {
+  height: 2.5rem;
+  padding: 0 1.5rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.3125rem;
+  border: 0.03125rem solid #455a64;
+  color: #455a64;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  letter-spacing: 0.15px;
+  background: #fff;
+}
+
+.section-btns-confirm {
+  margin-left: auto;
+}

@@ -1,0 +1,57 @@
+.size-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+
+.wrapper {
+    margin: 20px;
+}
+
+.bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.confirm-button {
+    background-color: #84C55E;
+    color: #fff;
+    width: 101px;
+    height: 32px;
+    margin-top: 20px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.size-btn {
+    color: #000;
+    width: 74px;
+    height: 32px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: #455A64;
+}
+
+.size-btn.active {
+    background-color: #84C55E;
+    color: #fff;
+    border-color: #84C55E;
+}
+
+.size-btn.active:hover {
+    background-color: #63A04B;
+}
+
+.size-btn:hover {
+    background-color: #90A4AE;
+}
+
+.confirm-button:hover {
+    background-color: #63A04B;
+}

@@ -1,0 +1,51 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg" />
+    </button>
+  </div>
+  <div class="content-modal">
+    <p class="title-modal">{{ "tituloModalAcessoPermissao" | translate }}</p>
+    <p class="text-modal" [innerHTML]="'textoModalAcessoPermissao' | translate"></p>
+    <div class="mb-3">
+      <app-input
+        label="usuario"
+        placeholder="usuario"
+        [required]="true"
+        (entryChanged)="accessPermission.emailUsuarioComPermissao = $event"
+        [changed]="dataEmpty"
+        [keydownEnter]="true"
+        (keydownPress)="checkAccess()"
+      >
+      </app-input>
+    </div>
+    <div>
+      <app-input
+        label="senha"
+        placeholder="senha"
+        [required]="true"
+        type="password"
+        [keydownEnter]="true"
+        (entryChanged)="accessPermission.senhaUsuarioComPermissao = $event"
+        [changed]="dataEmpty"
+        (keydownPress)="checkAccess()"
+      >
+      </app-input>
+    </div>
+    <div class="section-btns-confirm d-flex justify-content-end">
+      <button class="btn-confirm btn-transparent-cancel"
+      (click)="close()">
+      {{ textBtnCancel | translate }}
+      </button>
+      <button class="btn-confirm"
+      (click)="checkAccess()">
+      {{ textBtnConfirm | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

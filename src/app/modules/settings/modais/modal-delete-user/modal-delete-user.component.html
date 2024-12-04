@@ -1,0 +1,23 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg" />
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{'excluirUsuario' | translate}}</p>
+    <p class="text-modal ">
+      {{'textoConfirmarExcluir' | translate}}
+    </p>
+
+    <div class="section-btns-confirm">
+      <button class="btn-confirm btn-transparent-cancel" (click)="close()">
+        {{ 'cancelar' | translate }}
+      </button>
+      <button class="btn-confirm red" (click)="confirm()">
+        {{ 'excluir'| translate }}
+      </button>
+    </div>
+  </div>
+</div>

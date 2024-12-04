@@ -1,0 +1,67 @@
+.input-group {
+  position: relative;
+}
+
+.label-textarea {
+  font-size: 0.75rem;
+  color: #607D8B!important;
+
+  position: absolute;
+  left: 1rem;
+  top: -0.6rem;
+  padding: 0 4px;
+  pointer-events: none;
+  background-color: var(--color-white);
+}
+
+.custom-textarea {
+  font-size: 0.875rem;
+  color: #607D8B!important;
+
+  border: solid 1px var(--color-grey-200)!important;
+  border-radius: 5px !important;
+  background-color: var(--color-white);
+
+  width: 101%;
+  padding-left: 0.75rem;
+  padding-right: 0.5rem;
+  padding-top: 0.5rem;
+
+  outline: none;
+  resize: none;
+}
+
+.custom-textarea:focus {
+  outline: none;
+  border-color: var(--color-green-500-mark);
+}
+
+.filled {
+  border: solid 1px var(--color-grey-200)!important;
+}
+
+.text-max {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 5px;
+  padding-right: 10px;
+
+  color: var(--color-grey-500-text);
+  font-size: 0.625rem;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.00938rem;
+}
+
+textarea:disabled {
+  background-color: #F5F5F5 !important;
+}
+
+.required {
+  border: solid 1px var(--color-red) !important;
+}
+
+textarea::-webkit-input-placeholder {
+  color: var(--color-grey-500-text);
+}

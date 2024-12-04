@@ -1,0 +1,12 @@
+<div class="mouseenter mouseleave" [ngClass]="'snackbar-' + snackbar.type">
+  <div style="width: 93%;">
+    <p class="mb-0" *ngIf="snackbar.message">
+      {{ snackbar.message | translate }}
+    </p>
+  </div>
+
+  <div class="snackbar-close" (click)="hide.emit(false)">
+    <img class="clickable" src="../../../../../../assets/icons/close.svg">
+  </div>
+</div>
+

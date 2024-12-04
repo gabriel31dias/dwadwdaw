@@ -1,0 +1,49 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'detalhesDasAlteracoes' | translate }}</p>
+
+    <div class="flex-row mb-4">
+      <span class="text-detail-changes">
+        <strong>{{ 'alteradoPor' | translate }}:</strong>
+        {{ historic.usuario }}
+      </span>
+
+      <span class="text-detail-changes">
+        <strong>{{ 'data' | translate }}:</strong>
+        {{ historic.data }}
+      </span>
+
+      <span class="text-detail-changes">
+        <strong>{{ 'hora' | translate }}:</strong>
+        {{ historic.hora }}
+      </span>
+    </div>
+
+    <div class="details-changes-section">
+      <div class="mb-3" *ngFor="let detail of historic.detalhes">
+        <p class="text-detail-changes">
+          <strong>{{ 'campo' | translate }}:</strong>
+          {{ detail.campo }}
+        </p>
+        <p class="text-detail-changes">
+          <strong>{{ 'valorAnterior' | translate }}:</strong>
+          {{ detail.valorAnterior }}
+        </p>
+        <p class="text-detail-changes">
+          <strong>{{ 'valorAtualizado' | translate }}:</strong>
+          {{ detail.valorAtual }}
+        </p>
+      </div>
+    </div>
+
+    <div class="section-btns-confirm">
+      <button class="btn-confirm btn-transparent-close" (click)="close()">{{ 'retornar' | translate }}</button>
+    </div>
+  </div>
+</div>

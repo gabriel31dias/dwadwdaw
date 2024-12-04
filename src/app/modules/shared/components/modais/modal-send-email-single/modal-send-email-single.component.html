@@ -1,0 +1,103 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal tab-enter">
+    <span class="title-modal mb-4">{{ 'enviarPorEmail' | translate }}</span>
+
+    <div class="mt-2 mb-2">
+      <app-input label="remetente"
+        [entry]="dataSendEmail.remetente"
+        (entryChanged)="dataSendEmail.remetente = $event"
+        [readonly]="true"
+        [required]="true">
+      </app-input>
+    </div>
+
+    <div class="mb-2">
+      <app-input label="destinatario"
+        placeholder="usuario@email.com.br; usuario2@email.com.br;"
+        [entry]="dataSendEmail.destinatario"
+        (entryChanged)="dataSendEmail.destinatario = $event; isValidEmailRecipient()"
+        [txtAlert]="emailRecipientInvalidMessage"
+        [changed]="alertRequired || emailRecipientInvalid"
+        [required]="true"
+        [readonly]="haveRecipient">
+      </app-input>
+    </div>
+
+    <div [ngClass]="emailCopyInvalid ? 'custom-margin-copy' : 'mb-4'">
+      <app-input label="enviarCopiaPara"
+        placeholder="usuario@email.com.br; usuario2@email.com.br;"
+        [entry]="dataSendEmail.copia"
+        (entryChanged)="dataSendEmail.copia = $event; isValidEmailCopy()"
+        [txtAlert]="emailCopyInvalidMessage"
+        [changed]="alertRequired || emailCopyInvalid">
+      </app-input>
+    </div>
+
+    <div class="mb-2">
+      <app-input label="assunto"
+        placeholder="assunto"
+        [entry]="dataSendEmail.assunto"
+        (entryChanged)="dataSendEmail.assunto = $event"
+        [required]="true"
+        [changed]="alertRequired">
+      </app-input>
+    </div>
+
+    <div class="mb-3">
+      <app-input-text-area label="corpoEmail"
+        placeholder="corpoEmail"
+        [entry]="dataSendEmail.corpoEmail"
+        (entryChanged)="dataSendEmail.corpoEmail = $event"
+        [required]="true"
+        [changed]="alertRequired">
+      </app-input-text-area>
+    </div>
+
+    <div class="flex-row subtitle-modal mb-3">
+      {{ 'anexos' | translate }}
+      <div class="tooltip-content ps-2">
+        <img src="../../../../../assets/icons/info-email.svg">
+        <span class="tooltip-default">{{ 'tooltipAnexosEnvioEmail' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap mt-1 mb-4">
+      <ng-container *ngFor="let attachment of attachments">
+        <div class="chips-filter-sm me-2 mb-2"
+          [ngClass]="{ 'selected' : dataSendEmail.anexos.includes(attachment) }"
+          (click)="changeAttachment(attachment)">
+          {{ attachment }}
+        </div>
+      </ng-container>
+    </div>
+
+
+    <div class="d-flex justify-content-end">
+      <button class="button-secondary button-fill button-me me-2" (click)="close()">
+        {{ 'cancelar' | translate }}
+      </button>
+      <button class="button-primary button-fill button-me" [disabled]="loading" (click)="sendEmail()">
+        {{ 'enviar' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

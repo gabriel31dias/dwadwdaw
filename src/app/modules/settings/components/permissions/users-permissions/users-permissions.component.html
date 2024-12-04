@@ -1,0 +1,89 @@
+<div class="custom-content">
+  <div class="row mt-2">
+    <span class="title-register ps-0">
+      {{ 'usuarios' | translate }}
+    </span>
+  </div>
+
+    <div class="flex-row mt-5">
+      <div class="filters-custom-grid">
+        <app-filter-columns [columns]="columnsFilter"
+          [filtersSearch]="configFilterColumnSelected"
+          (sendRequest)="setFilterColumn()">
+        </app-filter-columns>
+      </div>
+    </div>
+
+  <div class="flex-row">
+    <div class="search-and-add flex-row pt-0">
+      <div class="search-section">
+        <app-input-search placeholder="pesquisarGrupoPermissoes"
+          tooltip=""
+          [entry]="search"
+          (entryChanged)="doSearch($event)"
+          (lostFocus)="doSearch($event, true)">
+        </app-input-search>
+      </div>
+
+      <div class="add-section">
+        <app-btn-confirm-action iconUrl="../../../../../assets/icons/add.svg"
+          height="2.1875rem"
+          (clicked)="createNewUser()">
+        </app-btn-confirm-action>
+      </div>
+
+      <div class="clear-filter-grid">
+        <span class="text-clear-filter-grid clickable" (click)="clearFilters()">{{ 'limparFiltros' | translate }}</span>
+      </div>
+    </div>
+
+    <div class="icons-actions mb-2">
+      <div class="float-right flex-row">
+        <ng-container *ngIf="userSelected.length >= 1">
+          <button class="icon-button-primary tooltip-content" (click)="confirmDeleteUser()">
+            <img  src="../../../../../assets/icons/delete.svg" >
+            <span class="tooltip-default">{{ 'deletar' | translate }}</span>
+          </button>
+          <button id="view-more" class="icon-button-primary tooltip-content">
+            <img  src="../../../../../assets/icons/view-more.svg">
+            <span class="tooltip-default">{{ 'acoes' | translate }}</span>
+            <div class="box-actions">
+              <p class="text-box-actions" (click)="confirmActiveUser()">
+                {{ 'ativar' | translate }}
+              </p>
+              <p class="text-box-actions" (click)="confirmDisableUser()">
+                {{ 'desativar' | translate }}
+              </p>
+              <p class="text-box-actions" (click)="openModalHistoricChanges()">
+                {{ 'historicoDeAlteracoes' | translate }}
+              </p>
+            </div>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-custom-grid mb-2" *ngIf="users.length >= 1">
+    <app-table-simple-grid idGrid="groups-permissions"
+      [columnsHeader]="columns"
+      [dataset]="users"
+      [enableActionRow]="true"
+      [forceHeightGrid]="customHeight"
+      [enableCheckbox]="true"
+      (checkboxSelected)="rowsSelected($event)"
+      [fitColumns]="true"
+      [enableMenu]="false"
+      (rowClicked)="goToEditUser()">
+    </app-table-simple-grid>
+  </div>
+
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<!-- <div *ngIf="loading" class="spinner-border" role="status">
+</div> -->

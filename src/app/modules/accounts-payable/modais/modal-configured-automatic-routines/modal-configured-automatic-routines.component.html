@@ -1,0 +1,44 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'rotinasAutomaticasConfiguradas' | translate }}</p>
+
+    <div class="mt-custom-grid mb-2" *ngIf="routines.length >= 1">
+      <app-table-sort
+      [headers]="getHeaderTable()"
+      [records]="routines"
+      [isConference]="false"
+      [checkedWithDisagreement]="false"
+      [height]="customHeight + 'px'"
+      [maxHeight]="'600px'"
+      [isMovement]="false"
+      (recordViewDetail)="viewDetail(routines)"
+      [viewDetailSectionRoutines]="true"
+      [viewDetailSection]="true"
+
+
+    ></app-table-sort>
+
+
+    <div class="section-btns-confirm">
+      <button class="btn-confirm " (click)="confirm()">{{ 'processar' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>
+
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

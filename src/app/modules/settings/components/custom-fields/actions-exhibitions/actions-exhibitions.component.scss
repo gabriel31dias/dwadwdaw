@@ -1,0 +1,85 @@
+.container-drag-drop {
+  box-sizing: border-box;
+  width: 50%;
+  min-height: 60vh;
+  background-color: white;
+  display: flex;
+}
+
+.box {
+  height: 27.688rem;
+  min-width: 18rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.box-right {
+  min-width: 29.5rem;
+}
+
+#box-left, #box-right{
+  width: 300px;
+  min-height: 400px;
+  margin: 20px;
+  border: 1px solid #B0BEC5;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-left: 0rem;
+  align-items: center;
+  justify-content: center;
+}
+
+#box-right{
+  width: 461px;
+}
+
+#right, #left{
+
+  .card{
+    padding: 0.5rem;
+    margin: 1rem;
+    width: 228px;
+    height: 48px;
+    border-radius: 0.5px;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 0.5rem;
+    justify-content: center;
+
+    cursor: grab;
+
+    &:active{
+      cursor: grabbing;
+    }
+  }
+
+}
+
+.card-right {
+  min-width: 25.688rem;
+
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // text-align: center;
+  // vertical-align: middle;
+}
+
+.box-size {
+  height: 1.125rem;
+  background-color: var(--color-green-50);
+  color: var(--color-green);
+  border-radius: 5px;
+
+  min-width: 64px;
+  max-width: 64px;
+
+  font-size: 0.813rem;
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  vertical-align: middle;
+}
+
+

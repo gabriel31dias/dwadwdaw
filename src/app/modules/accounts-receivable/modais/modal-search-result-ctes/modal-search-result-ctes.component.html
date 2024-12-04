@@ -1,0 +1,84 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'resultadoDaPesquisa' | translate }}</p>
+
+    <div style="height: 2.1875rem;" class="col-12">
+      <app-filter-columns [columns]="columnsFilter"
+        [clientNameFilter]="clientNameFilter"
+        (sendRequest)="setFilterColumn($event)">
+      </app-filter-columns>
+    </div>
+
+    <div class="row col-11 mt-3" style="z-index: 1;">
+      <div class="col-6 ps-0 pe-0">
+        <div class="row">
+          <div class="col-8 ps-0 pe-0">
+            <app-input-search label="ct-e"
+              placeholder="placeholderChaveDeAcessoCTe"
+              (entryChanged)="doSearch($event)"
+              [mask]="'0*'"
+              [maxLength]="44"
+              [entry]="search">
+            </app-input-search>
+          </div>
+
+          <div class="col-3 mt-1">
+            <span class="text-clear-filter-grid clickable" (click)="clearFilters()">
+              {{ 'limparFiltros' | translate }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6 mb-4 ps-0 pe-0">
+        <div class="row d-flex justify-content-end">
+          <div class="col-5">
+            <app-dropdown-default label="filtrarPor"
+              [options]="filterDate"
+              [shortListed]="filterDateSelected !== null ? filterDateEnum[filterDateSelected] : null"
+              (optionChanged)="filterDateSelected = $event; periodFilter.finalDate ? getCtes() : ''">
+            </app-dropdown-default>
+          </div>
+
+          <div class="col-5">
+            <div class="input-period-grid">
+              <app-period-two-dates [periodFilter]="periodFilter"
+                (periodEmitter)="setFilterDate($event)">
+              </app-period-two-dates>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-custom-grid mb-2" *ngIf="ctes.length >= 1">
+      <app-table-simple-grid idGrid="search-result-ctes"
+        [columnsHeader]="columns"
+        [dataset]="ctes"
+        [enableActionRow]="true"
+        [fitColumns]="false"
+        [heightGrid]="220"
+        [enableCheckbox]="true"
+        (checkboxSelected)="rowsSelected($event)">
+      </app-table-simple-grid>
+    </div>
+
+    <div class="section-btns-confirm">
+     <app-btn-confirm-action label="selecionar" (clicked)="confirmSelected()">
+      </app-btn-confirm-action>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

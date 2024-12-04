@@ -1,0 +1,61 @@
+<div class="flex-container">
+
+  <div *ngFor="let field of fields" class="flex-item" [ngClass]="{
+    'small': field.tamanho === SizeCustomField.Pequeno,
+    'medium': field.tamanho === SizeCustomField.Medio,
+    'large': field.tamanho === SizeCustomField.Grande
+  }">
+    <ng-container [ngSwitch]="field.tipo" class="box-container">
+
+      <app-custom-one-line-text-input *ngSwitchCase="TypeCustomField.Texto"
+        [label]="field.label"
+        [entry]="field.valor"
+        (entryChanged)="updateFieldValue(field.codigo, $event)"/>
+
+      <app-custom-text-box *ngSwitchCase="TypeCustomField.TextoMultilinha"
+        [label]="field.label"
+        [entry]="field.valor"
+        (entryChanged)="updateFieldValue(field.codigo, $event)"/>
+
+      <app-custom-unique-dropdown *ngSwitchCase="TypeCustomField.CaixaSelecaoUnica"
+        [label]="field.label"
+        [options]="field.itens"
+        [shortListed]="field.valor"
+        (optionChanged)="updateFieldValue(field.codigo, $event)"/>
+
+      <app-custom-multiple-dropdown *ngSwitchCase="TypeCustomField.CaixaSelecaoMultipla"
+        [label]="field.label"
+        [options]="field.itens"
+        [shortListed]="field.valor"
+        (optionChanged)="updateFieldValue(field.codigo, $event)"/>
+
+      <app-custom-checkbox-input *ngSwitchCase="TypeCustomField.ListaSuspensa"
+        [label]="field.label"
+        [items]="field.itens"
+        [size]="field.tamanho"
+        [itemsSelected]="field.valor"
+        (entryChanged)="updateFieldValue(field.codigo, $event)"/>
+
+      <app-custom-numeric-input *ngSwitchCase="TypeCustomField.Numerico"
+        [label]="field.label"
+        [entry]="field.valor"
+        (entryChanged)="updateFieldValue(field.codigo, $event)"/>
+
+      <app-custom-input-decimal *ngSwitchCase="TypeCustomField.Decimal"
+        [label]="field.label"
+        [entry]="field.valor"
+        (entryChanged)="updateFieldValue(field.codigo, $event)"/>
+
+      <app-custom-date-input *ngSwitchCase="TypeCustomField.Data"
+        [label]="field.label"
+        [entry]="field.valor"
+        (entryChanged)="updateFieldValue(field.codigo, $event)"/>
+
+      <app-custom-time-input *ngSwitchCase="TypeCustomField.Hora"
+        [label]="field.label"
+        [entry]="field.valor"
+        (entryChanged)="updateFieldValue(field.codigo, $event)"/>
+
+    </ng-container>
+  </div>
+</div>

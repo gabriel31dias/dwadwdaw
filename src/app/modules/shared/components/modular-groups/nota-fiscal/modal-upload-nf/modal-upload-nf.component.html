@@ -1,0 +1,48 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <div class="mb-3">
+      <p class="title-modal">{{ 'uploadDeArquivos' | translate }}</p>
+    </div>
+
+    <div class="custom-upload-area clickable mb-1" (click)="fileUpload.click()">
+      <div class="upload-container" appDragAndDrop (onFileDropped)="onDrop($event)">
+        <img src="../../../../../../assets/icons/upload-file-drop.svg" class="icon-upload">
+        <span class="title-modal">{{ 'tituloAreaDeUpload' | translate }}</span>
+        <span class="subtitle-upload-area">{{ 'subtituloAreaDeUpload' | translate }}</span>
+        <input #fileUpload type="file" (change)="onFileSelected($event)" hidden multiple class="file">
+      </div>
+    </div>
+
+    <div *ngIf="files.length >= 1" class="mt-3">
+      <p class="title-modal">{{ 'arquivosSelecionados' | translate }} - {{ files.length }}</p>
+      <div class="section-list-files">
+        <div *ngFor="let file of files" class="box-filename">
+          <span class="filename">{{ file.name }}</span>
+          <img class="clickable" src="../../../../../../assets/icons/close.svg" (click)="removeFile(file)">
+        </div>
+      </div>
+    </div>
+
+    <div class="section-btns-confirm mt-4">
+      <button class="button-secondary button-fill button-me me-2" (click)="close()">
+        {{ 'cancelar' | translate }}
+      </button>
+      <button class= "button-primary button-fill button-me" [disabled]="files.length < 1 || loading === true" (click)="confirm()">
+        {{ 'concluir' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

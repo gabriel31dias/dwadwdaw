@@ -1,0 +1,82 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'definirMedidas' | translate }}</p>
+
+    <div class="search-and-add flex-row" style="z-index: 1;">
+
+      <div class="input-measure">
+        <app-input label="quantidade"
+          [mask]="'0*'"
+          placeholder="0"
+          [entry]="measure.quantidade"
+          (entryChanged)="measure.quantidade = $event">
+        </app-input>
+      </div>
+
+      <div class="input-measure">
+        <app-input label="altura"
+          [currency]="true"
+          [noPrefix]="true"
+          placeholder="0,00"
+          [entry]="measure.altura"
+          (entryChanged)="measure.altura = $event">
+        </app-input>
+      </div>
+
+      <div class="input-measure">
+        <app-input label="largura"
+          [currency]="true"
+          [noPrefix]="true"
+          placeholder="0,00"
+          [entry]="measure.largura"
+          (entryChanged)="measure.largura= $event">
+        </app-input>
+      </div>
+
+      <div class="input-measure">
+        <app-input label="comprimento"
+          [currency]="true"
+          [noPrefix]="true"
+          placeholder="0,00"
+          [entry]="measure.comprimento"
+          (entryChanged)="measure.comprimento = $event">
+        </app-input>
+      </div>
+
+      <div class="add-section">
+        <app-btn-confirm-action iconUrl="../../../../../assets/icons/add.svg"
+          height="2.1875rem"
+          (clicked)="applyMeasure()">
+        </app-btn-confirm-action>
+      </div>
+    </div>
+
+
+    <app-table-simple-grid idGrid="modal-define-measure"
+      [columnsHeader]="columns"
+      [dataset]="measures"
+      [fitColumns]="true"
+      [enableDelete]="true"
+      [enableMenu]="false"
+      [heightGrid]="220"
+      (dataToDelete)="deleteMeasure($event)">
+    </app-table-simple-grid>
+
+    <div class="total-measure">
+      <span class="text-total-measure">
+        <strong>{{ 'total' | translate }}:</strong> {{ toStringBr(total) }}
+      </span>
+    </div>
+
+    <div class="section-btns-confirm">
+      <button class="button-primary button-fill button-me" (click)="confirm()">{{ 'concluir' | translate }}</button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<div class="section-grid">
+  <div [id]="idGrid" class="slickgrid">
+    <angular-slickgrid class="advanced-table"
+      [gridId]="idGrid + '1'"
+      [dataset]="dataset"
+      [columnDefinitions]="columnDefinitions"
+      [gridOptions]="gridOptions"
+      (onAngularGridCreated)="angularGridReady($event)"
+      (onGridStateChanged)="gridStateChanged($event)">
+    </angular-slickgrid>
+  </div>
+</div>

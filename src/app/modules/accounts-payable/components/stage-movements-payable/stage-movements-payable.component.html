@@ -1,0 +1,35 @@
+<!-- Documentos de frete -->
+<div class="row mt-2 pb-1 col-12">
+  <div class="col-9 ps-0">
+    <span class="title-register">
+      {{ 'movimentosDaFatura' | translate }}
+    </span>
+  </div>
+
+  <div class="col-3 d-flex justify-content-end" *ngIf="!disableEdit">
+    <app-btn-confirm-action iconUrl="../../../../../assets/icons/add.svg"
+      height="2.5rem"
+      label="lancarMovimento"
+      (clicked)="launchMovement()">
+    </app-btn-confirm-action>
+  </div>
+</div>
+
+
+<div class="mt-custom-grid mt-3"
+  [ngClass]="disableEdit ? 'pt-3' : ''">
+  <app-table-sort [headers]="headers"
+    [records]="movement"
+    [isMovement]="true"
+    (movementEmitter)="launchMovement($event)"
+    [height]="maxHeightTable">
+  </app-table-sort>
+</div>
+
+<app-snackbar *ngIf="snackbar.open" [
+  snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>

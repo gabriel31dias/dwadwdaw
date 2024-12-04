@@ -1,0 +1,32 @@
+<div class="wrapper">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="assets/icons/close.svg">
+    </button>
+  </div>
+  <div class="content-modal">
+    <p class="title-modal">{{ 'ajusteDeTamanho' | translate }}</p>
+    <div class="size-buttons">
+      <button class="btn size-btn btn-outline-dark"
+        (click)="setSize(size.Pequeno)"
+        [ngClass]=" {'active': selectedSize === size.Pequeno }" >
+        {{ 'pequeno' | translate }}
+      </button>
+      <button class="btn size-btn btn-outline-dark"
+        (click)="setSize(size.Medio)"
+        [ngClass]="{ 'active': selectedSize === size.Medio }">
+        {{ 'medio' | translate }}
+      </button>
+      <button class="btn size-btn btn-outline-dark"
+        (click)="setSize(size.Grande)"
+        [ngClass]="{ 'active': selectedSize === size.Grande }">
+        {{ 'grande' | translate }}
+      </button>
+    </div>
+    <div class="bottom">
+      <button class="btn confirm-button" (click)="confirm()" [disabled]="!selectedSize">
+        {{ 'concluir' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="flex-row mt-2" [ngClass]="currentStatus >= 2 ? 'mb-3' : ''">
+  <span class="title-register">
+    {{ 'conferenciaDeVolumes' | translate }}
+  </span>
+
+  <div class="flex-row ps-4" style="padding-top: 1px;" *ngIf="currentStatus < 2 && this.permissions.includes(authConference.Editar)">
+    <input class="checkbox-input" id="checkbox-print-tag" type="checkbox" [(ngModel)]="printTag"
+      (ngModelChange)="printTagEmitter.emit(printTag)">
+    <label class="checkbox-label" for="checkbox-print-tag"></label>
+    <span class="checkbox-text">{{ 'imprimirEtiquetas' | translate }}</span>
+  </div>
+</div>
+
+<div class="flex-row mt-4 mb-3"
+  *ngIf="currentStatus < 2 && this.permissions.includes(authConference.Editar)">
+  <div class="col-3 pe-3">
+    <app-dropdown-default label="etiqueta" placeholder="selecionarEtiqueta"
+      [shortListed]="tagSelected.dcConfigEtiqueta ? tagSelected.dcConfigEtiqueta : null" [options]="tagsName"
+      (optionChanged)="selectTag($event)">
+    </app-dropdown-default>
+  </div>
+
+  <div class="col-3 pe-3">
+    <app-input label="codigoDeBarras" placeholder="digitarCodigoDeBarras" [iconBarCode]="true"
+      [entry]="barCode" (entryChanged)="barCodeEmitter.emit($event)" [keydownEnter]="true"
+      (keydownPress)="checkVolume()" [maxLength]="9999">
+    </app-input>
+  </div>
+</div>
+
+<div *ngIf="volumes.length >= 1"
+  [ngClass]="{ 'pt-3' : !this.permissions.includes(authConference.Editar) }">
+  <app-table-sort [headers]="headers"
+    [records]="volumes"
+    [isConference]="true"
+    [checkedWithDisagreement]="currentStatus === 3 ? true : false"
+    [height]="maxHeightTable"
+    (printVolume)="printTagSingle($event)"
+    [actionDelete]="currentStatus < 2 ? true : false"
+    (deleteData)="deleteVolumNofFound($event)">
+  </app-table-sort>
+  <!-- Adicionar em table sort quando backend estiver pronto para aceitar observacoes -->
+  <!-- (addObservation)="triggerModalIfRequired($event)" -->
+</div>
+
+<div class="d-flex justify-content-end">
+  <span class="text-volumes">
+    {{ 'total'| translate }} {{ allVolumesRead }} {{ 'volumesLidos' | translate }}
+  </span>
+</div>
+
+<ng-container *ngIf="!this.permissions.includes(authConference.VisualizarVolumesConferenciaCegas)">
+  <div *ngIf="(volumesChecked > 0 && currentStatus >= 2) || !blindConference" class="d-flex justify-content-end">
+    <span class="text-volumes">
+      {{ 'total'| translate }} {{ volumesChecked }}/{{ allVolumes }} {{ 'conferidos' | translate }}
+    </span>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="this.permissions.includes(authConference.VisualizarVolumesConferenciaCegas)">
+  <div class="d-flex justify-content-end">
+    <span class="text-volumes">
+      {{ 'total'| translate }} {{ volumesChecked }}/{{ allVolumes }} {{ 'conferidos' | translate }}
+    </span>
+  </div>
+</ng-container>
+
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+

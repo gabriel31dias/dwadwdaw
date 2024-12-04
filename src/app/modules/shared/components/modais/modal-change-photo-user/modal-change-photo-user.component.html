@@ -1,0 +1,47 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <div *ngIf="change == false">
+      <p class="title-modal">{{ 'alterarFotoDePerfil' | translate }}</p>
+      <div class="photo-container">
+        <img class="photo-user" src="../../../../../assets/icons/side-nav/user-icon-photo-test.svg" (click)="changePhoto()">
+        <img class="photo-add" src="../../../../../../assets/icons/camera.svg" (click)="changePhoto()">
+      </div>
+      <div class="d-flex justify-content-end">
+        <button class="btn-confirm btn-transparent-cancel" (click)="close()">{{ 'voltar' | translate }}</button>
+        <button class="btn-confirm" (click)="confirm()">{{ 'salvarFoto' | translate }}</button>
+      </div>
+    </div>
+
+    <div *ngIf="change == true">
+      <div class="back">
+        <img class="back-icon" src="../../../../../../assets/icons/arrow-right-grey.svg" (click)="back()">
+        <p class="title-modal">{{ 'editarFoto' | translate }}</p>
+      </div>
+      <div class="photo-container">
+        <img class="photo-user-change" src="../../../../../assets/icons/side-nav/user-icon-photo-test.svg"#zoomImage>
+      </div>
+      <div class="zoom-container">
+        <div class="zoom-controls">
+          <img src="../../../../../../assets/icons/zoom_out.svg" class="minimize-icon">
+          <input type="range" min="1" max="100" value="0" class="zoom-slider">
+          <img src="../../../../../../assets/icons/zoom_in.svg" class="maximize-icon">
+        </div>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button class="btn-confirm btn-transparent-cancel" (click)="close()">{{ 'voltar' | translate }}</button>
+        <button class="btn-confirm" (click)="confirm()">{{ 'salvarFoto' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

@@ -1,0 +1,169 @@
+<div class="flex-row mt-2">
+  <span class="title-register">
+    {{ 'dadosDaConferencia' | translate }}
+  </span>
+</div>
+
+<div class="row mt-4 mb-1" [ngClass]="currentStatus >= 1 ? 'mb-4' : ''">
+  <div class="col-2 ps-0 pe-3">
+    <app-input label="numDaConferencia"
+      placeholder=""
+      mask="0*"
+      [entry]="invoices.idConferencia"
+      (entryChanged)="invoices.idConferencia = $event"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 ps-0 pe-3">
+    <app-input label="data"
+      placeholder="XX/XX/XXXX"
+      mask="date"
+      [entry]="invoices.data ? invoices.data : ''"
+      (entryChanged)="invoices.data = $event"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 ps-0 pe-3">
+    <app-input label="horarioDaInclusao"
+      placeholder="00:00:00"
+      [entry]="invoices.horarioInclusao"
+      (entryChanged)="invoices.horarioInclusao = $event"
+      [readonly]="readonly">
+    </app-input>
+  </div>
+
+  <div class="col-2 ps-0 pe-3">
+    <div *ngIf="!nConference">
+      <app-dropdown-default label="tipoDaConferencia"
+        [options]="typesConferenceName"
+        placeholder="selecionar"
+        [required]="true"
+        [changed]="alertRequired"
+        (optionChanged)="setTypeConference($event)"
+        [shortListed]="getTypeConference(invoices.tpConferencia)">
+      </app-dropdown-default>
+    </div>
+
+    <div *ngIf="nConference">
+      <app-input label="tipoDaConferencia"
+        [entry]="getTypeConference(invoices.tpConferencia)"
+        [readonly]="true">
+      </app-input>
+    </div>
+  </div>
+
+  <div class="col-4 ps-0 pe-3">
+    <app-input label="descricaoDaConferencia"
+      [entry]="invoices.descricao"
+      (entryChanged)="invoices.descricao = $event"
+      [required]="currentStatus === 0 ? true : false"
+      [changed]="alertRequired"
+      [readonly]="currentStatus >= 1 ? true : nConference && !this.permissions.includes(authConference.Editar) ? true : false">
+    </app-input>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <div class="col-12 ps-0 pe-3">
+    <app-input-text-area label="observacoes"
+      [entry]="invoices.observacao"
+      (entryChanged)="invoices.observacao = $event"
+      [maxLength]="100"
+      [readonly]="currentStatus >= 1 ? true : nConference && !this.permissions.includes(authConference.Editar) ? true : false">
+    </app-input-text-area>
+  </div>
+</div>
+
+<div *ngIf="currentStatus < 1">
+  <ng-container *ngIf="nConference && this.permissions.includes(authConference.Editar)">
+    <div class="flex-row mt-4">
+      <span class="title-register">
+        {{ 'incluirNotasFiscais' | translate }}
+      </span>
+    </div>
+
+    <div class="flex-row actions-section mt-4" style="width: 95%;">
+      <div class="col-5">
+        <app-input-search label="chaveDeAcesso"
+          placeholder="placeholderChaveDeAcesso"
+          (entryChanged)="doSearch($event)"
+          [mask]="'0*'"
+          [maxLength]="44">
+        </app-input-search>
+      </div>
+
+      <div class="ms-3 me-1 btn-add">
+        <app-btn-confirm-action iconUrl="../../../../../assets/icons/add.svg"
+          height="2.1875rem"
+          (clicked)="openModalIncludeNF()">
+        </app-btn-confirm-action>
+      </div>
+
+      <button class="icon-button-primary tooltip-content" (click)="openModalUploadFiles()">
+        <img src="../../../../../assets/icons/upload-file.svg">
+        <span class="tooltip-default">{{ 'uploadNF' | translate }}</span>
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!nConference">
+    <div class="flex-row mt-4">
+      <span class="title-register">
+        {{ 'incluirNotasFiscais' | translate }}
+      </span>
+    </div>
+
+    <div class="flex-row actions-section mt-4" style="width: 95%;">
+      <div class="col-5">
+        <app-input-search label="chaveDeAcesso"
+          placeholder="placeholderChaveDeAcesso"
+          (entryChanged)="doSearch($event)"
+          [mask]="'0*'"
+          [maxLength]="44">
+        </app-input-search>
+      </div>
+
+      <div class="ms-3 me-1 btn-add">
+        <app-btn-confirm-action iconUrl="../../../../../assets/icons/add.svg"
+          height="2.1875rem"
+          (clicked)="openModalIncludeNF()"
+          tooltip="incluirNovaNotaFiscal">
+        </app-btn-confirm-action>
+      </div>
+
+      <button class="icon-button-primary tooltip-content" (click)="openModalUploadFiles()">
+        <img src="../../../../../assets/icons/upload-file.svg">
+        <span class="tooltip-default">{{ 'uploadNF' | translate }}</span>
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<div class="mt-custom-grid" *ngIf="nfs.length >= 1 && gridUpdated" [ngClass]="{ 'mt-5' : currentStatus >= 1, 'pt-5' : nConference && !this.permissions.includes(authConference.Editar) }">
+  <app-table-simple-grid idGrid="nf-conference"
+    [columnsHeader]="columns"
+    [columnsHide]="columnsHide"
+    [dataset]="nfs"
+    [enableActionRow]="true"
+    [fitColumns]="true"
+    [heightGrid]="220"
+    [enableEdit]="currentStatus <= 1 ? true : false"
+    [enableDelete]="nConference ? false : true"
+    (dataToEdit)="goToEdit($event)"
+    (dataToDelete)="goToDelete($event)">
+  </app-table-simple-grid>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>
+
+

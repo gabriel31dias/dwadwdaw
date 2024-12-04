@@ -1,0 +1,266 @@
+.input-period {
+  width: 16.813rem;
+  height: 2.1875rem;
+}
+
+.section-period {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-white);
+  border: solid 1px var(--color-grey-200);
+  border-radius: 5px !important;
+
+  color: var(--color-grey-500-text);
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.custom-padding {
+  padding-left: 0; 
+}
+
+.icon-clear-position {
+  float: right;
+  margin-top: -1.9rem;
+  margin-right: 2.5rem;
+  background-color: var(--color-white);
+  position: relative;
+  align-items: center;
+  background-color: transparent;
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  -webkit-mask: url('/assets/icons/close-period.svg') no-repeat center;
+  mask: url('/assets/icons/close-period.svg') no-repeat center;
+  background-color: var(--color-grey-500-text) !important;
+
+  &:hover {
+    background-color: var(--color-red) !important;
+  }
+
+  &:focus-within {
+    background-color: var(--color-red) !important;
+  }
+}
+
+.focused {
+  border-color: var(--color-green-500-mark) !important;
+}
+
+.required{
+  border: solid 1px var(--color-red) !important;
+}
+
+.filled {
+  border: solid 1px var(--color-grey-300-lines);
+}
+
+input {
+  color: var(--color-grey-700-text) !important;
+  font-size: 0.875rem;
+}
+
+input:focus {
+  outline: none;
+}
+
+::ng-deep .app-datepicker-period.mat-datepicker-content .mat-calendar {
+  height: 352px !important;
+}
+
+::ng-deep .app-datepicker-period.mat-calendar {
+  margin-top: -14px !important;
+  font-family: "Roboto" !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-selected {
+  background-color: var(--color-green-500-mark) !important;
+  border-radius: 8px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-cell-content {
+  border-radius: 8px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-cell-content:hover {
+  border-radius: 8px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: #7AB52D33 !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-cell {
+  outline: none !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-today {
+  border-color: var(--color-green-500-mark) !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-cell:not(.mat-calendar-body-disabled):focus-within > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: #7AB52D33 !important;
+}
+
+::ng-deep .app-datepicker-period .mat-datepicker-content {
+  border-radius: 5px !important;
+  border: solid 1px #B0BEC5 !important;
+  padding: 18px 16px !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-label {
+  color: transparent !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-label:not(.ng-star-inserted) {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+::ng-deep .app-datepicker-period .mdc-button__label {
+  font-size: 14px !important;
+  color: #455A64 !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-table-header th {
+  font-size: 12px !important;
+  color: #B0BEC5 !important;
+  font-weight: 500 !important;
+  font-family: "Roboto" !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-table-header-divider {
+  display: none !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-table tr:nth-child(1) {
+  margin-bottom: 10px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-controls {
+  margin-bottom: 18px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-date-range-input-container {
+  line-height: 35px;
+  margin-left: 16px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-datepicker-content {
+  margin-right: -40px !important;
+}
+
+::ng-deep .app-datepicker-period.mat-calendar {
+  height: 405px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-header {
+  padding-bottom: 64px !important;
+}
+
+::ng-deep .mat-datepicker-actions {
+  padding: 2px 8px 12px 8px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-in-range::after {
+  background-color: #F0F8EB !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-range-start .mat-calendar-body-cell-content.mat-calendar-body-selected {
+  border-top-left-radius: 8px !important;
+  border-bottom-left-radius: 8px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+
+::ng-deep .app-datepicker-period .mat-calendar-body-range-end .mat-calendar-body-cell-content.mat-calendar-body-selected {
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 8px !important;
+  border-bottom-right-radius: 8px !important;
+}
+
+::ng-deep .icon-clear-position {
+  padding-top: 1.7rem !important; 
+  margin-right: 35px !important;
+}
+
+::ng-deep .custom-input-period::placeholder {
+  text-align: center!important; 
+}
+
+.icon-calendar-position {
+  float: right;
+  margin-top: -1.9rem;
+  margin-right: 8px;
+  background-color: transparent;
+  position: relative;
+}
+
+.section-chips-filter {
+  display: flex;
+  flex-wrap: wrap;
+  width: 270px;
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  margin-top: 56px;
+}
+
+.chips-filter-xsm {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  margin-top: 4px;
+}
+
+.input-transparent {
+  position: absolute;
+  border: transparent;
+  background: transparent;
+  color: transparent;
+  z-index: -1;
+}
+
+.section-custom-inputs-period {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  margin-top: -35px;
+  padding-left: 12px;
+  text-align: center;
+}
+
+.custom-input-period {
+  width: 80px;
+  height: 35px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: var(--color-grey-700-text) !important;
+  background-color: transparent;
+  text-align: center;
+  line-height: 35px;
+  padding: 0;
+}
+
+.separator {
+  font-family: "Roboto";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  color: var(--color-grey-700-text);
+  line-height: normal;
+  margin: 0 6px;
+  white-space: nowrap;
+  user-select: none;
+}

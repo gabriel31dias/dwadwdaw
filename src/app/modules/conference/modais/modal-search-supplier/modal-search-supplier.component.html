@@ -1,0 +1,46 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'pesquisarFornecedor' | translate }}</p>
+
+    <div class="search-and-add flex-row" style="z-index: 1;">
+      <div class="search-section">
+        <app-input-search placeholder="pesquisaClientePlaceholder"
+                    (entryChanged)="doSearch($event)">
+        </app-input-search>
+      </div>
+
+      <div class="add-section">
+        <button class="button-primary button-fill button-sm  just-icon" (clicked)="openModalNewSupplier()">
+          <span class="tooltip-content tooltip-icon-button"> {{ 'incluirNovoCliente' | translate }} </span>
+          <img src="../../../../../assets/icons/add.svg">
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <app-table-simple-grid idGrid="modal-search-supplier"
+                            [columnsHeader]="columns"
+                            [columnsHide]="columnsHide"
+                            [dataset]="suppliers"
+                            (rowSelected)="userSelected($event)"
+                            (confirmSelected)="confirmSelected()"
+                            [enableRowSelection]="true">
+      </app-table-simple-grid>
+    </div>
+
+    <div class="section-btns-confirm">
+      <app-btn-confirm-action label="selecionar" (clicked)="confirmSelected()">
+      </app-btn-confirm-action>
+    </div>
+  </div>
+</div>
+
+
+
+

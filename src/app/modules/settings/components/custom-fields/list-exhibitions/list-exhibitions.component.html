@@ -1,0 +1,85 @@
+<div class="custom-content">
+  <div class="row mt-2 mb-1">
+    <span class="title-register ps-0">
+      {{ 'exibicoes' | translate }}
+    </span>
+  </div>
+
+  <div class="flex-row pt-4">
+    <div class="filters-custom-grid">
+      <app-filter-columns [columns]="columnsFilter"
+        [filtersSearch]="configFilterColumnSelected"
+        (sendRequest)="setFilterColumn($event)">
+      </app-filter-columns>
+    </div>
+  </div>
+
+  <div class="flex-row">
+    <div class="search-and-add flex-row">
+      <div class="search-section">
+        <app-input-search placeholder="pesquisarExibicoes"
+          tooltip=""
+          [entry]="search"
+          (entryChanged)="doSearch($event)"
+          (lostFocus)="doSearch($event, true)">
+        </app-input-search>
+      </div>
+
+      <div class="add-section">
+        <app-btn-confirm-action iconUrl="../../../../../assets/icons/add.svg"
+          height="2.1875rem"
+          (clicked)="createNewExhibition()">
+        </app-btn-confirm-action>
+      </div>
+    </div>
+
+    <div class="icons-actions mb-2">
+      <div class="float-right flex-row">
+        <ng-container *ngIf="exhibitionsSelected.length >= 1">
+          <div *ngIf="verifyStatusDelete()">
+            <button class="icon-button-primary tooltip-content" (click)="confirmDeleteExhibition()">
+              <img  src="../../../../../assets/icons/delete.svg" >
+              <span class="tooltip-default">{{ 'excluir' | translate }}</span>
+            </button>
+          </div>
+
+          <button id="view-more" class="icon-button-primary tooltip-content" *ngIf="verifySameStatusSelected()">
+            <img  src="../../../../../assets/icons/view-more.svg">
+            <span class="tooltip-default">{{ 'acoes' | translate }}</span>
+            <div class="box-actions">
+              <p class="text-box-actions" *ngIf="exhibitionsSelected[0].habilitado === 'Desabilitado'" (click)="changeStatusField('Habilitar')">
+                {{ 'habilitar' | translate }}
+              </p>
+
+              <p class="text-box-actions" *ngIf="exhibitionsSelected[0].habilitado === 'Habilitado'" (click)="changeStatusField('Desabilitar')">
+                {{ 'desabilitar' | translate }}
+              </p>
+            </div>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-custom-grid mb-2" *ngIf="exhibitions.length >= 1">
+    <app-table-simple-grid idGrid="list-exhibitions-custom-fields"
+      [columnsHeader]="columns"
+      [dataset]="exhibitions"
+      [enableActionRow]="true"
+      [forceHeightGrid]="customHeight"
+      [enableCheckbox]="true"
+      (checkboxSelected)="rowsSelected($event)"
+      [fitColumns]="true"
+      [enableMenu]="false"
+      (rowClicked)="goToEditExhibition($event)">
+    </app-table-simple-grid>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>

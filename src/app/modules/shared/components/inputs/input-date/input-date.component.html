@@ -1,0 +1,37 @@
+<div class="position-relative">
+  <input matInput appEnterKeySubmit class="input-default input-transparent"
+    [min]="minDateFormatted"
+    [max]="maxDateFormatted"
+    [(ngModel)]="dateFormatted"
+    [matDatepicker]="picker"
+    (dateChange)="dateSelected($event)"
+    [disabled]="readonly">
+
+  <input appEnterKeySubmit class="input-default"
+    placeholder="DD/MM/AAAA"
+    [(ngModel)]="date"
+    (ngModelChange)="emitValue()"
+    [ngClass]="{ 'filled': date, 'required': validator(), 'worthless': !date }"
+    (blur)="changed = true"
+    (focus)="date ? changed = false : ''"
+    [disabled]="readonly"
+    [dropSpecialCharacters]="false"
+    [mask]="'00/00/0000'">
+
+  <mat-datepicker panelClass="app-datepicker" #picker>
+  </mat-datepicker>
+
+
+  <label class="label-input-default">
+    {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+  </label>
+</div>
+
+<div class="icon-clear-date clickable visible" *ngIf="date && !readonly" (click)="clearDate()"></div>
+
+<div class="icon-calendar-position clickable" (click)="picker.open()">
+  <img src="../../../../../assets/icons/calendar.svg">
+</div>
+
+<p class="required-mensage" *ngIf="required && !alertMessage " [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+<p class="required-mensage" *ngIf="alertMessage" [ngClass]="validator() ? '' : 'hidden-text'">{{ alertMessage | translate }}</p>

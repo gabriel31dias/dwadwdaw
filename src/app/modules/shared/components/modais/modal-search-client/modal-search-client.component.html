@@ -1,0 +1,47 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'pesquisarCliente' | translate }}</p>
+
+    <div class="search-and-add flex-row" style="z-index: 1;">
+      <div class="search-section">
+        <app-input-search placeholder="pesquisaClientePlaceholder"
+                    (entryChanged)="doSearch($event)">
+        </app-input-search>
+      </div>
+
+      <div class="add-section">
+        <button class="button-primary button-fill button-sm just-icon d-flex align-items-center tooltip-content" (click)="openModalNewClient()">
+          <img src="../../../../../assets/icons/add.svg">
+          <span class="tooltip-default tooltip-icon-button"> {{ 'incluirNovoCliente' | translate }} </span>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="clients.length >= 1">
+      <app-table-simple-grid idGrid="modal-search-client" [columnsHeader]="columns" [columnsHide]="columnsHide"
+        [dataset]="clients" (rowSelected)="userSelected($event)" (confirmSelected)="confirmSelected()"
+        [enableRowSelection]="true">
+      </app-table-simple-grid>
+    </div>
+
+    <div class="section-btns-confirm">
+      <button class="button-primary button-fill button-me" (click)="confirmSelected()" [disabled]="loading">
+        {{ 'selecionar' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

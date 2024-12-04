@@ -1,0 +1,97 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal pb-1">{{ 'enviarFaturaEmail' | translate }}</p>
+    <p class="text-modal"> {{ 'textoEnviarFaturaEmail' | translate }}</p>
+
+    <div class="flex-row mb-2">
+      <input class="checkbox-input"
+        id="checkbox-fatura"
+        type="checkbox"
+        [(ngModel)]="billEmail.options.fatura">
+      <label class="checkbox-label" for="checkbox-fatura"></label>
+      <span class="checkbox-text">{{ 'fatura' | translate }}</span>
+    </div>
+
+    <div class="flex-row mb-2">
+      <input class="checkbox-input"
+        id="checkbox-boleto"
+        type="checkbox"
+        [(ngModel)]="billEmail.options.boleto">
+      <label class="checkbox-label" for="checkbox-boleto"></label>
+      <span class="checkbox-text">{{ 'boleto' | translate }}</span>
+    </div>
+
+    <div class="flex-row mb-2">
+      <input class="checkbox-input"
+        id="checkbox-doc-relacionados"
+        type="checkbox"
+        [(ngModel)]="billEmail.options.documentosRelacionados">
+      <label class="checkbox-label" for="checkbox-doc-relacionados"></label>
+      <span class="checkbox-text">{{ 'documentosRelacionados' | translate }}</span>
+    </div>
+
+    <div class="flex-row mb-4">
+      <input class="checkbox-input"
+        id="checkbox-doccob"
+        type="checkbox"
+        [(ngModel)]="billEmail.options.doccob">
+      <label class="checkbox-label" for="checkbox-doccob"></label>
+      <span class="checkbox-text">{{ 'doccob' | translate }}</span>
+    </div>
+
+    <p class="title-modal pb-2">{{ 'visualizarEmail' | translate }}</p>
+
+    <div class="col-12 mb-3">
+      <app-input label="remetente"
+        [entry]="billEmail.remetente"
+        (entryChanged)="billEmail.remetente = $event"
+        [readonly]="true">
+      </app-input>
+    </div>
+
+    <div class="col-12 mb-3">
+      <app-input label="destinatario"
+        placeholder="emaildousuario@gmail.com"
+        [entry]="billEmail.destinatario"
+        (entryChanged)="billEmail.destinatario = $event">
+      </app-input>
+    </div>
+
+    <div class="col-12 mb-3">
+      <app-input label="assunto"
+        [entry]="billEmail.assunto"
+        (entryChanged)="billEmail.assunto = $event">
+      </app-input>
+    </div>
+
+    <div class="col-12 pb-4">
+      <app-input-text-area label="corpoTexto"
+        [maxLength]="'no-limit'"
+        [entry]="billEmail.corpoTexto"
+        (entryChanged)="billEmail.corpoTexto = $event"
+        height="8.9375rem">
+      </app-input-text-area>
+    </div>
+
+    <div class="d-flex justify-content-end mt-2">
+      <button class="button-secondary button-fill button-me me-2" (click)="close()">{{ 'cancelar' | translate }}</button>
+      <button class="button-primary button-fill button-me" (click)="confirm()">{{ 'enviar' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

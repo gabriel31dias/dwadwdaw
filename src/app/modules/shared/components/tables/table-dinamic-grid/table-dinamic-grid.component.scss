@@ -1,0 +1,8 @@
+::ng-deep .dinamic-grid .slick-header-column:first-child {
+  -webkit-user-drag: none;
+}
+
+::ng-deep .dinamic-grid .slickgrid-container .slick-preheader-panel {
+  position: static !important;
+  display: block;
+}

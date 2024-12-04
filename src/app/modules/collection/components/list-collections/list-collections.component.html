@@ -1,0 +1,183 @@
+<div class="margin-listing">
+  <div class="section-segmented-buttons">
+    <app-segmented-button text="todas"
+      [num]="all.total"
+      [clicked]="all.selected"
+      (selected)="selectedTotal(indicatorsEnum.ColetasTodas, $event)"
+      [disableDeselect]="true"
+      [toolTip]="'tooltipTotalizadorTodos' | translate">
+    </app-segmented-button>
+    <app-segmented-button text="agendamentos"
+      [num]="programmed.total"
+      [clicked]="programmed.selected"
+      (selected)="selectedTotal(indicatorsEnum.ColetasAgendamentos, $event)"
+      [toolTip]="'tooltipTotalizadorAgendamento' | translate">
+    </app-segmented-button>
+    <app-segmented-button text="iniciadas"
+      [num]="initiated.total"
+      [clicked]="initiated.selected"
+      (selected)="selectedTotal(indicatorsEnum.ColetasIniciadas, $event)"
+      [toolTip]="'tooltipTotalizadorIniciadas' | translate">
+    </app-segmented-button>
+    <app-segmented-button text="atrasadas"
+      [num]="delayed.total"
+      [clicked]="delayed.selected"
+      (selected)="selectedTotal(indicatorsEnum.ColetasAtrasadas, $event)"
+      [toolTip]="'tooltipTotalizadorAtrasadas' | translate">
+    </app-segmented-button>
+    <app-segmented-button text="realizadas"
+      [num]="performed.total"
+      [clicked]="performed.selected"
+      (selected)="selectedTotal(indicatorsEnum.ColetasRealizadas, $event)"
+      [toolTip]="'tooltipTotalizadorRealizadas' | translate">
+    </app-segmented-button>
+    <app-segmented-button text="descartadas"
+      [num]="discarded.total"
+      [clicked]="discarded.selected"
+      (selected)="selectedTotal(indicatorsEnum.ColetasDescartadas, $event)"
+      [toolTip]="'tooltipTotalizadorCanceladas' | translate"
+      [tooltipClass]="'tooltip-edge'">
+    </app-segmented-button>
+  </div>
+
+  <div class="grid-section">
+
+    <div class="row">
+      <div class="col-3 ps-0 pe-0">
+        <button class="button-primary button-fill button-sm" (click)="goToNewCollection()">
+          <img src="../../../../../assets/icons/add.svg">
+          {{ 'incluirColeta' | translate }}
+        </button>
+      </div>
+
+      <div class="row col-9 ps-0 pe-0 d-flex justify-content-end">
+        <div class="select-date-grid ps-0 pe-0 me-3">
+          <app-select label="filtrarPor"
+            [options]="filtersDate"
+            [shortListed]="filterDateSelected !== null ? filtersDate[filterDateSelected] : null"
+            (optionChanged)="filterDateSelected = $event; periodFilter.finalDate ? getCollections() : ''">
+          </app-select>
+        </div>
+
+        <div class="period-grid ps-0 pe-0">
+          <app-input-period [periodFilter]="periodFilter"
+            (periodEmitter)="setFilterDate($event)"
+            [required] = "true">
+          </app-input-period>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-2 mb-2">
+      <div class="col-8 ps-0 pe-0">
+        <div class="row">
+          <div class="col-5 ps-0 pe-0 search-grid tooltip-content">
+            <app-input-search placeholder="pesquisaRapida"
+              [entry]="search"
+              (entryChanged)="doSearch($event)"
+              (lostFocus)="doSearch($event, true)">
+            </app-input-search>
+            <span class="tooltip-default tooltip-break" >{{ 'tooltipPesquisaListaColetas' | translate }}</span>
+          </div>
+
+          <div class="col-7 ps-3 pe-0">
+            <app-filter-columns [columns]="columnsFilter"
+              [filtersSearch]="configFilterColumnSelected"
+              (sendRequest)="setAdvancedFilter($event)"
+              (clearFilters)="clearFilters()">
+            </app-filter-columns>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4 ps-0 pe-0 d-flex justify-content-end">
+        <div class="icons-actions">
+          <div class="float-right flex-row">
+            <button *ngIf="collections.length >= 1" class="icon-button-primary tooltip-content"
+              (click)="verifyExportExcel()">
+              <img class="icon-action clickable" src="../../../../../assets/icons/excel.svg">
+              <span class="tooltip-default">{{ 'baixarExcel' | translate }}</span>
+            </button>
+            <ng-container *ngIf="cdCollectionsSelected.length >= 1">
+              <button *ngIf="verifyGenerateRelat()" id="view-more" class="icon-button-primary tooltip-content">
+                <img src="../../../../../assets/icons/share.svg">
+                <span class="tooltip-default">{{ 'compartilhar' | translate }}</span>
+                <div class="box-actions">
+                  <p class="title-share-grid">{{ 'compartilhar' | translate }}</p>
+                  <div class="flex-row mb-2" (click)="openModalSendEmail()">
+                    <img src="../../../../../assets/icons/email.svg">
+                    <p class="text-box-actions text-share-grid ps-2">
+                      {{ (cdCollectionsSelected.length > 1 ? 'emailEmLote' : 'emailIndividual') | translate }}
+                    </p>
+                  </div>
+                  <div class="flex-row" (click)="setLayoutReport('send-whatsapp')">
+                    <img src="../../../../../assets/icons/whatsapp.svg">
+                    <p class="text-box-actions text-share-grid ps-2" >
+                      {{ 'whatsapp' | translate }}
+                    </p>
+                  </div>
+                </div>
+              </button>
+              <button *ngIf="verifyGenerateRelat()" class="icon-button-primary tooltip-content" (click)="setLayoutReport('download-pdf')">
+                <img src="../../../../../assets/icons/export-pdf.svg">
+                <span class="tooltip-default">{{ 'gerarPDF' | translate }}</span>
+              </button>
+              <button *ngIf="verifyGenerateRelat()" class="icon-button-primary tooltip-content" (click)="setLayoutReport('print')">
+                <img src="../../../../../assets/icons/print.svg">
+                <span class="tooltip-default">{{ 'imprimir' | translate }}</span>
+              </button>
+              <ng-container *ngIf="verifyDelete()">
+                <button class="icon-button-primary tooltip-content" (click)="openModalConfirm('delete')">
+                  <img src="../../../../../assets/icons/delete.svg">
+                  <span class="tooltip-default">{{ 'excluir' | translate }}</span>
+                </button>
+              </ng-container>
+              <button *ngIf="verifyActions()" id="view-more" class="icon-button-primary tooltip-content">
+                <img src="../../../../../assets/icons/view-more.svg">
+                <span class="tooltip-default">{{ 'acoes' | translate }}</span>
+                <div class="box-actions">
+                  <p class="text-box-actions" *ngIf="verifyCancelAndDecrease()" (click)="openModalCancel()">{{ 'cancelar' | translate }}</p>
+                  <p class="text-box-actions" *ngIf="verifyPendingAccept()" (click)="openModalConfirm('accept')">{{ 'aceitar' | translate }}</p>
+                  <p class="text-box-actions" *ngIf="verifyPendingAccept()" (click)="openModalReject()">{{ 'rejeitar' | translate }}</p>
+                  <p class="text-box-actions" *ngIf="verifyCancelAndDecrease()" (click)="openModalDownloadCollection()">{{ 'baixar' | translate }}</p>
+                  <p class="text-box-actions" *ngIf="cdCollectionsSelected.length === 1" (click)="openModalHistoricChanges()">{{ 'historicoDeAlteracoes' | translate }}</p>
+                  <!-- <p class="text-box-actions">{{ 'enviarTudoEntregue' | translate }}</p> -->
+                </div>
+              </button>
+            </ng-container>
+            <button #refresh class="icon-button-primary refresh tooltip-content" (click)="refreshGrid(); refresh.blur()" [style.transform]="'rotate(' + btnRotate + 'deg)'">
+              <img src="../../../../../assets/icons/refresh.svg">
+              <span class="tooltip-edge" *ngIf="!hideTooltip">{{ 'atualizarGrid' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="collections.length > 0">
+      <app-table-dinamic-grid idGrid="list-collections"
+        [columnsHeader]="columns"
+        [columnsHide]="columnsHide"
+        [dataset]="collections"
+        (columnsChanges)="columnsChanges($event)"
+        (rowsSelected)="rowsSelected($event)"
+        (rowClicked)="goToEdit($event)"
+        [totalItems]="totalLenght"
+        [itemsPerPage]="take"
+        [currentPage]="page"
+        (pageEmitter)="pageChange($event)"
+        [enableReset]="true"
+        [disableExport]="true"
+        (resetGrid)="resetGrid()">
+      </app-table-dinamic-grid>
+    </div>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>

@@ -1,0 +1,28 @@
+.btn-include-transparent {
+  background-color: transparent;
+  border: solid 1px transparent;
+  border-radius: 5px;
+
+  color: var(--color-grey-700-text);
+  font-size: 14px;
+  font-weight: 500;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+
+  height: 30px;
+
+  padding-left: 3px;
+  padding-right: 10px;
+}
+
+.btn-include-transparent:hover {
+  background-color: var(--color-grey-100);
+}
+
+.btn-include-transparent:active {
+  color: var(--color-grey-900-titles);
+}

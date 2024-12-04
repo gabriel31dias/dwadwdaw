@@ -1,0 +1,200 @@
+<div class="row mt-2 pb-1">
+  <span class="title-register ps-0">
+    {{ 'dadosDaFatura' | translate }}
+  </span>
+</div>
+
+<div class="row mt-3">
+  <div class="col-12 col-sm-4 col-md-4 col-lg-2 col-xl-2 ps-0 pe-3 mb-sm-2 mb-4">
+    <app-input label="nFatura"
+      placeholder="000001245"
+      mask="0*"
+      [readonly]="true"
+      [entry]="billData.nFatura"
+      (entryChanged)="billData.nFatura = $event">
+    </app-input>
+  </div>
+
+  <div class="col-12 col-sm-8 col-md-8 col-lg-3 col-xl-3 ps-0 pe-3 mb-sm-2 mb-2">
+    <app-input label="data"
+      placeholder="XX/XX/XXXX às 00:00:00"
+      mask="date-time"
+      [required]="true"
+      [readonly]="true"
+      [changed]="alertRequired"
+      [entry]="billData.dataEmissao"
+      (entryChanged)="billData.dataEmissao = $event">
+    </app-input>
+  </div>
+
+  <div class="col-12 col-sm-6 col-md-6 col-lg-2 col-xl-2 ps-0 pe-3 mb-sm-2 mb-2">
+    <app-input label="valorDaFatura"
+      placeholder="R$ 0,00"
+      [currency]="true"
+      [required]="true"
+      [readonly]="disableValueBill || disableEdit"
+      [changed]="alertRequired"
+      [entry]="billData.valorFatura"
+      (entryChanged)="billData.valorFatura = $event">
+    </app-input>
+  </div>
+
+  <div class="col-12 col-sm-6 col-md-6 col-lg-2 col-xl-2 ps-0 pe-3 mb-4">
+    <app-input label="valorLiquido"
+      placeholder="R$ 0,00"
+      [currency]="true"
+      [readonly]="true"
+      [entry]="billData.valorLiquido"
+      (entryChanged)="billData.valorLiquido = $event">
+    </app-input>
+  </div>
+</div>
+
+<div class="row">
+  <span class="title-register ps-0">
+    {{ 'fornecedor' | translate }}
+  </span>
+</div>
+
+<div class="row mt-3">
+  <div class="col-12 col-sm-12 col-md-8 col-lg-6 col-xl-6 ps-0 pe-3">
+    <app-dropdown-default label="cpf/cnpjNomeFantasia"
+      [searchable]="true"
+      [required]="true"
+      [changed]="alertRequired"
+      placeholder="XX. XXX. XXX/0001-XX - Nome Fantasia"
+      [options]="companiesList"
+      [shortListed]="billData.cnpj ? billData.cnpj : null"
+      (optionChanged)="cnpjSelected($event)"
+      [advanced]="false"
+      (advancedOpen)="openModalSearchSupplier()"
+      (search)="search($event)"
+      [isCnpj]="true"
+      (editClient)="openEditSupplier()"
+      [readonly]="disableEdit">
+    </app-dropdown-default>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 ps-0 pe-3 mb-sm-2 mb-4">
+    <app-dropdown-default label="banco"
+      [required]="true"
+      [changed]="alertRequired"
+      placeholder="selecionarBanco"
+      [options]="bancos"
+      (optionChanged)="$event !== null ? selectedOption() : clearBankSelected()"
+      [shortListed]="billData.banco"
+      [readonly]="disableEdit">
+    </app-dropdown-default>
+  </div>
+
+  <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-3 ps-0 pe-3 mb-sm-2 mb-2">
+    <app-dropdown-default label="agenciaEContaCorrente"
+      [required]="true"
+      [changed]="alertRequired"
+      placeholder="selecionar"
+      [options]="contasCorrenteAgencia"
+      (optionChanged)="$event !== null ? selectedOption() : this.billData.contaCorrenteAgencia = null"
+      [shortListed]="billData.contaCorrenteAgencia"
+      [readonly]="disableEdit">
+    </app-dropdown-default>
+  </div>
+
+  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-dropdown-default label="filialPagadora"
+      placeholder="selecionarFilialPagadora"
+      [options]="filiaisPagadora"
+      (optionChanged)="$event !== null ? selectedOption() : billData.filialCobranca = null"
+      [shortListed]="billData.filialCobranca"
+      [readonly]="disableEdit">
+    </app-dropdown-default>
+  </div>
+</div>
+
+<div class="row">
+  <span class="title-register ps-0">
+    {{ 'condicaoDePagamento' | translate }}
+  </span>
+</div>
+
+<div class="row mt-3">
+  <div class="col-12 col-sm-10 col-md-7 col-lg-4 col-xl-5 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-dropdown-default label="condicaoDePagamento"
+      placeholder="selecionarCondicaoDePagamento"
+      [options]="condicaoDePagamento"
+      (optionChanged)="$event !== null ? selectedOption() : billData.descricao = null"
+      [shortListed]="billData.descricao"
+      [readonly]="disableEdit">
+    </app-dropdown-default>
+  </div>
+
+  <div class="col-12 col-sm-5 col-md-5 col-lg-3 col-xl-2 ps-0 pe-3 mb-sm-2 mb-2">
+    <app-input label="dataDeVencimento"
+      [readonly]="billData.descricao || disableEdit ? true : false"
+      [required]="true"
+      [changed]="alertRequired"
+      placeholder="DD/MM/AAAA"
+      mask="date"
+      [entry]="billData.dataVencimento"
+      (entryChanged)="billData.dataVencimento = $event">
+    </app-input>
+  </div>
+</div>
+
+<div class="row">
+  <span class="title-register ps-0">
+    {{ 'grupoDeDespesa' | translate }}
+  </span>
+</div>
+
+<div class="row mt-3">
+  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-dropdown-default label="grupoDeDespesa"
+      placeholder="selecionarGrupoDeDespesa"
+      [options]="gruposReceita"
+      (optionChanged)="$event !== null ? selectedOption() : clearReceipt()"
+      [shortListed]="billData.grupoReceita"
+      [readonly]="disableEdit">
+    </app-dropdown-default>
+  </div>
+
+  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 ps-0 pe-3 mb-sm-4 mb-4">
+    <app-dropdown-default
+      label="contaDeDespesa"
+      placeholder="selecionarContaDeDespesa"
+      [options]="contasReceita"
+      (optionChanged)="$event !== null ? selectedOption() : billData.contaReceita = null"
+      [shortListed]="billData.contaReceita"
+      [readonly]="disableEdit">
+    </app-dropdown-default>
+  </div>
+
+  <div class="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3 ps-0 pe-3 mb-sm-2 mb-2">
+    <app-dropdown-default label="centroDeCusto"
+      placeholder="selecionarCentroDeCusto"
+      [options]="centrosCusto"
+      (optionChanged)="$event !== null ? selectedOption() : billData.centroCustos = null"
+      [shortListed]="billData.centroCustos"
+      [readonly]="disableEdit">
+    </app-dropdown-default>
+  </div>
+</div>
+
+  <div class="col-12 pe-3 pb-4" [ngClass]="disableEdit ? 'pt-3' : ''">
+    <app-input-text-area label="observacao"
+      [maxLength]="500"
+      [entry]="billData.observacao"
+      (entryChanged)="billData.observacao = $event"
+      [readonly]="disableEdit">
+    </app-input-text-area>
+  </div>
+
+  <div class="col-12 pe-3 pt-1 mb-4">
+    <app-input-text-area label="observacaoInterna"
+      [maxLength]="500"
+      [entry]="billData.observacaoInterna"
+      (entryChanged)="billData.observacaoInterna = $event"
+      [readonly]="disableEdit">
+    </app-input-text-area>
+  </div>

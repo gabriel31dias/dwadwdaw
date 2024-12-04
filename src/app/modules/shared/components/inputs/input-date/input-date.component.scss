@@ -1,0 +1,123 @@
+.icon-calendar-position {
+  float: right;
+  margin-top: -1.9rem;
+  margin-right: 0.5rem;
+  background-color: transparent;
+  position: relative;
+}
+
+.input-transparent {
+  position: absolute;
+  border: transparent;
+  background: transparent;
+  color: transparent;
+  z-index: -1;
+}
+
+.icon-clear-date {
+  float: right;
+  margin-top: -1.7rem;
+  margin-bottom: -1rem;
+  margin-right: 0.5rem;
+  background-color: transparent;
+  position: relative;
+  margin-right: 35px;
+  width: 20px;
+  height: 20px;
+  line-height: center;
+
+  -webkit-mask: url('/assets/icons/close-select.svg') no-repeat center;
+  mask: url('/assets/icons/close-select.svg') no-repeat center;
+  background-color: var(--color-grey-500-text) !important;
+
+  &:hover {
+    background-color: var(--color-red) !important;
+  }
+
+  &:focus-within {
+    background-color: var(--color-red) !important;
+  }
+}
+
+.icon-clear-date.visible {
+  display: block;
+}
+
+::ng-deep .app-datepicker.mat-datepicker-content .mat-calendar {
+  height: 352px !important;
+}
+
+::ng-deep .app-datepicker.mat-calendar {
+  margin-top: -14px !important;
+  font-family: "Roboto" !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-selected {
+  background-color: var(--color-green-500-mark) !important;
+  border-radius: 8px !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-cell-content {
+  border-radius: 8px !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-cell-content:hover {
+  border-radius: 8px !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: #7AB52D33 !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-cell {
+  outline: none !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-today {
+  border-color: var(--color-green-500-mark) !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-cell:not(.mat-calendar-body-disabled):focus-within > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+  background-color: #7AB52D33 !important;
+}
+
+::ng-deep .app-datepicker .mat-datepicker-content {
+  border-radius: 5px !important;
+  border: solid 1px #B0BEC5 !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-label {
+  color: transparent !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-body-label:not(.ng-star-inserted) {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+::ng-deep .app-datepicker .mdc-button__label {
+  font-size: 14px !important;
+  color: #455A64 !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-table-header th {
+  font-size: 12px !important;
+  color: #B0BEC5 !important;
+  font-weight: 500 !important;
+  font-family: "Roboto" !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-table-header-divider {
+  display: none !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-table tr:nth-child(1) {
+  margin-bottom: 10px !important;
+}
+
+::ng-deep .app-datepicker .mat-calendar-controls {
+  margin-bottom: 18px !important;
+}

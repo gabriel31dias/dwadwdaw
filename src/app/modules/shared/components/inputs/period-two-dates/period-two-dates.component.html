@@ -1,0 +1,106 @@
+<div class="period-box" [ngClass]="initialDate && finalDate ? 'filled' : ''" (click)="openModal()">
+  <input class="input-readonly clickable"
+    placeholder="__/__/____"
+    [(ngModel)]="initialDate"
+    [ngClass]="{ 'text-underline' : initialDate }"
+    readonly>
+
+  <label class="clickable" >
+    {{ 'ate' | translate }}
+  </label>
+
+  <input class="input-readonly clickable"
+    placeholder="__/__/____"
+    [(ngModel)]="finalDate"
+    [ngClass]="{ 'text-underline' : finalDate }"
+    readonly>
+
+  <div *ngIf="initialDate && finalDate"
+    class="icon-clear-period clickable"
+    (click)="clearDates()">
+    <img src="../../../../../../assets/icons/close.svg" width="90%">
+  </div>
+
+  <div class="change-period-section" *ngIf="openChangePeriod == true">
+    <p class="text-change-period">
+      {{ 'escolherPeriodo' | translate }}
+    </p>
+
+    <div class="flex-row align-center">
+      <div class="width-input-date">
+        <app-input-date [date]="periodFilter.initDate ? periodFilter.initDate : ''"
+          (dateChanged)="periodFilter.initDate = $event; periodFilter.period = null">
+        </app-input-date>
+      </div>
+
+      <span class="text-until">{{ 'ate' | translate }}</span>
+
+      <div class="width-input-date">
+        <app-input-date [date]="periodFilter.finalDate ? periodFilter.finalDate : ''"
+          (dateChanged)="periodFilter.finalDate = $event; periodFilter.period = null">
+        </app-input-date>
+      </div>
+    </div>
+
+    <hr>
+
+    <div (click)="radioClicked()">
+      <label class="radio radio-circle">
+        <input type="radio"
+          [(ngModel)]="periodFilter.period"
+          [value]="periodsFilter.Week"/>
+        <div class="radio-input clickable"></div>
+        <label class="radio-label">
+          {{ 'ultimaSemana' | translate }}
+        </label>
+      </label>
+
+      <label class="radio radio-circle">
+        <input type="radio"
+        [(ngModel)]="periodFilter.period"
+        [value]="periodsFilter.Month"/>
+      <div class="radio-input clickable"></div>
+        <label class="radio-label">
+          {{ 'ultimoMes' | translate }}
+        </label>
+      </label>
+
+      <label class="radio radio-circle">
+        <input type="radio"
+          [(ngModel)]="periodFilter.period"
+          [value]="periodsFilter.Semester"/>
+        <div class="radio-input clickable"></div>
+        <label class="radio-label">
+          {{ 'ultimoSemestre' | translate }}
+        </label>
+      </label>
+
+      <label class="radio radio-circle">
+        <input type="radio"
+          [(ngModel)]="periodFilter.period"
+          [value]="periodsFilter.Year"/>
+        <div class="radio-input clickable"></div>
+        <label class="radio-label">
+          {{ 'ultimoAno' | translate }}
+        </label>
+      </label>
+    </div>
+
+    <div class="section-btns-confirm">
+      <button class="btn-confirm btn-transparent-cancel" (click)="closeModal()">
+        {{ 'cancelar' | translate }}
+      </button>
+      <button class="btn-confirm green" (click)="applyFilter()">
+        {{ 'aplicar' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

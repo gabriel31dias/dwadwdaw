@@ -1,0 +1,192 @@
+<div class="margin-modal tab-enter">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <div class="mb-3">
+      <p class="title-modal" *ngIf="!edit">{{ 'incluirCliente' | translate }}</p>
+      <p class="title-modal" *ngIf="edit">{{ 'editarCliente' | translate }}</p>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-2 ps-0">
+        <app-input label="cpf/cnpj"
+          placeholder="XX. XXX. XXX/0001-XX"
+          mask="CPF_CNPJ"
+          [entry]="newClient.cnpj"
+          [required]="true"
+          [changed]="alertRequired"
+          (entryChanged)="setMask($event)"
+          (lostFocus)=" newClient.cnpj && newClient.cnpj.length === 14 ? getDataByCNPJ(newClient.cnpj) : null">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-2">
+        <app-input label="razaoSocial"
+          placeholder="razaoSocial"
+          [maxLength]="50"
+          [entry]="newClient.nome"
+          [required]="true"
+          [changed]="alertRequired"
+          (entryChanged)="newClient.nome = $event">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-2">
+        <app-input label="inscricaoEstadual"
+          placeholder="XXX.XXX.XXX.XXX"
+          [entry]="newClient.inscricaoEstadual"
+          (entryChanged)="maxCharacteresIE($event)"
+          [maxLength]="20"
+          [changed]="alertRequired">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-2">
+        <app-input label="nomeFantasia"
+          placeholder="nomeFantasia"
+          [maxLength]="50"
+          [entry]="newClient.nome"
+          (entryChanged)="newClient.nomeFantasia = $event">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-2 ps-0">
+        <app-input label="cep"
+          placeholder="placeholderCEP"
+          mask="cep"
+          [entry]="newClient.cep"
+          [required]="true"
+          [changed]="alertRequired"
+          (entryChanged)="newClient.cep = $event"
+          [keydownEnter]="true"
+          (keydownPress)="searchCep()"
+          (lostFocus)="searchCep()">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-2">
+        <app-input label="endereco"
+          placeholder="placeholderEndereco"
+          [maxLength]="50"
+          [entry]="newClient.endereco"
+          [required]="true"
+          [changed]="alertRequired"
+          (entryChanged)="newClient.endereco = $event">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-2">
+        <app-input label="numero"
+          placeholder="placeholderNumero"
+          [maxLength]="50"
+          [entry]="newClient.numero"
+          [required]="true"
+          [changed]="alertRequired"
+          (entryChanged)="newClient.numero = $event">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-2">
+        <app-input label="complemento"
+          placeholder="placeholderComplemento"
+          [maxLength]="30"
+          [entry]="newClient.complemento"
+          (entryChanged)="newClient.complemento= $event">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-4 ps-0">
+        <app-input label="bairro"
+          placeholder="nomeDoBairro"
+          [maxLength]="50"
+          [entry]="newClient.bairro"
+          [required]="true"
+          [changed]="alertRequired"
+          (entryChanged)="newClient.bairro = $event">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-2 ps-2">
+        <app-select label="uf"
+          placeholder="uf"
+          [options]="ufs"
+          [shortListed]="newClient.uf ? newClient.uf : null"
+          [required]="true"
+          [changed]="alertRequired"
+          (optionChanged)="selectUF($event)">
+        </app-select>
+      </div>
+
+      <div class="col-4 ps-2">
+        <app-select label="cidade"
+          [searchable]="true"
+          [required]="true"
+          [changed]="alertRequired"
+          placeholder="nomeDaCidade"
+          [options]="citiesName"
+          [shortListed]="newClient.cidade ? newClient.cidade : null"
+          (optionChanged)="selectCity($event)"
+          (search)="clearFieldsCity(); !newClient.uf ? searchCity($event) : ''">
+        </app-select>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-4 ps-0">
+        <app-input label="responsavel"
+          placeholder="nomeDoResponsavel"
+          [required]="true"
+          [changed]="alertRequired"
+          [maxLength]="50"
+          [entry]="newClient.responsavel"
+          (entryChanged)="newClient.responsavel = $event">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-2">
+        <app-input label="celularWpp"
+          placeholder="placeholderCelularWpp"
+          mask="cellphone"
+          [entry]="newClient.celular"
+          (entryChanged)="newClient.celular = $event">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-2">
+        <app-input label="email"
+          placeholder="placeholderEmail"
+          [maxLength]="50"
+          [entry]="newClient.email"
+          (entryChanged)="newClient.email = $event">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="section-btns-confirm mt-4">
+      <button class="button-primary button-fill button-me" (click)="confirm()">
+        {{ 'confirmarSelecionar' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+
+
+

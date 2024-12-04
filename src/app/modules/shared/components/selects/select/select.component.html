@@ -1,0 +1,51 @@
+<ng-container *ngIf="!readonly">
+  <div class="position-relative" (click)="changed = true">
+    <ng-select #appSelect
+      class="app-select"
+      [searchable]="searchable"
+      [placeholder]="placeholder | translate"
+      [(ngModel)]="optionSelected"
+      (ngModelChange)="emitValue()"
+      [ngClass]="{ 'is-selected': selected(), 'required': validator() || alert }"
+      (keydown.enter)="enableKeydown ? keydown() : ''"
+      (search)="emitSearch($event)"
+      [loading]="loading">
+
+      <ng-container *ngIf="!enableTooltip">
+        <ng-option *ngFor="let option of options" [value]="option">
+          <span class="app-select-option">
+            {{ option }}
+          </span>
+        </ng-option>
+      </ng-container>
+
+
+      <ng-container *ngIf="enableTooltip">
+        <ng-option *ngFor="let option of options" [value]="option.name">
+          <span class="app-select-option" [title]="option.tooltip ? option.tooltip : ''">
+            {{ option.name }}
+          </span>
+        </ng-option>
+      </ng-container>
+    </ng-select>
+
+    <label class="app-select-label">
+      {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+    </label>
+
+    <div *ngIf="searchable" class="app-select-icon clickable" (click)="appSelect.focus()">
+      <img src="../../../../../../assets/icons/icon-search-select.svg" (click)="btnSearchClicked.emit()">
+    </div>
+  </div>
+
+  <p class="required-mensage" *ngIf="required && !alert" [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+  <p class="required-mensage" *ngIf="alert && !required" [ngClass]="validator() || alert ? '' : 'hidden-text'">{{ txtAlert | translate }}</p>
+</ng-container>
+
+<ng-container *ngIf="readonly">
+  <app-input [label]="label"
+    [entry]="optionSelected"
+    [readonly]="readonly"
+    [required]="required">
+  </app-input>
+</ng-container>

@@ -1,0 +1,35 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <div class="mb-2">
+      <p class="title-modal">{{ 'detalhamentoStatus' | translate }} ({{ details.idItem }})</p>
+    </div>
+
+    <p class="details mt-2">
+      <strong>{{ 'status' | translate }}:</strong>
+      {{ details.status }}
+    </p>
+
+    <p class="details">
+      <strong>{{ 'data' | translate }}:</strong>
+      {{ details.data }}
+    </p>
+
+    <p class="details">
+      <strong>{{ 'usuario' | translate }}:</strong>
+      {{ details.usuario }}
+    </p>
+
+    <p class="details" *ngIf="details.motivo">
+      <strong>{{ txtMotivo | translate }}:</strong>
+      <br>
+      {{ details.motivo }}
+    </p>
+
+  </div>
+</div>

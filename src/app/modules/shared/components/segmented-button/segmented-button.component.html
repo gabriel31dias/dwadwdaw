@@ -1,0 +1,36 @@
+<!-- Totalizador com contador de quantidade. -->
+<div *ngIf="value === null"
+  class="segmented-button clickable" [ngClass]="{ 'selected' : clicked }"
+  (click)="!disableDeselect ? clicked = !clicked : clicked = true; selected.emit(clicked)">
+
+  <div class="ps-3 text-segmented-button">
+    {{ text | translate }}
+    <button class="info-icon tooltip-content" *ngIf="toolTip">
+      <img class="tooltip-icon clickable" src="../../../../../assets/icons/info.svg" alt="info">
+      <span [class]="tooltipClass">{{ toolTip | translate }}</span>
+    </button>
+  </div>
+
+  <p class="ps-3 m-0 number-segmented-button">
+    {{ num }}
+  </p>
+</div>
+
+<!-- Totalizador com contador de quantidade e valor. -->
+<div *ngIf="value !== null"
+  class="segmented-button content-with-value clickable"
+  [ngClass]="{ 'selected' : clicked }"
+  (click)="!disableDeselect ? clicked = !clicked : clicked = true; selected.emit(clicked)">
+  <div class="ps-3 text-segmented-button">
+    {{ text | translate }}
+    <button class="info-icon tooltip-content" *ngIf="toolTip">
+      <img class="tooltip-icon clickable" src="../../../../../assets/icons/info.svg" alt="info">
+      <span [class]="tooltipClass">{{ toolTip | translate }}</span>
+    </button>
+  </div>
+
+  <div class="ps-3 m-0 segmented-button-with-value">
+    <p class="number-segmented-button">{{ firstTotalAfterValue ? num : value }}</p>
+    <p class="sub-number-segmented-button">{{ firstTotalAfterValue ? value : num }}</p>
+  </div>
+</div>

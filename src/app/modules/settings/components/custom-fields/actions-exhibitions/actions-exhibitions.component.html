@@ -1,0 +1,160 @@
+<div class="custom-content">
+  <div class="inside-content-actions-without-stepper">
+    <div class="row mt-2">
+      <span class="title-register ps-0 mb-4">
+        {{ 'cadastroNovaExibicao' | translate }}
+      </span>
+    </div>
+
+
+    <div class="row mt-2">
+      <div class="col-12 col-sm-12 col-md-10 col-lg-4 col-xl-2 ps-0 pe-3 mb-md-4 mb-sm-4 mb-4">
+        <app-input label="codigo"
+          placeholder="000000"
+          [entry]="exhibition.codigo"
+          [readonly]="true">
+        </app-input>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-10 col-lg-6 col-xl-3 ps-0 pe-3 mb-sm-2 mb-2">
+        <app-input label="nome"
+          placeholder=""
+          [entry]="exhibition.nome"
+          (entryChanged)="exhibition.nome = $event!"
+          [required]="true"
+          [changed]="alertRequired">
+        </app-input>
+      </div>
+
+      <div class="col-3 ps-0 pe-3">
+        <app-dropdown-default label="Tela"
+          placeholder="Selecionar"
+          [options]="ListModules"
+          (optionChanged)="exhibition.modulo = ListModules[$event!]"
+          [shortListed]="transformString(exhibition.modulo ? exhibition.modulo : null)"
+          [required]="true"
+          [changed]="alertRequired">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-10 col-lg-2 col-xl-1 ps-2 pe-4 mt-1">
+        <label class="radio radio-circle custom-text">
+          {{ 'habilitar' | translate }}
+          <input type="radio" [(ngModel)]="exhibition.habilitado" [value]="true"/>
+          <div class="radio-input clickable"></div>
+        </label>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-10 col-lg-2 col-xl-1 ps-0 ms-xl-4 mt-1">
+        <label class="radio radio-circle custom-text">
+          {{ 'desabilitar' | translate }}
+          <input type="radio" [(ngModel)]="exhibition.habilitado" [value]="false"/>
+          <div class="radio-input clickable"></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="flex-row mb-4 mt-4">
+      <span class="title-register">
+        {{ 'sequenciaExibicao' | translate }}
+      </span>
+    </div>
+
+    <div class="flex-row mb-1">
+      <span class="checkbox-text">{{ 'textoTelaNovaExibicao' | translate }}</span>
+    </div>
+
+    <div class="container-drag-drop">
+      <div id="box-left" class="box">
+        <div id="left" (drop)="onFieldDrop($event)">
+          <div class="card col-4 shadow"
+            *ngFor="let item of allFields"
+            [attr.draggable]="true"
+            (dragstart)="onExhibitionDragStart($event); getPosition(item)"
+            (dragover)="onExhibitionDragOver($event)">
+            {{ item.nome }}
+          </div>
+        </div>
+      </div>
+
+      <div id="box-right"
+        class="box box-right"
+        (drop)="onExhibitionDrop($event)"
+        (dragover)="onExhibitionDragOver($event)">
+        <div id="right">
+          <div class="card col-4 shadow card-right"
+            *ngFor="let item of exhibition.campos; index as i"
+            (dragenter)="onFieldDropRight($event, i, item)"
+            (drop)="clearIndexes()"
+            [attr.draggable]="true"
+            (dragstart)="onExhibitionDragStart($event); getPosition(item)">
+            <div class="row">
+              <div class="col-7">
+                <div class="mt-2">
+                  {{ item.nome }}
+                </div>
+              </div>
+
+              <div class="col-2" [ngClass]="{ 'ps-5' : item.possuiRegistro }">
+                <div class="box-size mt-2">
+                  {{ item.tamanho }}
+                </div>
+              </div>
+
+              <div class="col-1" [ngClass]="{ 'col-3 ps-5' : item.possuiRegistro }">
+                <button class="icon-button-primary tooltip-content" (click)="setSizeField(item)">
+                  <img src="../../../../../assets/icons/edit-grey.svg">
+                  <span class="tooltip-default">{{ 'editarTamanho' | translate }}</span>
+                </button>
+              </div>
+
+              <div class="col-2 ps-3" *ngIf="!item.possuiRegistro">
+                <button class="icon-button-primary tooltip-content" (click)="removeField(item)">
+                  <img src="../../../../../assets/icons/cancel-grey.svg">
+                  <span class="tooltip-default">{{ 'remover' | translate }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-btn-close-register">
+    <button class="btn-confirm btn-transparent-close" (click)="close()">
+      {{ "fechar" | translate }}
+    </button>
+  </div>
+
+  <div class="section-btns-register">
+    <div class="me-3">
+      <button class="btn-next" (click)="openModalPreView()">
+        <img class="back-icon" src="../../../../../assets/icons/preview-group-permission.svg"/>
+        {{ "preVisualizar" | translate }}&nbsp;
+      </button>
+    </div>
+
+    <div class="me-3" *ngIf="allowDeletion">
+      <button class="btn-confirmation red" (click)="confirmDeleteExhibition()">
+        {{ 'excluirExibicao' | translate }}&nbsp;
+      </button>
+    </div>
+
+    <div style="width: 8.3125rem">
+      <app-btn-confirm-action
+        [label]="exhibition.codigo !== null ? 'salvar' : 'concluir'"
+        iconUrl="../../../../../assets/icons/checked.svg"
+        (clicked)="setExhibition()">
+      </app-btn-confirm-action>
+    </div>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>

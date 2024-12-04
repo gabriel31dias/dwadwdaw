@@ -1,0 +1,125 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg" />
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal" *ngIf="!onlyView">
+      {{ "lancarMovimento" | translate }}
+    </p>
+    <p class="title-modal" *ngIf="onlyView">{{ "detalhes" | translate }}</p>
+
+    <div class="mb-2 mt-3" [ngClass]="{ 'mb-4' : onlyView }">
+      <app-dropdown-default
+        label="tipo"
+        placeholder="selecionarTipoMovimento"
+        [required]="onlyView ? false : true"
+        [changed]="alertRequired"
+        [options]="typesList"
+        (optionChanged)="setTypeMovement($event)"
+        [shortListed]="movement.tipoMovimento"
+        [readonly]="onlyView"
+      >
+      </app-dropdown-default>
+    </div>
+
+    <div [ngClass]="onlyView ? 'mb-4' : movement.movimentaCaixa ? 'mb-2' : 'mb-4'">
+      <app-dropdown-default
+        label="contaCorrente"
+        placeholder="selecionarContaCorrente"
+        [required]="onlyView ? false : movement.movimentaCaixa ? true : false"
+        [changed]="alertRequired"
+        [options]="accountsList"
+        (optionChanged)="setAccount($event)"
+        [shortListed]="movement.contaCorrente"
+        [readonly]="onlyView || !movement.movimentaCaixa"
+      >
+      </app-dropdown-default>
+    </div>
+
+    <div class="row mb-2" [ngClass]="{ 'mb-4' : onlyView }">
+      <div class="col-7 ps-0 pe-3">
+        <app-input-date label="data"
+          [required]="onlyView ? false : true"
+          [changed]="alertRequired"
+          [date]="onlyView ? formatDate(movement.data) : movement.data"
+          (dateChanged)="movement.data = $event"
+          [readonly]="onlyView">
+        </app-input-date>
+      </div>
+
+      <div class="col-5 ps-0 pe-0">
+        <app-input
+          label="valor"
+          placeholder="R$ 0,00"
+          [currency]="onlyView ? false : true"
+          [required]="onlyView ? false : true"
+          [changed]="alertRequired"
+          [entry]="movement.valor"
+          (entryChanged)="movement.valor = $event"
+          [readonly]="onlyView"
+        >
+        </app-input>
+      </div>
+    </div>
+
+    <div class="mb-4 ps-0" >
+      <app-input-text-area
+        label="observacao"
+        [maxLength]="250"
+        [entry]="movement.observacao"
+        (entryChanged)="movement.observacao = $event"
+        [readonly]="onlyView"
+      >
+      </app-input-text-area>
+    </div>
+
+    <div class="row mb-4" *ngIf="onlyView">
+      <div class="col-7 ps-0 pe-3">
+        <app-input
+          label="usuario"
+          [entry]="movement.usuario"
+          (entryChanged)="movement.usuario = $event"
+          [readonly]="onlyView"
+        >
+        </app-input>
+      </div>
+
+      <div class="col-5 ps-0 pe-0">
+        <app-input
+          label="data"
+          placeholder="DD/MM/AAAA"
+          mask="date"
+          [entry]="movement.dataInclusao"
+          (entryChanged)="movement.data = $event"
+          [readonly]="onlyView"
+        >
+        </app-input>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-2" *ngIf="!onlyView">
+      <button class="btn-confirm btn-transparent-cancel" (click)="close()">
+        {{ "cancelar" | translate }}
+      </button>
+      <button class="btn-confirm green" (click)="confirm()">
+        {{ "lancar" | translate }}
+      </button>
+    </div>
+
+    <div class="d-flex justify-content-end mt-2" *ngIf="onlyView">
+      <button class="btn-confirm btn-transparent-close" (click)="close()">
+        {{ "fechar" | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

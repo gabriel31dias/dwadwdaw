@@ -1,0 +1,89 @@
+<div class="custom-content">
+  <div class="inside-content-actions-without-stepper">
+        <div class="row mt-2">
+          <span class="title-register ps-0 mb-4">
+            {{ 'novoUsuario' | translate }}
+          </span>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-2 ps-0 pe-3">
+            <app-input label="nomeDoUsuario"
+              placeholder="nomeDoUsuario"
+              [required]="true"
+              [changed]="alertRequired"
+              [entry]="users.nome"
+              (entryChanged)="users.nome = $event">
+            </app-input>
+          </div>
+
+          <div class="col-4 ps-0 pe-3">
+            <app-input label="sobrenomeDoUsuario"
+              placeholder="sobrenomeDoUsuario"
+              [required]="true"
+              [changed]="alertRequired"
+              [entry]="users.nome"
+              (entryChanged)="users.nome = $event">
+            </app-input>
+          </div>
+
+          <div class="col-6 ps-0 pe-3">
+            <app-input label="emailDoUsuario"
+              placeholder="emailDoUsuario"
+              [required]="true"
+              [changed]="alertRequired"
+              [entry]="users.nome"
+              (entryChanged)="users.nome = $event">
+            </app-input>
+          </div>
+        </div>
+
+        <div class="row mt-2">
+          <div class="col-2 ps-0 pe-3">
+            <app-input label="departamento"
+              placeholder="departamento"
+              [required]="true"
+              [changed]="alertRequired"
+              [entry]="users.nome"
+              (entryChanged)="users.nome = $event">
+            </app-input>
+          </div>
+
+          <div class="col-4 ps-0 pe-3">
+            <app-dropdown-default label="grupoDeAcesso"
+              placeholder="grupoDeAcessoSelecionado"
+              [options]="gruposDeAcesso"
+              [shortListed]="grupoSelected">
+            </app-dropdown-default>
+          </div>
+
+          <div class="col-md-4 mb-md-1 mb-1 mt-1">
+            <app-toggle label="Ativar"
+            name="ativar"
+            [value]="usuarioValidacao"
+            (setValue)="usuarioPadrao($event)">
+          </app-toggle>
+          </div>
+        </div>
+
+        <div class="section-btn-close-register">
+          <button class="btn-confirm btn-transparent-close" (click)="back()">
+            {{ 'voltar' | translate }}
+          </button>
+        </div>
+
+        <div class="section-btns-register">
+          <div class="ms-3" >
+            <button class="btn-next" (click)="openModalRequestNewPassword()">
+              {{ 'solicitarNovaSenha' | translate }}&nbsp;
+            </button>
+          </div>
+
+          <div style="width: 8.3125rem;" >
+            <app-btn-confirm-action [label]="'salvar'"
+              iconUrl="../../../../../assets/icons/checked.svg">
+            </app-btn-confirm-action>
+          </div>
+        </div>
+  </div>
+</div>

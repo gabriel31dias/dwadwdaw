@@ -1,0 +1,29 @@
+.section-btns-confirm {
+  margin-left: auto;
+}
+
+.title-modal {
+  margin-bottom: 1.87rem;
+}
+
+.text-detail-changes {
+  color: var(--color-grey-900-titles);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.03125rem;
+
+  margin-right: 1.44rem;
+
+  strong {
+    font-weight: 500;
+  }
+}
+
+.details-changes-section {
+  overflow: auto;
+  max-height: 12.8rem;
+
+  p {
+    margin: 0.31rem 0rem 0.31rem 0rem;
+  }
+}

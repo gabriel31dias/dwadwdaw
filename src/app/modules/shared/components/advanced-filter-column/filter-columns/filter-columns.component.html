@@ -1,0 +1,83 @@
+<div class="flex-row">
+  <button class="button-primary button-outline button-sm just-icon tooltip-content"
+    [ngClass]="boxSelectedColumn ? 'open' : ''" (click)="action()">
+    <div class="icon-filter" [ngClass]="boxSelectedColumn ? 'icon-filter-open' : ''"></div>
+    <span class="tooltip-default">{{ 'adicionarFiltro' | translate }}</span>
+  </button>
+
+  <div appClickOutside [exceptions]="['.ng-select', '.ng-option']"
+    (clickOutside)="boxSelectedColumn = false"
+    class="box-selection-column" *ngIf="boxSelectedColumn">
+    <app-input-search placeholder="pesquisar"
+      [entry]="search"
+      (entryChanged)="doSearch($event)">
+    </app-input-search>
+
+    <div class="section-btn-columns">
+      <div *ngFor="let column of columns">
+        <button class="btn-column mt-1"
+          [ngClass]="column.nome === columnSelected?.nome ? 'focus-btn' : ''"
+          (click)="openFilter(column)">
+          {{ column.nome }}
+        </button>
+      </div>
+
+      <div class="box-filter-position" *ngIf="openFilterTypes">
+        <app-filter-column-type [column]="columnSelected"
+          (close)="closeFilterTypes()"
+          (apply)="applyFilter($event)">
+        </app-filter-column-type>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; align-items: center; margin-left: 1rem;">
+    <div *ngFor="let filter of filtersSearch; let i = index">
+      <div *ngIf="i < 1">
+        <app-filter-data-column [filter]="filter"
+          [indexFilter]="filtersSearch.indexOf(filter)"
+          (clear)="clearFilter($event)"
+          (filterUpdated)="updateFilter($event)">
+        </app-filter-data-column>
+      </div>
+    </div>
+
+    <div appClickOutside [exceptions]="['.ng-select', '.ng-option']"
+      (clickOutside)="openBoxMore = false"
+      *ngIf="filtersSearch.length > 1">
+      <span class="text-more clickable" (click)="openBoxMore = !openBoxMore">
+        {{ 'mais' | translate }} {{ filtersSearch.length - 1 }}
+      </span>
+
+      <div class="box-selection-column box-more-filters" *ngIf="openBoxMore">
+        <div class="title-filter-more">
+          {{ 'comandos' | translate }}
+        </div>
+        <span class="text-clear-filter-comand clickable" (click)="clearFilters.emit(); doSearch('')">
+          {{ 'limparFiltros' | translate }}
+        </span>
+        <hr>
+        <div class="title-filter-more">
+          {{ 'filtrosAplicados' | translate }}
+        </div>
+        <div *ngFor="let filter of filtersSearch; let i = index">
+          <div *ngIf="i >= 1">
+            <app-filter-data-more [filter]="filter"
+              [indexFilter]="filtersSearch.indexOf(filter)"
+              (clear)="clearFilter($event)"
+              (filterUpdated)="updateFilter($event)">
+            </app-filter-data-more>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+

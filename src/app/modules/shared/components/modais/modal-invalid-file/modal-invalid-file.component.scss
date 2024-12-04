@@ -1,0 +1,23 @@
+.box-filename {
+  display: inline-flex;
+  padding: 0.1875rem 1rem 0.1875rem 1rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  gap: 0.5rem;
+
+  border-radius: 0.3125rem;
+  background: var(--color-grey-50);
+}
+
+.filename {
+  color: var(--color-grey-500-text);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.03125rem;
+}
+
+.section-list-files {
+  max-height: 14.2rem;
+  overflow-y: auto;
+}
+

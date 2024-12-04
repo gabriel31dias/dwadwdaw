@@ -1,0 +1,32 @@
+@import url(../../selects/select/select.component.scss);
+
+.input-time-icon {
+    width: 24px !important;
+    height: 24px !important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-color: var(--color-green-900);
+    margin-right: -4px;
+}
+
+.input-time-icon-error {
+    background-color: var(--color-red);
+}
+
+.input-time-icon-selected {
+    background-color: var(--color-green-900);
+}
+
+.input-time-icon-disabled {
+    background-color: var(--color-grey-200);
+}
+
+
+// ::ng-deep .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+//     padding-left: 12px;
+// }
+
+.icon-input-time {
+  right: 4px !important;
+}

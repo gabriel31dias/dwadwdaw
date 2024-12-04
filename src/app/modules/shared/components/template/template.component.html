@@ -1,0 +1,174 @@
+<div class="container-template">
+
+  <div class="header-page">
+    <div class="flex-row" style="width: 50%;">
+      <div class="header-logo">
+        <img src="../../../../../assets/images/logo.svg" width="221px">
+      </div>
+
+      <div class="header-title">
+        <p class="title-template" *ngIf="!activeSettings">{{ currentScreen }}</p>
+        <p class="title-template" *ngIf="activeSettings">{{ 'configuracoes' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="flex-row align-center justify-content-end" style="width: 50%;">
+      <div class="header-search mb-4">
+        <app-dropdown-default [searchable]="true"
+          placeholder="pesquisarTelas"
+          [options]="screensName"
+          (optionChanged)="goToScreen($event)">
+        </app-dropdown-default>
+      </div>
+
+      <div class="header-icons" [ngClass]="{ 'custom-margin-setting-permission' : !permissions.includes(authSettings.Visualizar) }">
+        <img class="clickable" src="../../../../../assets/icons/side-nav/help.svg">
+        <button *ngIf="permissions.includes(authSettings.Visualizar)" #btnSettings class="icon-button-primary tooltip-content btn-active-settings" (click)="goToSettings()"
+          [class.active-settings]="activeSettings">
+          <img src="../../../../../assets/icons/side-nav/configurations.svg">
+          <span class="tooltip-default">{{ 'configuracoes' | translate }}</span>
+        </button>
+        <img class="clickable" src="../../../../../assets/icons/side-nav/notifications.svg">
+      </div>
+
+      <div class="header-info-user">
+        <p class="name-user text-uppercase">{{ nameUser }}</p>
+        <p class="name-company clickable" (click)="openModalChangeSubsidiary()">
+          {{ nameCompany }}
+        </p>
+      </div>
+
+      <div class="header-photo-user">
+        <img src="../../../../../assets/icons/side-nav/user-icon-photo-test.svg">
+        <!-- (click)="openDropDown()" -->
+        <!-- Dropdown -->
+        <div *ngIf="isDropDownOpen" class="dropdown">
+          <ul>
+            <li><p class="name-company clickable" (click)="openModalChangePhotoUser()">{{ 'alterarFotoDePerfil' | translate }}</p></li>
+            <li><p class="name-company clickable" (click)="openModalChangePassword()">{{ 'alterarSenha' | translate }}</p></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="header-logout clickable"(click)="doLogout()">
+        <div class="btn-logout">
+          <img src="../../../../../assets/icons/side-nav/logout.svg">
+        </div>
+        <span class="text-logout">{{ 'sair' | translate }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <ng-container *ngIf="!activeSettings">
+    <div class="sidebar" [ngClass]="{ 'open': stateSideBar }">
+      <ul class="nav-list">
+        <li *ngFor="let item of sideNav">
+          <ng-container *ngIf="!item.hidden">
+            <a class="clickable tooltip-content" (click)="openItem(item)" [ngClass]="{ 'selected' : selected(item) }">
+              <i>
+                <img [src]="item.icon" [ngClass]="item.iconClass ? item.iconClass : null">
+                <span class="tooltip-default tooltip-sidenav" *ngIf="stateSideBar">{{ item.name | translate }}</span>
+              </i>
+              <span class="links-name">{{ item.name | translate }}</span>
+              <div *ngIf="item.subItems">
+                <img class="icon-plus" src="../../../../../assets/icons/side-nav/maximize.svg" *ngIf="!item.showSubItems">
+                <img class="icon-plus" src="../../../../../assets/icons/side-nav/minimize.svg" *ngIf="item.showSubItems">
+              </div>
+            </a>
+
+            <div *ngIf="item.showSubItems" class="sub-items">
+              <ul class="nav-list" *ngIf="item.subItems">
+                <li *ngFor="let sub of item.subItems" [ngClass]="sub.showSubItems ? 'section-sub-subitem' : ''">
+                  <a (click)="openItem(sub)" (click)="sub.subItems ? sub.showSubItems = !sub.showSubItems : ''">
+                    <i>
+                      <div class="rectangle-sub-items" [ngClass]="{ 'sub-selected' : selected(sub) }"></div>
+                    </i>
+                    <span class="links-name">{{ sub.name | translate }}</span>
+                    <div *ngIf="sub.subItems">
+                      <img class="icon-plus" src="../../../../../assets/icons/side-nav/maximize.svg" *ngIf="!sub.showSubItems">
+                      <img class="icon-plus" src="../../../../../assets/icons/side-nav/minimize.svg" *ngIf="sub.showSubItems">
+                    </div>
+                  </a>
+
+                  <div *ngIf="sub.showSubItems" class="sub-items">
+                    <li *ngFor="let sub of sub.subItems">
+                      <a (click)="openItem(sub)" class="sub-subitem">
+                        <i>
+                          <div class="rectangle-sub-items" [ngClass]="{ 'sub-selected' : selected(sub) }"></div>
+                        </i>
+                        <span class="links-name">{{ sub.name | translate }}</span>
+                      </a>
+                    </li>
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+          </ng-container>
+        </li>
+      </ul>
+    </div>
+
+    <div class="container-open-close">
+      <div class="btn-open-close clickable" (click)="fixedSideBar()" [ngClass]="{ 'open': stateSideBar }">
+        <img src="../../../../../assets/icons/side-nav/close-open.svg">
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="activeSettings">
+    <div class="sidebar" [ngClass]="{ 'open': false }">
+      <ul class="nav-list">
+        <li *ngFor="let item of settingsSideNav">
+          <ng-container *ngIf="!item.hidden">
+            <a class="clickable" (click)="openItem(item)">
+              <i>
+                <div class="rectangle-sub-items" [ngClass]="{ 'sub-selected' : selected(item) }"></div>
+              </i>
+              <span class="links-name">{{ item.name | translate }}</span>
+              <div *ngIf="item.subItems">
+                <img class="icon-plus" src="../../../../../assets/icons/side-nav/maximize.svg" *ngIf="!item.showSubItems">
+                <img class="icon-plus" src="../../../../../assets/icons/side-nav/minimize.svg" *ngIf="item.showSubItems">
+              </div>
+            </a>
+
+            <div *ngIf="item.showSubItems" class="sub-items ps-3">
+              <ul class="nav-list" *ngIf="item.subItems">
+                <li *ngFor="let sub of item.subItems" [ngClass]="sub.showSubItems ? 'section-sub-subitem' : ''">
+                  <a class="clickable" (click)="openItem(sub)" (click)="sub.subItems ? sub.showSubItems = !sub.showSubItems : ''" [ngClass]="{ 'selected' : selected(sub) }">
+                    <i>
+                      <div class="rectangle-sub-items" [ngClass]="{ 'sub-selected' : selected(sub) }"></div>
+                    </i>
+                    <span class="links-name">{{ sub.name | translate }}</span>
+                    <div *ngIf="sub.subItems">
+                      <img class="icon-plus" src="../../../../../assets/icons/side-nav/maximize.svg" *ngIf="!sub.showSubItems">
+                      <img class="icon-plus" src="../../../../../assets/icons/side-nav/minimize.svg" *ngIf="sub.showSubItems">
+                    </div>
+                  </a>
+
+                  <div *ngIf="sub.showSubItems" class="sub-items">
+                    <li *ngFor="let sub of sub.subItems">
+                      <a (click)="openItem(sub)" class="sub-subitem">
+                        <i>
+                          <div class="rectangle-sub-items" [ngClass]="{ 'sub-selected' : selected(sub) }"></div>
+                        </i>
+                        <span class="links-name">{{ sub.name | translate }}</span>
+                      </a>
+                    </li>
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+          </ng-container>
+        </li>
+      </ul>
+    </div>
+  </ng-container>
+
+  <section class="content" (click)="contentClick()">
+    <router-outlet></router-outlet>
+  </section>
+</div>
+

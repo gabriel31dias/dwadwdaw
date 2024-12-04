@@ -1,0 +1,37 @@
+.btn-confirm-action {
+  height: 2.5rem;
+  width: 100%;
+
+  color: var(--color-white);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: 0.00938rem;
+
+  background-color: var(--color-green-500-mark);
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  position: relative;
+}
+
+.btn-confirm-action:hover {
+  background-color: var(--color-green-700);
+}
+
+.btn-confirm-action:active {
+  background-color: var(--color-green-800);
+}
+
+.margin-left-negative {
+  margin-left: -0.3rem;
+}
+
+.btn-confirm-action:disabled {
+  background-color: var(--color-grey-200);
+}

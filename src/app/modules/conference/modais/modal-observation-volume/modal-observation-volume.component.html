@@ -1,0 +1,33 @@
+<div class="margin-modal">
+    <div class="clearfix">
+      <button class="clickable close-modal" (click)="close()">
+        <img src="../../../../../../assets/icons/close.svg">
+      </button>
+    </div>
+
+    <div class="content-modal">
+      <p class="title-modal">{{ 'observacao' | translate }}</p>
+
+
+      <div class="mt-2 mb-4">
+        <app-input-text-area label="observacaoVolume"
+          [maxLength]="250"
+          [entry]="reason"
+          (entryChanged)="reason = $event">
+        </app-input-text-area>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <button class="btn-confirm btn-transparent-cancel" (click)="close()">{{ 'cancelar' | translate }}</button>
+        <button class="btn-confirm green" (click)="confirm()">{{ 'concluir' | translate }}</button>
+      </div>
+    </div>
+  </div>
+
+  <app-snackbar *ngIf="snackbar.open"
+    [snackbar]="snackbar"
+    (hide)="snackbar.open = $event">
+  </app-snackbar>
+
+
+

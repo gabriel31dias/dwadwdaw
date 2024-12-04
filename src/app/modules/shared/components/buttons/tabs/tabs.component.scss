@@ -1,0 +1,40 @@
+.tabs {
+  display: inline-flex;
+}
+
+.btn-tabs {
+  background-color: transparent;
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom: transparent;
+  height: 2.125rem;
+  padding-right: 20px;
+}
+
+.tab-hr {
+  border: solid 1px var(--color-grey-200);
+  margin-left: -2px;
+  margin-right: -2px;
+  margin-top: 4px;
+  z-index: 1;
+}
+
+.tab-hr-selected {
+  border: 2px solid var(--color-green-500-mark) !important;
+  border-radius: 5px !important;
+  margin-top: 3px;
+  z-index: 2;
+}
+
+.tab-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-grey-700-text);
+}
+
+.tab-selected {
+  font-weight: 500;
+  color: var(--color-green-900);
+}
+

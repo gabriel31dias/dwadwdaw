@@ -1,0 +1,36 @@
+<div class="mb-3">
+  <app-input label="email"
+    placeholder="email"
+    [required]="true"
+    (entryChanged)="login.email = $event"
+    [changed]="dataEmpty">
+  </app-input>
+</div>
+<div>
+  <app-input label="senha"
+  placeholder="senha"
+  [required]="true"
+  (entryChanged)="login.senha = $event"
+  [changed]="dataEmpty" type="password"
+  [keydownEnter]="true"
+  (keydownPress)="doLogin()">
+  </app-input>
+</div>
+
+<p class="forgot-password clickable" routerLink="/authentication/recover-password">
+  {{ "esqueceuSenha" | translate }}
+</p>
+
+<div class="mt-5 mb-5">
+  
+  <app-btn-confirm-action label="acessar"
+    (clicked)="doLogin()"
+    [disabled]="loading">
+  </app-btn-confirm-action>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+

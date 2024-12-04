@@ -1,0 +1,52 @@
+.section-btns-confirm {
+  margin-left: auto;
+}
+
+.custom-upload-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10.625rem;
+  width: 100%;
+  border-radius: 0.3125rem;
+  border: 0.5px dashed var(--color-grey-300-lines);
+  background: #F6F6F6;
+}
+
+.upload-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;
+}
+
+.subtitle-upload-area {
+  color: var(--color-grey-500-text);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.box-filename {
+  display: inline-flex;
+  padding: 0.1875rem 0.5rem 0.1875rem 1rem;
+  margin-right: 0.6rem;
+  margin-bottom: 0.5rem;
+  align-items: center;
+  gap: 0.5rem;
+
+  border-radius: 0.3125rem;
+  background: var(--color-grey-50);
+}
+
+.filename {
+  color: var(--color-grey-500-text);
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.03125rem;
+}
+
+.section-list-files {
+  max-height: 14.2rem;
+  overflow-y: auto;
+}

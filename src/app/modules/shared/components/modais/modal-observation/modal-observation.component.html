@@ -1,0 +1,24 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal"> {{ 'observacao' | translate }}</p>
+
+    <div class="col-md-20">
+      <div class="row mt-2">
+        <div class="col-md-20 mb-md-4 mb-4">
+          <app-input-text-area label="observacaoVolume" [(ngModel)]="text" placeholder="Lorem ipsum dolor sit amet consectetur." [readonly]="false" [maxLength]="250" name="observacaoVolume" ></app-input-text-area>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-btns-confirm">
+      <button class="btn-confirm btn-transparent-cancel" (click)="close()">{{ textBtnCancel | translate }}</button>
+      <button class="btn-confirm" [ngClass]="style" (click)="confirm()">{{ textBtnConfirm | translate }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="input-group">
+  <input [placeholder]="placeholder | translate"
+        [(ngModel)]="entry"
+        [ngClass]="entry ? 'filled' : ''"
+        (keydown.enter)="emitValue()"
+        [mask]="mask"
+        [maxlength]="maxLength"
+        (blur)="lostFocus.emit(entry)">
+
+  <label>
+    {{ label | translate }}
+  </label>
+
+  <img class="icon-search clickable"
+    src="../../../../../../assets/icons/search.svg"
+    (click)="clicked.emit(entry)"
+  >
+
+  <span class="tooltip" *ngIf="tooltip">{{ tooltip | translate }}</span>
+
+</div>
+

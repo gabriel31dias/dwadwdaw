@@ -1,0 +1,11 @@
+<app-input [label]="label ? label : 'metragemCubicaTotal'"
+  placeholder="0"
+  [currency]="true"
+  [noPrefix]="true"
+  [readonly]="true"
+  [entry]="entry"
+  (entryChanged)="entryChanged.emit($event)"
+  [readonly]="readonly"
+  [icon]="'../../../../../assets/icons/calculate.svg'"
+  (keydownPress)="openModalMeasure()">
+</app-input>

@@ -1,0 +1,20 @@
+<div class="position-relative">
+  <input appEnterKeySubmit class="input-default input-time" type="time"
+    [(ngModel)]="time"
+    (ngModelChange)="timeChanged.emit(time)"
+    [ngClass]="{ 'filled': time, 'required': validator(), 'worthless': !time }"
+    (blur)="changed = true"
+    (focus)="time ? changed = false : ''"
+    [disabled]="readonly">
+
+  <label class="label-input-default">
+    {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+  </label>
+
+
+  <!-- Código comentado para a solução que funciona no FireFox (Navegador), mas não é a prática correta -->
+  <!-- <img class="calendar-icon" src="../../../../../../assets/icons/time.svg"> -->
+</div>
+
+<p class="required-mensage" *ngIf="required && !alertMessage" [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+<p class="required-mensage" *ngIf="alertMessage" [ngClass]="validator() ? '' : 'hidden-text'">{{ alertMessage | translate }}</p>

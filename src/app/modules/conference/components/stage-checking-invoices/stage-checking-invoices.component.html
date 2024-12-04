@@ -1,0 +1,55 @@
+<div class="top">
+  <div class="flex-row mt-2" [ngClass]="currentStatus >= 2 ? 'mb-3' : ''">
+    <span class="title-register">
+      {{ 'conferenciaDeNotasFiscais' | translate }}
+    </span>
+  </div>
+
+  <div class="flex-row mt-4 mb-3"
+    [ngClass]="currentStatus >= 1 ? 'mb-4' : ''"
+    *ngIf="currentStatus < 2 && this.permissions.includes(authConference.Editar)">
+
+    <div class="col-4 pe-3">
+      <app-input label="chaveDeAcesso"
+        placeholder="pesquisarChaveDeAcesso"
+        [iconBarCode]="true"
+        [entry]="keyAccess"
+        (entryChanged)="keyAccess = $event"
+        [keydownEnter]="true"
+        (keydownPress)="checkVolume()"
+        [maxLength]="44"
+        [mask]="'0*'">
+      </app-input>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="invoices.length >= 1"
+  [ngClass]="{ 'pt-3' : !this.permissions.includes(authConference.Editar) }">
+  <app-table-sort [headers]="headers"
+    [records]="invoices"
+    [isConferenceNF]="true"
+    [checkedWithDisagreement]="currentStatus === 3 ? true : false"
+    [height]="maxHeightTable"
+    [actionDelete]="currentStatus < 2 ? true : false"
+    (deleteData)="deleteNFNotFound($event)">
+  </app-table-sort>
+</div>
+
+<div class="d-flex justify-content-end">
+  <span class="text-volumes">
+    {{ 'total'| translate }} {{ invoicesChecked ? invoicesChecked : 0 }}/{{ allInvoices ? allInvoices : 0 }} {{ ( 'conferidas' | translate ).toLowerCase()}}
+  </span>
+</div>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+

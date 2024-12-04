@@ -1,0 +1,150 @@
+<ng-container *ngIf="this.permissions.includes(authConference.Criar)
+  || this.permissions.includes(authConference.Editar)
+  || this.permissions.includes(authConference.Ler)">
+  <div class="custom-content">
+
+    <div class="flex-row">
+
+      <div style="width: 95%; margin-bottom: -20px">
+        <div class="box-status">
+          <span class="text-status">
+            {{ 'status' | translate }}:
+            <span class="color-green-700" [ngClass]="conferenceFinished() ? 'clickable hover-underline' : ''">
+              {{ statusEnum }}
+            </span>
+          </span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="inside-content-actions">
+
+      <div class="flex-row">
+        <span class="title-register">
+          {{ 'dadosDoVolume' | translate }}
+        </span>
+      </div>
+
+      <div class="row mt-4 mb-1">
+        <div class="col-2 ps-0 pe-3">
+          <app-input label="codigoDoVolume"
+            placeholder=""
+            mask="0*"
+            [entry]="dadoVolume.codigoDoVolume"
+            [readonly]="readonly">
+          </app-input>
+        </div>
+
+        <div class="col-2 ps-0 pe-3">
+          <app-input label="data"
+            placeholder="XX/XX/XXXX"
+            mask="date"
+            [readonly]="readonly"
+            [entry]="dadoVolume.data">
+          </app-input>
+        </div>
+
+        <div class="col-2 ps-0 pe-3">
+          <app-input label="horario"
+            placeholder="00:00:00"
+            [readonly]="readonly"
+            [entry]="dadoVolume.horario">
+          </app-input>
+        </div>
+
+        <div class="col-3 ps-0 pe-3">
+          <app-input label="usuarioDaConferencia"
+          [readonly]="readonly"
+          [entry]="dadoVolume.usuarioConferencia">
+          </app-input>
+        </div>
+
+        <div class="col-3 ps-0 pe-3">
+          <app-input label="numeroDoVolume"
+          [readonly]="readonly"
+          [entry]="dadoVolume.numeroVolume">
+          </app-input>
+        </div>
+
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12 ps-0 pe-3">
+          <app-input-text-area label="observacoes"
+            [entry]="invoices.observacao"
+            (entryChanged)="invoices.observacao = $event"
+            [maxLength]="100"
+            [readonly]="readonly"
+            [entry]="dadoVolume.observacoes">
+          </app-input-text-area>
+        </div>
+      </div>
+
+      <div class="flex-row mt-5 mb-4">
+        <span class="title-register">
+          {{ 'definirAcao' | translate }}
+        </span>
+      </div>
+
+      <div class="row pb-1">
+      <div class="col-12 col-sm-12 col-md-10 col-lg-2 col-xl-1 ps-0 pe-4">
+        <label class="radio radio-circle custom-text">
+          {{ 'encontrado' | translate }}
+          <input type="radio" [(ngModel)]="dadoVolume.encontrado" [value]="true"/>
+          <div class="radio-input clickable"></div>
+        </label>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-10 col-lg-2 col-xl-1 ps-0 pe-4">
+        <label class="radio radio-circle custom-text">
+          {{ 'perdido' | translate }}
+          <input type="radio" [(ngModel)]="dadoVolume.encontrado" [value]="false"/>
+          <div class="radio-input clickable"></div>
+        </label>
+      </div>
+    </div>
+
+      <div class="row mt-4">
+        <div class="col-12 ps-0 pe-3">
+          <app-input-text-area label="observacoes"
+            [entry]="invoices.observacao"
+            (entryChanged)="invoices.observacao = $event"
+            [maxLength]="100">
+          </app-input-text-area>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-btn-close-register">
+      <button class="btn-confirm btn-transparent-close" (click)="close()">
+        {{ 'fechar' | translate }}
+      </button>
+    </div>
+
+    <div class="section-btns-register">
+      <div style="width: 8.3125rem;" *ngIf="currentStatus < 2">
+
+        <div *ngIf="!nConference && this.permissions.includes(authConference.Criar)">
+          <app-btn-confirm-action [label]="'concluir'"
+            iconUrl="../../../../../assets/icons/checked.svg"
+            [classIcon]="'margin-left-negative'"
+            (clicked)="defineAction()"
+            [disabled]="loading">
+          </app-btn-confirm-action>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+

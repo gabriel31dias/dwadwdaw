@@ -1,0 +1,95 @@
+.svg-icon,
+.breadcrumb-icon {
+  width: 24px !important;
+  height: 24px !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: var(--color-grey-300-lines);
+}
+
+.square-background {
+  background: var(--color-green-50) !important;
+}
+
+.breadcrumb {
+  height: 3.125rem;
+}
+
+.breadcrumb-level {
+  user-select: none;
+  display: inline-block;
+  position: relative;
+  min-width: 6rem;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+  }
+
+  &::before {
+    transform: skew(35deg);
+  }
+
+  &::after {
+    transform: skew(-35deg);
+  }
+
+  a {
+    display: inline-block;
+    position: relative;
+    line-height: 3.125rem;
+    padding: 0;
+    text-decoration: none;
+    z-index: 101;
+    white-space: nowrap;
+    font-family: "Roboto";
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.00625rem;
+  }
+}
+
+// Mixins para estilos reutilizáveis
+@mixin breadcrumb-icon-color($color) {
+  .breadcrumb-icon {
+    background-color: $color !important;
+  }
+}
+
+.selected a {
+  font-weight: 700;
+  color: var(--color-grey-700-text) !important;
+  @include breadcrumb-icon-color(var(--color-grey-700-text));
+}
+
+.unselected a {
+  color: var(--color-grey-300-lines);
+  @include breadcrumb-icon-color(var(--color-grey-300-lines));
+
+  &:hover {
+    color: var(--color-grey-500-text);
+    .breadcrumb-icon {
+      background-color: var(--color-grey-500-text) !important;
+    }
+  }
+}
+
+.filled a {
+  color: var(--color-green-800);
+  @include breadcrumb-icon-color(var(--color-green-800));
+
+  &:hover {
+    color: var(--color-green-900);
+    .breadcrumb-icon {
+      background-color: var(--color-green-900) !important;
+    }
+  }
+}
+
+.step-name {
+  padding-right: 1.5rem;
+}

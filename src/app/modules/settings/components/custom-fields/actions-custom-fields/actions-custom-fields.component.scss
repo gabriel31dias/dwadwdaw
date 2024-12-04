@@ -1,0 +1,56 @@
+.container-custom-fields {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.625rem 0rem 0.625rem 0rem;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.box-preview-field {
+  height: 7.688rem;
+  width: 10.75rem;
+  background-color: var(--color-white);
+  border: solid 1px var(--color-grey-200);
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: all 0.2s ease-out;
+}
+
+.type-field-selected {
+  background-color: var(--color-green-50);
+  border: solid 1px var(--color-green-500-mark);
+}
+
+.section-preview-field {
+  width: 4.75rem;
+  pointer-events: none;
+}
+
+.custom-width-date-field {
+  width: 7.25rem;
+}
+
+.custom-list-checkbox-width {
+  width: 9.375rem;
+}
+
+.negative-margin-checkbox-text {
+  margin-left: -3px;
+}
+
+.custom-align-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.text-preview-field {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-grey-700-text);
+}

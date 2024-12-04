@@ -1,0 +1,85 @@
+<div class="box-selection-column d-flex flex-column justify-content-between" [ngClass]="'type-' + column!.tipo.toLowerCase()">
+
+  <div *ngIf="column!.tipo === 'String'">
+    <label class="radio radio-circle">
+      {{ 'contem' | translate }}
+      <input type="radio" [(ngModel)]="radio" [value]="0"/>
+      <div class="radio-input clickable"></div>
+    </label>
+
+    <div class="mb-2" *ngIf="radio === 0">
+      <app-input placeholder="contemEsseTexto"
+        [keydownEnter]="true"
+        (entryChanged)="text = $event"
+        (keydownPress)="applyFilter()">
+      </app-input>
+    </div>
+
+    <label class="radio radio-circle">
+      {{ 'igual' | translate }}
+      <input type="radio" [(ngModel)]="radio" [value]="1"/>
+      <div class="radio-input clickable"></div>
+    </label>
+
+    <div class="mb-2" *ngIf="radio === 1">
+      <app-input placeholder="igualEsseTexto"
+        [keydownEnter]="true"
+        (entryChanged)="text = $event"
+        (keydownPress)="applyFilter()">
+      </app-input>
+    </div>
+  </div>
+
+  <div *ngIf="column!.tipo === 'Number'">
+    <div class="mb-3">
+      <app-input placeholder="numero"
+        mask="0*"
+        [keydownEnter]="true"
+        (entryChanged)="text = $event"
+        (keydownPress)="applyFilter()">
+      </app-input>
+    </div>
+  </div>
+
+
+  <div class="section-two-radio" *ngIf="column!.tipo === 'Boolean'">
+    <div class="row">
+      <div class="col-5">
+        <label class="radio radio-circle">
+          {{ options[0].name }}
+          <input type="radio" [(ngModel)]="radio" [value]="0"/>
+          <div class="radio-input clickable"></div>
+        </label>
+      </div>
+
+      <div class="col-6">
+        <label class="radio radio-circle">
+          {{ options[1].name }}
+          <input type="radio" [(ngModel)]="radio" [value]="1"/>
+          <div class="radio-input clickable"></div>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-dropdown" *ngIf="column!.tipo === 'PickList'">
+    <app-select placeholder="selecionar"
+      [enableTooltip]="true"
+      [options]="options"
+      (optionChanged)="optionSelectedDropdown = $event">
+    </app-select>
+  </div>
+
+
+  <div class="d-flex justify-content-end" [ngClass]="column!.tipo === 'PickList' ? '' : ''">
+    <button class="button-secondary button-fill button-xsm me-2" (click)="close.emit('')">{{ 'cancelar' | translate }}</button>
+    <button class="button-primary button-fill button-xsm" (click)="applyFilter()">{{ 'aplicar' | translate }}</button>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+

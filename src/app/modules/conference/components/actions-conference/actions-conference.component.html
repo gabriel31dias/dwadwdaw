@@ -1,0 +1,214 @@
+<ng-container *ngIf="this.permissions.includes(authConference.Criar)
+  || this.permissions.includes(authConference.Editar)
+  || this.permissions.includes(authConference.Ler)">
+  <div class="custom-content">
+
+    <div class="flex-row">
+      <div style="width: 80%; margin-left: 8px;">
+        <app-breadcrumb [steppers]="steppers"
+          [stepperIndex]="stepperIndex"
+          (stepperEmitter)="stepperIndex = $event">
+        </app-breadcrumb>
+      </div>
+
+      <div style="width: 20%" *ngIf="nConference">
+        <div class="box-status">
+          <span class="text-status">
+            {{ 'status' | translate }}:
+            <span class="color-green-700" [ngClass]="conferenceFinished() ? 'clickable hover-underline' : ''"
+              (click)="conferenceFinished() ? openModalDetailsConference() : null">
+              {{ statusEnum[currentStatus] }}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Se existir exibição de campos personalizados -->
+    <ng-container *ngIf="showCustomFields === true">
+      <div class="inside-content-actions">
+        <div *ngIf="stepperIndex == 0" class="tab-enter">
+          <app-stage-invoices [invoices]="invoices"
+            [nfs]="invoices.nfs ? invoices.nfs : []"
+            (invoicesEmitter)="invoices = $event"
+            [alertRequired]="alertRequired"
+            (updateConference)="setConference(true)"
+            (updateGrid)="refreshAll()"
+            [currentStatus]="currentStatus"
+            [typesConference]="typesConference"
+            [typesConferenceName]="typesConferenceName">
+          </app-stage-invoices>
+        </div>
+
+        <div class="custom-step tab-enter" *ngIf="stepperIndex == 1">
+          <div class="mt-3">
+            <app-template-custom-field [fields]="customField"
+              (fieldsEmitter)="handleFieldsUpdate($event)">
+            </app-template-custom-field>
+          </div>
+        </div>
+
+        <div *ngIf="stepperIndex == 2">
+          <app-stage-conference [volumes]="volumes"
+            [nConference]="nConference"
+            (volumesEmitter)="volumes = $event"
+            [tags]="tags"
+            [tagsName]="tagsName"
+            [tagSelected]="tagSelected"
+            (tagEmitter)="tagSelected = $event"
+            [barCode]="barCode"
+            (barCodeEmitter)="barCode = $event"
+            (updateVolums)="getVolumes()"
+            [currentStatus]="currentStatus"
+            (updateDetails)="getDetailConference(true)"
+            [printTag]="printTag"
+            (printTagEmitter)="printTag = $event"
+            [allVolumes]="allVolumes"
+            [volumesChecked]="volumesChecked"
+            [allVolumesRead]="allVolumesRead"
+            [blindConference]="blindConference">
+          </app-stage-conference>
+        </div>
+
+        <div *ngIf="stepperIndex == 3 && flConferenciaNf">
+          <app-stage-checking-invoices (updateInvoices)="currentStatus == 0 ? getDetailConference() : getInvoicesToCheck()"
+            [currentStatus]="currentStatus"
+            [allInvoices]="allInvoices"
+            [invoicesChecked]="invoicesChecked"
+            [invoices]="invoicesToCheck">
+          </app-stage-checking-invoices>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Se NÃO existir exibição de campos personalizados -->
+    <ng-container *ngIf="showCustomFields === false">
+      <div class="inside-content-actions">
+        <div *ngIf="stepperIndex == 0" class="tab-enter">
+          <app-stage-invoices [invoices]="invoices"
+            [nfs]="invoices.nfs ? invoices.nfs : []"
+            (invoicesEmitter)="invoices = $event"
+            [alertRequired]="alertRequired"
+            (updateConference)="setConference(true)"
+            (updateGrid)="refreshAll()"
+            [currentStatus]="currentStatus"
+            [typesConference]="typesConference"
+            [typesConferenceName]="typesConferenceName">
+          </app-stage-invoices>
+        </div>
+
+        <div *ngIf="stepperIndex == 1">
+          <app-stage-conference [volumes]="volumes"
+            [nConference]="nConference"
+            (volumesEmitter)="volumes = $event"
+            [tags]="tags"
+            [tagsName]="tagsName"
+            [tagSelected]="tagSelected"
+            (tagEmitter)="tagSelected = $event"
+            [barCode]="barCode"
+            (barCodeEmitter)="barCode = $event"
+            (updateVolums)="getVolumes()"
+            [currentStatus]="currentStatus"
+            (updateDetails)="getDetailConference(true)"
+            [printTag]="printTag"
+            (printTagEmitter)="printTag = $event"
+            [allVolumes]="allVolumes"
+            [volumesChecked]="volumesChecked"
+            [allVolumesRead]="allVolumesRead"
+            [blindConference]="blindConference">
+          </app-stage-conference>
+        </div>
+
+        <div *ngIf="stepperIndex == 2 && flConferenciaNf">
+          <app-stage-checking-invoices (updateInvoices)="currentStatus == 0 ? getDetailConference() : getInvoicesToCheck()"
+            [currentStatus]="currentStatus"
+            [allInvoices]="allInvoices"
+            [invoicesChecked]="invoicesChecked"
+            [invoices]="invoicesToCheck">
+          </app-stage-checking-invoices>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="section-btn-close-register">
+      <button class="btn-confirm btn-transparent-close" (click)="close()">
+        {{ 'fechar' | translate }}
+      </button>
+    </div>
+
+    <div class="section-btns-register">
+      <div style="width: 8.3125rem;" *ngIf="currentStatus < 2">
+
+        <div *ngIf="!nConference && this.permissions.includes(authConference.Criar)">
+          <app-btn-confirm-action [label]="'concluir'"
+            iconUrl="../../../../../assets/icons/checked.svg"
+            [classIcon]="'margin-left-negative'"
+            (clicked)="defineAction()"
+            [disabled]="loading">
+          </app-btn-confirm-action>
+        </div>
+
+        <div *ngIf="nConference && this.permissions.includes(authConference.Editar)">
+          <ng-container *ngIf="steppers[stepperIndex].text == 'conferenciaDeVolumes' || steppers[stepperIndex].text == 'conferenciaDeNotasFiscais'">
+            <app-btn-confirm-action [label]="'finalizar'"
+              iconUrl="../../../../../assets/icons/checked.svg"
+              [classIcon]="'margin-left-negative'"
+              (clicked)="defineAction()"
+              [disabled]="loading">
+            </app-btn-confirm-action>
+          </ng-container>
+        </div>
+
+
+        <div *ngIf="nConference && currentStatus == 0 && this.permissions.includes(authConference.Editar)">
+          <ng-container *ngIf="steppers[stepperIndex].text == 'etapaNotasFiscais' || steppers[stepperIndex].text == this.stepName">
+            <app-btn-confirm-action [label]="'salvar'"
+              iconUrl="../../../../../assets/icons/checked.svg"
+              [classIcon]="'margin-left-negative'"
+              (clicked)="setConference(true)"
+              [disabled]="loading">
+            </app-btn-confirm-action>
+          </ng-container>
+        </div>
+
+      </div>
+
+      <div class="ms-3" *ngIf="stepperIndex !== 0">
+        <button class="btn-next" (click)="backStepper()">
+          <img class="back-icon" src="../../../../../assets/icons/arrow-left-green.svg">
+          {{ 'anterior' | translate }}&nbsp;
+        </button>
+      </div>
+
+      <ng-container *ngIf="!nConference && stepperIndex < (steppers.length - 1) && stepperIndex < 1 && !steppers[stepperIndex + 1].disabled; else elseBlock">
+        <div class="ms-3">
+          <button class="btn-next" (click)="nextStepper()">
+            &nbsp;{{ 'proximo' | translate }}
+            <img src="../../../../../assets/icons/arrow-left-green.svg">
+          </button>
+        </div>
+      </ng-container>
+
+      <ng-template #elseBlock>
+        <ng-container *ngIf="nConference && stepperIndex < (steppers.length - 1)">
+          <div class="ms-3">
+            <button class="btn-next" (click)="nextStepper()">
+              &nbsp;{{ 'proximo' | translate }}
+              <img src="../../../../../assets/icons/arrow-left-green.svg">
+            </button>
+          </div>
+        </ng-container>
+      </ng-template>
+    </div>
+
+  </div>
+</ng-container>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+

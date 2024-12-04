@@ -1,0 +1,19 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button #closeButton class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <div class="mb-2">
+      <p class="title-modal">{{ 'arquivosInvalidos' | translate }}</p>
+    </div>
+
+    <div class="section-list-files">
+      <div *ngFor="let file of files" class="box-filename">
+        <span class="filename">{{ file }}</span>
+      </div>
+    </div>
+  </div>
+</div>

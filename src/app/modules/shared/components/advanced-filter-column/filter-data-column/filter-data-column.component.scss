@@ -1,0 +1,44 @@
+.section-columns-selected {
+  display: flex;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.column-selected {
+  display: flex;
+  margin: auto;
+  margin-right: 0.5rem;
+  height: 1.75rem;
+  padding: 0rem 1rem 0rem 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  border-radius: 6.25rem;
+  border: 0.5px solid var(--color-green-100);
+  background: var(--color-green-50);
+}
+
+.text-column-selected {
+  color: var(--color-grey-700-text);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.arrow-down-data {
+  transition: all 0.4s ease;
+}
+
+.open-data {
+  transform: rotate(180deg);
+}
+
+.text-contains-equal {
+  color: var(--color-grey-500-text);
+  font-size: 0.75rem;
+}
+
+.box-edit-filter-position {
+  position: absolute;
+  margin-top: 11.5rem
+}

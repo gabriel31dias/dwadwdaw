@@ -1,0 +1,26 @@
+<div class="img-background">
+  <div class="custom-align">
+
+    <div class="box-login-section">
+      <div class="login-section">
+        <div class="overflow-section ">
+
+          <div class="mb-5 mt-1">
+            <img src="../../../../../assets/images/logo.svg" width="90%">
+          </div>
+
+          <div [@routeAnimations]="getRouteAnimationData()" class="slide-wrapper">
+            <router-outlet></router-outlet>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="logo-active-corp mt-3">
+      <img src="../../../../../assets/images/logo-active-corp.svg"
+          width="85%"
+          style="float: right;">
+    </div>
+  </div>
+</div>

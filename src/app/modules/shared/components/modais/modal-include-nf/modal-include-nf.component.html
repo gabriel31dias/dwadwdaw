@@ -1,0 +1,249 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal tab-enter">
+    <div class="mb-3">
+      <p class="title-modal" *ngIf="!idInvoice">{{ 'incluirNotaFiscal' | translate }}</p>
+      <p class="title-modal" *ngIf="idInvoice">{{ 'editarNotaFiscal' | translate }}</p>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-6 ps-0">
+        <app-dropdown-default label="remetente"
+          [searchable]="true"
+          [required]="true"
+          [changed]="alertRequired"
+          placeholder="XX. XXX. XXX/0001-XX"
+          [options]="companiesList"
+          [shortListed]="invoice.cnpjRemetente ? invoice.cnpjRemetente : null"
+          (optionChanged)="cnpjSelected($event, 'remetente')"
+          [advanced]="true"
+          (advancedOpen)="openModalSearchClient('remetente')"
+          (search)="search($event, 'remetente')"
+          [isCnpj]="true"
+          (editClient)="openEditClient('remetente')">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-6">
+        <app-dropdown-default label="destinatario"
+          [searchable]="true"
+          [required]="true"
+          [changed]="alertRequired"
+          placeholder="XX. XXX. XXX/0001-XX"
+          [options]="companiesList2"
+          [shortListed]="invoice.cnpjDestinatario ? invoice.cnpjDestinatario : null"
+          (optionChanged)="cnpjSelected($event, 'destinatario')"
+          [advanced]="true"
+          (advancedOpen)="openModalSearchClient('destinatario')"
+          (search)="search($event, 'destinatario')"
+          [isCnpj]="true"
+          (editClient)="openEditClient('destinatario')">
+        </app-dropdown-default>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-6 ps-0">
+        <app-dropdown-default label="pagador"
+          [searchable]="true"
+          [required]="true"
+          [changed]="alertRequired"
+          placeholder="XX. XXX. XXX/0001-XX"
+          [options]="companiesList3"
+          [shortListed]="invoice.cnpjPagador ? invoice.cnpjPagador : null"
+          (optionChanged)="cnpjSelected($event, 'pagador')"
+          [advanced]="true"
+          (advancedOpen)="openModalSearchClient('pagador')"
+          (search)="search($event, 'pagador')"
+          [isCnpj]="true"
+          (editClient)="openEditClient('pagador')">
+        </app-dropdown-default>
+      </div>
+
+      <div class="col-3">
+        <app-select label="tipoDeDocumento"
+          placeholder="selecionar"
+          [required]="true"
+          [changed]="alertRequired"
+          [options]="typesDocument"
+          (optionChanged)="setDocument($event)"
+          [shortListed]="invoice.tipoDocumento ? invoice.tipoDocumento : null">
+        </app-select>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-6 ps-0">
+        <app-input label="chaveDeAcesso"
+          placeholder="chaveDeAcesso"
+          [entry]="invoice.chaveDeAcesso"
+          (entryChanged)="invoice.chaveDeAcesso = $event"
+          [maxLength]="44"
+          mask="0*"
+          [readonly]="invoice.tipoDocumento !== 'Nota Fiscal' ? true : false">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row mb-2 mt-1">
+      <div class="col-12 ps-0">
+        <div class="d-flex">
+          <div class="flex-item">
+            <app-input label="nNotaFiscal"
+              placeholder="0"
+              [required]="true"
+              [changed]="alertRequired"
+              mask="0*"
+              [entry]="invoice.numNF"
+              (entryChanged)="invoice.numNF = $event"
+              [maxLength]="12">
+            </app-input>
+          </div>
+
+          <div class="flex-item">
+            <app-input label="serie"
+              placeholder="0"
+              [required]="true"
+              [changed]="alertRequired"
+              mask="0*"
+              [entry]="invoice.serie"
+              (entryChanged)="invoice.serie = $event"
+              [maxLength]="3">
+            </app-input>
+          </div>
+
+          <div class="flex-item">
+            <!-- <app-input label="dataDeEmissao"
+              placeholder="XX/XX/XXXX"
+              [required]="true"
+              [changed]="alertRequired"
+              mask="date"
+              [entry]="invoice.dataEmissao"
+              (entryChanged)="invoice.dataEmissao = $event">
+            </app-input> -->
+
+            <app-input-date label="dataDeEmissao"
+              [required]="true"
+              [changed]="alertRequired"
+              [date]="invoice.dataEmissao"
+              (dateChanged)="onDateChanged($event)"
+              [minDate]="'1900-01-01'"
+              [changed]="dateValidation"
+              [alertMessage]="dateValidationMessage">
+            </app-input-date>
+          </div>
+
+          <div class="flex-item">
+            <app-input label="pedido"
+              placeholder="0"
+              [entry]="invoice.pedido"
+              (entryChanged)="invoice.pedido = $event"
+              [maxLength]="20">
+            </app-input>
+          </div>
+
+          <div class="flex-item no-margin-right">
+            <app-input label="romaneio"
+              placeholder="xxxxxxxxxxxxxxxxxxxx"
+              [entry]="invoice.romaneio"
+              (entryChanged)="invoice.romaneio = $event"
+              [maxLength]="15">
+            </app-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-1 mb-2">
+      <div class="col-12 ps-0">
+        <div class="d-flex">
+          <div class="flex-item">
+            <app-input label="quantidadeDeVolumes"
+              placeholder="0"
+              [required]="true"
+              [changed]="alertRequired"
+              mask="0*"
+              [entry]="invoice.qtdVolumes"
+              (entryChanged)="invoice.qtdVolumes = $event"
+              [readonly]="disableTag">
+            </app-input>
+          </div>
+
+          <div class="flex-item">
+            <app-input label="peso"
+              placeholder="0"
+              [currency]="true"
+              [noPrefix]="true"
+              [entry]="invoice.peso"
+              (entryChanged)="invoice.peso = $event">
+            </app-input>
+          </div>
+
+          <div class="flex-item">
+            <app-input label="pesoBruto"
+              placeholder="0"
+              [currency]="true"
+              [noPrefix]="true"
+              [entry]="invoice.pesoBruto"
+              (entryChanged)="invoice.pesoBruto = $event">
+            </app-input>
+          </div>
+
+          <div class="flex-item">
+            <app-input-m3 [entry]="invoice.m3"
+              (entryChanged)="invoice.m3 = $event"
+              [measures]="invoice.medidas ? invoice.medidas : []"
+              (measuresChanged)="invoice.medidas = $event">
+            </app-input-m3>
+          </div>
+
+          <div class="flex-item no-margin-right">
+            <app-input label="valorDaMercadoria"
+              placeholder="R$ 0,00"
+              [currency]="true"
+              [entry]="invoice.valorMercadoria"
+              (entryChanged)="invoice.valorMercadoria = $event">
+            </app-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-1 mb-3" *ngIf="enableInputTag">
+      <div class="col-3 ps-0" style="padding-right: 45px;">
+        <div class="d-flex">
+          <div class="flex-item">
+            <app-input label="quantidadeDeEtiquetas"
+              placeholder="0"
+              mask="0*"
+              [entry]="invoice.qtdEtiquetas"
+              (entryChanged)="invoice.qtdEtiquetas = $event"
+              [readonly]="disableTag">
+            </app-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="section-btns-confirm mt-2">
+      <button class="button-secondary button-fill button-me me-2" (click)="close()">{{ 'cancelar' | translate }}</button>
+      <button class="button-primary button-fill button-me" (click)="confirm()">{{ 'salvar' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

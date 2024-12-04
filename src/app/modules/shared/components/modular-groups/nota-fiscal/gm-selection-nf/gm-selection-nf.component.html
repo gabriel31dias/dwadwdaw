@@ -1,0 +1,79 @@
+<div class="row">
+  <span class="title-register ps-0 pe-0 mb-1">
+    {{ 'notasFiscais' | translate }}--
+  </span>
+</div>
+
+<ng-container *ngIf="!readonly">
+  <div class="row actions-gm-selection-nf mt-4 ps-0 pe-0">
+    <div class="col-8 ps-0 pe-0 flex-row">
+      <div class="search-gm-selection-nf pe-2">
+        <app-input-search label="chaveDeAcesso"
+          placeholder="placeholderChaveDeAcesso"
+          (entryChanged)="doSearch($event)"
+          [mask]="'0*'"
+          [maxLength]="44"
+          (clicked)="openModalSearchNf($event)">
+        </app-input-search>
+      </div>
+
+      <!-- CÓDIGO COMENTADO TEMPORARIAMENTE ATÉ QUE A DOCUMENTAÇÃO DA FUNCIONALIDADE SEJA DISPONIBILIZADA -->
+      <!-- <div class="ps-1 pe-1">
+        <button class="button-primary button-fill button-sm just-icon tooltip-content"
+          (click)="openModalActionsNF()">
+          <img src="../../../../../assets/icons/add.svg">
+          <span class="tooltip-default tooltip-icon-button">
+            {{ 'incluirNovaNotaFiscal' | translate }}&nbsp;
+          </span>
+        </button>
+      </div> -->
+
+      <div class="ps-0">
+        <button class="icon-button-primary tooltip-content" (click)="openModalUploadFiles()">
+          <img src="../../../../../assets/icons/upload-file.svg">
+          <span class="tooltip-default">{{ 'uploadNF' | translate }}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="icons-buttons-gm-selection-nf d-flex justify-content-end section-actions-advanced-driver">
+        <!-- CÓDIGO COMENTADO TEMPORARIAMENTE ATÉ QUE A DOCUMENTAÇÃO DA FUNCIONALIDADE SEJA DISPONIBILIZADA -->
+        <!-- <button *ngIf="nfsSelected.length === 1" class="icon-button-primary tooltip-content"
+          (click)="openModalActionsNF()">
+          <img src="../../../../../assets/icons/edit.svg">
+          <span class="tooltip-default">{{ 'editar' | translate }}</span>
+        </button> -->
+
+        <button *ngIf="nfsSelected.length >= 1" class="icon-button-primary tooltip-content me-4"
+          (click)="openModalConfirmRemove()">
+          <img src="../../../../../assets/icons/remove-green.svg">
+          <span class="tooltip-default">{{ 'remover' | translate }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<div *ngIf="nfs.length !== 0" class="grid-gm-selection-nf">
+  <app-table-grid-secondary idGrid="grid-gm-selecion-nf"
+    [columnsHeader]="columns"
+    [columnsHide]="columnsHide"
+    [dataset]="nfs"
+    [enableCheckbox]="true"
+    (rowsSelected)="rowsSelected($event)"
+    (columnsChanges)="columnsChanges($event)"
+    [enableReset]="true"
+    (resetGrid)="resetGrid()">
+  </app-table-grid-secondary>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>

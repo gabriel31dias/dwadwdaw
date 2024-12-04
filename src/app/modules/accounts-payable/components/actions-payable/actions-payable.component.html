@@ -1,0 +1,109 @@
+<div class="custom-content">
+
+  <div class="row">
+    <div class="col-9 ps-2">
+      <app-breadcrumb [steppers]="steppers"
+        [stepperIndex]="stepperIndex"
+        (stepperEmitter)="stepperIndex = $event">
+      </app-breadcrumb>
+    </div>
+
+    <div class="col-3">
+      <div class="box-status">
+        <span class="text-status">
+          {{ 'status' | translate }}:
+          <span class="color-green-700" [ngClass]="disableEdit ? 'clickable hover-underline' : ''"
+          (click)="disableEdit ? openModalDetailsReceivable() : null">
+            Pendente
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="inside-content-actions">
+
+    <!-- Se não tiver campos personalizados -->
+    <ng-container *ngIf="customFieldData == false">
+      <div *ngIf="stepperIndex == 0">
+        <app-bill-data>
+
+        </app-bill-data>
+      </div>
+
+      <div *ngIf="stepperIndex == 1">
+        <app-stage-bill-documents>
+
+        </app-stage-bill-documents>
+      </div>
+
+      <div *ngIf="stepperIndex == 2">
+        <app-stage-movements-payable>
+
+        </app-stage-movements-payable>
+
+      </div>
+    </ng-container>
+
+    <!-- Se tiver campos personalizados -->
+    <ng-container *ngIf="customFieldData == true">
+      <div *ngIf="stepperIndex == 0">
+        <app-bill-data>
+
+        </app-bill-data>
+      </div>
+
+      <div *ngIf="stepperIndex == 1">
+        <app-stage-bill-documents>
+
+        </app-stage-bill-documents>
+      </div>
+
+      <div *ngIf="stepperIndex == 3">
+        <app-stage-movements-payable>
+
+        </app-stage-movements-payable>
+
+      </div>
+    </ng-container>
+  </div>
+
+
+  <div class="section-btn-close-register">
+    <button class="btn-confirm btn-transparent-close" (click)="close()">
+      {{ 'fechar' | translate }}
+    </button>
+  </div>
+
+  <div class="section-btns-register">
+    <div style="width: 8.3125rem;" *ngIf="!disableEdit">
+      <app-btn-confirm-action [label]="idBill ? 'salvar' : 'concluir'"
+        iconUrl="../../../../../assets/icons/checked.svg"
+        (clicked)="setReceivable()"
+        [disabled]="loading">
+      </app-btn-confirm-action>
+    </div>
+
+    <div class="ms-3" *ngIf="stepperIndex !== 0">
+      <button class="btn-next" (click)="backStepper()">
+        <img class="back-icon" src="../../../../../assets/icons/arrow-left-green.svg">
+        {{ 'anterior' | translate }}&nbsp;
+      </button>
+    </div>
+
+    <div class="ms-3" *ngIf="stepperIndex < (steppers.length - 1) && !steppers[stepperIndex + 1].disabled">
+      <button class="btn-next" (click)="nextStepper()">
+        &nbsp;{{ 'proximo' | translate }}
+        <img src="../../../../../assets/icons/arrow-left-green.svg">
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

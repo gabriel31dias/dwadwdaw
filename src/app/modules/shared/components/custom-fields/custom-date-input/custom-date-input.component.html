@@ -1,0 +1,5 @@
+<app-input-date [label]="label"
+  [date]="entry"
+  (dateChanged)="entry = $event; entryChanged.emit($event)"
+  [ignoreTranslate]="true">
+</app-input-date>

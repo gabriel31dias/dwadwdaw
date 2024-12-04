@@ -1,0 +1,33 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'historicoDeAlteracoes' | translate }}</p>
+
+    <app-table-sort [viewDetailSection]="true"
+      [headers]="headers"
+      [records]="historics"
+      (recordViewDetail)="getDetails($event)">
+    </app-table-sort>
+
+    <div class="section-btns-confirm">
+      <button class="button-secondary button-outline button-me" (click)="close()">{{ 'fechar' | translate }}</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>
+
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

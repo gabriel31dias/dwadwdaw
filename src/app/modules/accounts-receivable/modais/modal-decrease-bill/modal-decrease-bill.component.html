@@ -1,0 +1,56 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'baixaDeFaturas' | translate }}</p>
+    <span class="text-modal mb-1">
+      <strong>{{ 'quantidadeFaturas' | translate }}:</strong> {{ billSelecteds }}
+    </span>
+    <span class="text-modal">
+      <strong>{{ 'valorTotal' | translate }}:</strong> {{ valueBills }}
+    </span>
+
+    <div class="mt-4 mb-3">
+      <app-dropdown-default label="contaCorrente"
+        placeholder="selecionarContaCorrente"
+        [options]="accounts"
+        (optionChanged)="accountSelected($event)">
+      </app-dropdown-default>
+    </div>
+
+    <div class="mt-2 mb-4">
+      <app-input-text-area label="observacao"
+        [maxLength]="250"
+        [entry]="billDecrease.observacao"
+        (entryChanged)="billDecrease.observacao = $event">
+      </app-input-text-area>
+    </div>
+
+    <div class="col-7 mb-3">
+      <app-input-date label="data"
+        [date]="billDecrease.dataHora"
+        (dateChanged)="billDecrease.dataHora = $event">
+      </app-input-date>
+    </div>
+
+    <div class="d-flex justify-content-end mt-2">
+      <button class="btn-confirm btn-transparent-cancel" (click)="close()">{{ 'cancelar' | translate }}</button>
+      <button class="btn-confirm green" (click)="confirm()">{{ 'baixar' | translate }}</button>
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+
+

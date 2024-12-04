@@ -1,0 +1,43 @@
+.section-columns-selected {
+  display: flex;
+  user-select: none;
+}
+
+.arrow-down-data {
+  transition: all 0.4s ease;
+  transform: rotate(270deg);
+
+  margin-bottom: 1px;
+  margin-right: 5px;
+}
+
+.open-data {
+  border-radius: 0.3125rem;
+  background: var(--color-green-50);
+}
+
+.text-contains-equal {
+  color: var(--color-grey-500-text);
+  font-size: 0.75rem;
+}
+
+.box-edit-filter-position {
+  position: absolute;
+  top: 9.32rem;
+  left: -17.813rem;
+
+  margin-right: -0.5rem;
+}
+
+.column-selected-more {
+  margin-bottom: 0.5rem;
+
+  color: var(--color-green-800);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.00625rem;
+  text-overflow: ellipsis;
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 2rem;
+}

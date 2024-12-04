@@ -1,0 +1,166 @@
+<ng-container *ngIf="this.permissions.includes(authConference.Ler)">
+  <div class="margin-listing">
+    <div class="section-segmented-buttons">
+      <app-segmented-button text="pendentes"
+        [num]="pending.total"
+        [clicked]="pending.selected"
+        (selected)="selectedTotal(indicatorsEnum.Pendentes, $event)">
+      </app-segmented-button>
+      <app-segmented-button text="iniciadas"
+        [num]="initiated.total"
+        [clicked]="initiated.selected"
+        (selected)="selectedTotal(indicatorsEnum.Iniciadas, $event)">
+      </app-segmented-button>
+      <app-segmented-button text="conferidasEmDesacordo"
+        [num]="checkedDesagreement.total"
+        [clicked]="checkedDesagreement.selected"
+        (selected)="selectedTotal(indicatorsEnum.ConferidasEmDesacordo, $event)">
+      </app-segmented-button>
+      <app-segmented-button text="conferidas"
+        [num]="checked.total"
+        [clicked]="checked.selected"
+        (selected)="selectedTotal(indicatorsEnum.Conferidas, $event)">
+      </app-segmented-button>
+    </div>
+
+    <div class="grid-section">
+      <div class="flex-row">
+        <div class="filters-custom-grid" style="z-index: 101;">
+          <app-filter-columns [columns]="columnsFilter"
+            [filtersSearch]="configFilterColumnSelected"
+            (sendRequest)="setFilterColumn($event)">
+          </app-filter-columns>
+        </div>
+
+        <div class="date-filter-grid flex-row">
+          <div class="dropdown-filter-date-grid">
+            <app-dropdown-default label="filtrarPor"
+              [options]="filterDate"
+              [shortListed]="filterDateSelected !== null ? filterDateEnum[filterDateSelected] : null"
+              (optionChanged)="filterDateSelected = $event; periodFilter.finalDate ? getConference() : ''">
+            </app-dropdown-default>
+          </div>
+
+          <div class="input-period-grid">
+            <app-period-two-dates [periodFilter]="periodFilter"
+              (periodEmitter)="setFilterDate($event)">
+            </app-period-two-dates>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="flex-row">
+        <div class="search-and-add flex-row">
+          <div class="search-section tooltip-content me-3">
+            <app-input-search placeholder="pesquisaRapida"
+              [entry]="search"
+              (entryChanged)="doSearch($event)"
+              (lostFocus)="doSearch($event, true)">
+            </app-input-search>
+            <div class="tooltip-default tooltip-break">{{ 'tooltipPesquisaListaConferencia' | translate }}</div>
+          </div>
+
+          <div class="add-section">
+            <app-btn-confirm-action iconUrl="../../../../../assets/icons/add.svg"
+              height="2.1875rem"
+              (clicked)="goToNewConference($event)"
+              tooltip="incluirNovaConferencia">
+            </app-btn-confirm-action>
+          </div>
+
+          <div class="clear-filter-grid">
+            <span class="text-clear-filter-grid clickable" (click)="clearFilters()">{{ 'limparFiltros' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="icons-actions">
+          <div class="float-right flex-row">
+            <ng-container *ngIf="cdConferencesSelected.length >= 1">
+              <button id="view-more" class="icon-button-primary tooltip-content">
+                <img  src="../../../../../assets/icons/share.svg">
+                <span class="tooltip-default">{{ 'compartilhar' | translate }}</span>
+                <div class="box-actions">
+                  <p class="title-share-grid">{{ 'compartilhar' | translate }}</p>
+                  <div class="flex-row mb-2" (click)="openModalConfirm('send-email')">
+                    <img src="../../../../../assets/icons/email.svg">
+                    <p class="text-box-actions text-share-grid ps-2">
+                      {{ 'email' | translate }}
+                    </p>
+                  </div>
+                  <div class="flex-row" (click)="openModalConfirm('send-whatsapp')">
+                    <img src="../../../../../assets/icons/whatsapp.svg">
+                    <p class="text-box-actions text-share-grid ps-2" >
+                      {{ 'whatsapp' | translate }}
+                    </p>
+                  </div>
+                </div>
+              </button>
+              <button class="icon-button-primary tooltip-content" (click)="downloadPDFReport()">
+                <img  src="../../../../../assets/icons/export-pdf.svg">
+                <span class="tooltip-default">{{ 'gerarPDF' | translate }}</span>
+              </button>
+              <button class="icon-button-primary tooltip-content" (click)="printReport()">
+                <img  src="../../../../../assets/icons/print.svg">
+                <span class="tooltip-default">{{ 'imprimir' | translate }}</span>
+              </button>
+              <button class="icon-button-primary tooltip-content" *ngIf="verifyConfDelete()" (click)="openModalConfirm('delete')">
+                <img  src="../../../../../assets/icons/delete.svg">
+                <span class="tooltip-default">{{ 'excluir' | translate }}</span>
+              </button>
+              <button id="view-more" class="icon-button-primary tooltip-content" *ngIf="verifyConfCancel() || cdConferencesSelected.length === 1">
+                <img  src="../../../../../assets/icons/view-more.svg">
+                <span class="tooltip-default">{{ 'acoes' | translate }}</span>
+                <div class="box-actions">
+                  <p class="text-box-actions" *ngIf="cdConferencesSelected.length === 1" (click)="checkConference()">
+                    {{ 'conferir' | translate }}
+                  </p>
+                  <p class="text-box-actions" *ngIf="verifyConfCancel()" (click)="openModalCancelConference()">
+                    {{ 'cancelar' | translate }}
+                  </p>
+                  <p class="text-box-actions" *ngIf="cdConferencesSelected.length === 1" (click)="openModalConfirm('print-tag')">
+                    {{ 'imprimirEtiquetas' | translate }}
+                  </p>
+                  <p class="text-box-actions" *ngIf="cdConferencesSelected.length === 1" (click)="openModalHistoricChanges()">
+                    {{ 'historicoDeAlteracoes' | translate }}
+                  </p>
+                </div>
+              </button>
+            </ng-container>
+            <button *ngIf="cdConferencesSelected.length === 0"  class="icon-button-primary tooltip-content" (click)="openQueryVolumes()">
+              <img  src="../../../../../assets/icons/conference-green.svg">
+              <span class="tooltip-edge">{{ 'consultaDeVolumes' | translate }}</span>
+            </button>
+            <button #refresh class="icon-button-primary refresh tooltip-content" (click)="refreshGrid(); refresh.blur()" [style.transform]="'rotate(' + btnRotate + 'deg)'">
+              <img  src="../../../../../assets/icons/refresh.svg">
+              <span class="tooltip-edge" *ngIf="!hideTooltip">{{ 'atualizarGrid' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="conferences.length > 0">
+        <app-table-dinamic-grid idGrid="list-conferences"
+          [columnsHeader]="columns"
+          [columnsHide]="columnsHide"
+          [dataset]="conferences"
+          (columnsChanges)="columnsChanges($event)"
+          (rowsSelected)="rowsSelected($event)"
+          (rowClicked)="goToEdit($event)"
+          [totalItems]="totalLenght"
+          [itemsPerPage]="take"
+          [currentPage]="page"
+          (pageEmitter)="pageChange($event)">
+        </app-table-dinamic-grid>
+      </div>
+
+    </div>
+  </div>
+</ng-container>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

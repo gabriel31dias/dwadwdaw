@@ -1,0 +1,33 @@
+<div class="pt-n1">
+  <p class="hello-user-name"> {{ "ola" | translate }} {{ nameUser }}</p>
+</div>
+
+<div class="pt-2 mb-5">
+  <app-dropdown-default   label="selecionarEmpresa"
+    [options]="companiesNames"
+    (optionChanged)="indexCompanySelected = $event"
+    [enableKeydown]="true"
+    (keydownPress)="selectCompany($event)">
+  </app-dropdown-default>
+</div>
+
+<div>
+  <app-btn-confirm-action label="acessar"
+    (clicked)="selectCompany($event)"
+    [disabled]="loading">
+  </app-btn-confirm-action>
+
+  <app-btn-cancel-transparent label="voltar"
+    (clicked)="logout($event)">
+  </app-btn-cancel-transparent>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>

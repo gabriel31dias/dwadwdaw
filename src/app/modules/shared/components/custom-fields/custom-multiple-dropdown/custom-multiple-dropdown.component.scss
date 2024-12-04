@@ -1,0 +1,239 @@
+::ng-deep .app-custom-select-multi .ng-select-container {
+  font-size: 0.875rem;
+  font-family: "Roboto";
+  color: var(--color-grey-700-text);
+
+  border-radius: 5px;
+  min-height: 0rem;
+  height: 2.188rem !important;
+  border: solid 1px var(--color-grey-200)!important;
+}
+
+::ng-deep .app-custom-select-multi.ng-select.ng-select-opened > .ng-select-container {
+  border-color: var(--color-green-500-mark) !important;
+  z-index: 1 !important;
+}
+
+::ng-deep .app-custom-select-multi.ng-select.ng-select-focused > .ng-select-container {
+  border-color: var(--color-green-500-mark) !important;
+  box-shadow: none !important;
+}
+
+::ng-deep .app-custom-select-multi.ng-select.ng-select-opened.ng-select-bottom>.ng-select-container {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+::ng-deep .app-custom-select-multi .ng-select-container:hover {
+  box-shadow: none;
+}
+
+::ng-deep .app-custom-select-multi .ng-value-label {
+  padding-left: 0.375rem;
+}
+
+::ng-deep .app-custom-select-multi .ng-dropdown-panel .ng-dropdown-panel-items {
+  max-height: 12.75rem !important;
+  z-index: 100;
+}
+
+::ng-deep .app-custom-select-multi .ng-dropdown-panel {
+  margin-top: 0.063rem !important;
+  border-radius: 5px !important;
+  border: none !important;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+::ng-deep .app-custom-select-multi .ng-option {
+  font-size: 0.875rem;
+  font-family: "Roboto";
+  color: var(--color-grey-500-text) !important;
+
+  background-color: transparent !important;
+  border-radius: 5px !important;
+  height: 2.125rem;
+}
+
+::ng-deep .app-custom-select-multi .ng-option.ng-option-marked {
+  background-color: var(--color-grey-50) !important;
+}
+
+::ng-deep .app-custom-select-multi .ng-option.ng-option-selected {
+  background-color: var(--color-grey-50) !important;
+}
+
+::ng-deep .app-custom-select-multi.ng-select {
+  .ng-arrow {
+    border-color: inherit !important;
+    border-width: 0 !important;
+    font-size: 1rem;
+    top: -0.125rem !important;
+    left: -0.825rem;
+    color: inherit;
+    text-align: center;
+    transform: rotate(0deg);
+    transform-origin: 0.375rem 0.875rem;
+    transition: transform 0.3s ease;
+    &:before {
+      content: url("../../../../../../assets/icons/arrow-down-select.svg");
+    }
+  }
+
+  &.ng-select-opened {
+    .ng-arrow {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.icon-clear {
+  float: right;
+  margin-top: -1.7rem;
+  margin-bottom: -1rem;
+  margin-right: 30px;
+  background-color: transparent;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  line-height: center;
+  z-index: 1000;
+
+  -webkit-mask: url('/assets/icons/close-select.svg') no-repeat center;
+  mask: url('/assets/icons/close-select.svg') no-repeat center;
+  background-color: var(--color-grey-500-text) !important;
+
+  &:hover {
+    background-color: var(--color-red) !important;
+  }
+
+  &:focus-within {
+    background-color: var(--color-red) !important;
+  }
+}
+
+::ng-deep .app-custom-select-multi .icon-clear {
+  cursor: pointer;
+}
+
+::ng-deep .app-custom-select-multi .ng-clear-wrapper {
+  margin-right: 6px;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+::ng-deep .app-custom-select-multi.is-selected .ng-select-container {
+  border: solid 1px var(--color-grey-200) !important;
+}
+
+::ng-deep .app-custom-select-multi.required .ng-select-container {
+  border: solid 1px var(--color-red) !important;
+}
+
+::ng-deep .app-custom-select-multi .ng-placeholder {
+  color: var(--color-grey-500-text) !important;
+}
+
+::ng-deep .app-custom-select-multi.ng-select.ng-select-multiple
+.ng-select-container
+.ng-value-container
+.ng-value {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--color-grey-700-text);
+
+  background-color: var(--color-green-100);
+  padding: 2px 4px 2px 4px;
+  border-radius: 2px;
+  margin-right: 8px;
+  z-index: 3;
+}
+
+::ng-deep .app-custom-select-multi .ng-dropdown-header {
+  font-size: 14px;
+  font-family: "Roboto";
+  color: var(--color-grey-500-text) !important;
+  border-bottom: none !important;
+  padding: 8px 10px !important;
+  display: flex !important;
+  align-content: center !important;
+  align-items: center !important;
+
+  span {
+    padding-left: 13px !important;
+  }
+}
+
+::ng-deep .app-custom-select-multi .ng-option {
+  font-size: 14px;
+}
+
+span {
+  padding-left: 13px !important;
+  margin-bottom: 3px !important;
+}
+
+.ng-value span {
+  padding-left: 0px !important;
+}
+
+::ng-deep .app-custom-select-multi .ng-option {
+    display: flex !important;
+    align-content: center !important;
+    align-items: center !important;
+}
+
+.app-custom-select-multi-checked {
+  height: 1rem;
+  width: 1rem;
+  background-color: var(--color-green-500-mark);
+  position: absolute;
+  left: -2px;
+  top: 1px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.app-custom-select-multi-label {
+  color: var(--color-grey-700-text);
+  font-weight: 400;
+  font-size: 0.75rem;
+  line-height: 0.875rem auto;
+
+
+  background: var(--color-white);
+  position: absolute !important;
+  pointer-events: none;
+  left: 1rem;
+  top: -0.625rem;
+  padding: 0 0.25rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 1;
+}
+
+.app-custom-select-multi-all-checked {
+  height: 1rem;
+  width: 1rem;
+  background-color: var(--color-green-500-mark);
+  position: absolute;
+  left: 8px;
+  top: 11px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.app-custom-select-multi-more-values {
+  font-family: "Roboto";
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-green-900);
+
+  margin-bottom: 3px;
+  margin-left: -10px;
+}

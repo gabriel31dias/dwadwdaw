@@ -1,0 +1,208 @@
+<div class="tab-enter custom-content">
+  <div class="row header-chips">
+    <div class="col-3 ps-0 pe-0">
+      <span class="title-register">
+        {{ getTitle() | translate }}
+      </span>
+    </div>
+
+    <div class="row col-9 ps-0 pe-0 d-flex justify-content-end align-center mb-3">
+      <div *ngIf="collection.coletadoEm" class="app-chips-link me-3" (click)="openLogCollection()">
+        {{ 'coletado' | translate }}: {{ collection.coletadoEm }}
+      </div>
+
+      <div *ngIf="collection.noCotacao" class="app-chips-link me-3" (click)="openQuotation()">
+        {{ 'noCotacao' | translate }}: {{ collection.noCotacaoTratado }}
+      </div>
+
+      <div *ngIf="collection.viagem" class="app-chips-link me-3" (click)="openTrip()">
+        {{ 'viagem' | translate }}: {{ collection.viagemTratado }}
+      </div>
+
+      <div *ngIf="collection.cte" class="app-chips-link me-3" (click)="openCTe()">
+        {{ 'cte' | translate }}: {{ collection.cte }}
+      </div>
+
+      <div *ngIf="status" [ngClass]="getTypeChips()">
+        {{ status }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-11 ps-0 pe-0">
+      <app-breadcrumb [steppers]="steppers"
+        [stepperIndex]="stepperIndex"
+        (stepperEmitter)="stepperIndex = $event">
+      </app-breadcrumb>
+    </div>
+
+    <div *ngIf="nCollection && cdFilEmp" class="col-1 ps-0 pe-0 d-flex justify-content-end">
+      <button id="button-options" class="button-secondary button-outline button-sm just-icon mt-2" [disabled]="loading">
+        <img src="../../../../../assets/icons/options.svg">
+        <div class="app-list-options">
+          <div class="text-option" *ngIf="verifyDelete()" (click)="openModalConfirm('delete')">{{ 'excluir' | translate }}</div>
+          <div class="text-option" *ngIf="verifyGenerateRelat()" (click)="setLayoutReport('download-pdf')">{{ 'baixarPdf' | translate }}</div>
+          <div class="text-option" *ngIf="verifyGenerateRelat()" (click)="setLayoutReport('print')">{{ 'imprimir' | translate }}</div>
+          <div class="text-option" *ngIf="verifyGenerateRelat()" (click)="getConfigSendEmail()">{{ 'enviarPorEmail' | translate }}</div>
+          <div class="text-option" *ngIf="verifyGenerateRelat()" (click)="setLayoutReport('send-whatsapp')">{{ 'enviarPorWhatsapp' | translate }}</div>
+          <div class="text-option" *ngIf="verifyCancelAndDecrease()" (click)="openModalCancel()">{{ 'cancelar' | translate }}</div>
+          <div class="text-option" *ngIf="verifyCancelAndDecrease()" (click)="openModalDownloadCollection()">{{ 'baixar' | translate }}</div>
+          <div class="text-option" *ngIf="verifyPendingAccept()" (click)="openModalConfirm('accept')">{{ 'aceitar' | translate }}</div>
+          <div class="text-option" *ngIf="verifyPendingAccept()" (click)="openModalReject()">{{ 'rejeitar' | translate }}</div>
+          <div class="text-option" (click)="openModalHistoricChanges()">{{ 'historicoDeAlteracoes' | translate }}</div>
+          <div class="text-option" (click)="exportExcel()">{{ 'baixarExcel' | translate }}</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div class="inside-actions" *ngIf="infoCollection.tipoColeta !== 1">
+    <div *ngIf="stepperIndex == 0">
+      <app-stage-info-collection (typeCollectionEmitter)="changeTypeCollection($event)"
+        [typeCollectionSelected]="infoCollection.tipoColeta"
+        [collection]="infoCollection"
+        (infoCollectionEmitter)="infoCollection = $event"
+        [alertRequired]="alertRequired"
+        [readonly]="readonly"
+        [typesServices]="typesServices"
+        [infoSubsidiaries]="infoSubsidiaries"
+        [subsidiariesName]="subsidiariesName"
+        [dateTimeValidations]="dateTimeValidationsInfo"
+        [citiesList]="citiesList"
+        (citiesListEmitter)="citiesList = $event"
+        [messageDateError]="dateTimeValidationInfoAndDelivery.alertDateMessage"
+        [deliveryPlace]="deliveryPlace">
+      </app-stage-info-collection>
+    </div>
+
+    <div *ngIf="stepperIndex == 1">
+      <app-stage-load-totals [loadTotals]="loadTotals"
+        (loadTotalsEmitter)="loadTotals = $event"
+        [alertRequired]="alertRequired"
+        [readonly]="readonly"
+        (nfsEmitter)="setNotaFiscal($event)">
+      </app-stage-load-totals>
+    </div>
+
+    <div class="mt-3" *ngIf="stepperIndex == 2">
+      <app-stage-driver [driver]="driver"
+        (driverEmitter)="driver = $event"
+        [alertRequired]="alertRequired"
+        [readonly]="readonly"
+        [totalFieldTruck]="totalFieldTruck"
+        (totalFieldTruckEmitter)="totalFieldTruck = $event"
+        [alertTruckPlate]="alertTruckPlate"
+        (alertTruckPlateEmmiter)="alertTruckPlate = $event">
+      </app-stage-driver>
+    </div>
+
+    <div class="mt-3" *ngIf="stepperIndex == 3">
+      <app-template-custom-field [fields]="customField"
+        (fieldsEmitter)="handleFieldsUpdate($event)">
+      </app-template-custom-field>
+    </div>
+  </div>
+
+  <div class="inside-actions" *ngIf="infoCollection.tipoColeta === 1">
+    <div *ngIf="stepperIndex == 0">
+      <app-stage-info-collection (typeCollectionEmitter)="changeTypeCollection($event)"
+        [typeCollectionSelected]="infoCollection.tipoColeta"
+        [collection]="infoCollection"
+        (infoCollectionEmitter)="infoCollection = $event"
+        [alertRequired]="alertRequired"
+        [readonly]="readonly"
+        [typesServices]="typesServices"
+        [infoSubsidiaries]="infoSubsidiaries"
+        [subsidiariesName]="subsidiariesName"
+        [dateTimeValidations]="dateTimeValidationsInfo || dateTimeValidationInfoAndDelivery"
+        [citiesList]="citiesList"
+        [messageDateError]="dateTimeValidationInfoAndDelivery.alertDateMessage"
+        [messageHourEndError]="dateTimeValidationInfoAndDelivery.alertTimeFinalMessage"
+        (citiesListEmitter)="citiesList = $event"
+        [deliveryPlace]="deliveryPlace">
+      </app-stage-info-collection>
+    </div>
+
+    <div *ngIf="stepperIndex == 1">
+      <app-stage-delivery-place [deliveryPlace]="deliveryPlace"
+        (deliveryPlaceEmitter)="deliveryPlace = $event"
+        [alertRequired]="alertRequired"
+        [readonly]="readonly"
+        [dateTimeValidations]="dateTimeValidationsDelivery || dateTimeValidationInfoAndDelivery"
+        [citiesList]="citiesListDelivery"
+        (citiesListEmitter)="citiesListDelivery = $event"
+        [messageDateError]="dateTimeValidationInfoAndDelivery.alertDateMessage"
+        [messageHourEndError]="dateTimeValidationInfoAndDelivery.alertTimeFinalMessage"
+        [collection]="infoCollection">
+      </app-stage-delivery-place>
+    </div>
+
+    <div *ngIf="stepperIndex == 2">
+      <app-stage-load-totals [loadTotals]="loadTotals"
+        (loadTotalsEmitter)="loadTotals = $event"
+        [alertRequired]="alertRequired"
+        [readonly]="readonly"
+        (nfsEmitter)="setNotaFiscal($event)">
+      </app-stage-load-totals>
+    </div>
+
+    <div class="mt-3" *ngIf="stepperIndex == 3">
+      <app-stage-driver [driver]="driver"
+        (driverEmitter)="driver = $event"
+        [alertRequired]="alertRequired"
+        [readonly]="readonly"
+        [totalFieldTruck]="totalFieldTruck"
+        (totalFieldTruckEmitter)="totalFieldTruck = $event"
+        [alertTruckPlate]="alertTruckPlate"
+        (alertTruckPlateEmmiter)="alertTruckPlate = $event">
+      </app-stage-driver>
+    </div>
+
+    <div class="mt-3" *ngIf="stepperIndex == 4">
+      <app-template-custom-field [fields]="customField"
+        (fieldsEmitter)="handleFieldsUpdate($event)">
+      </app-template-custom-field>
+    </div>
+  </div>
+
+
+  <div class="section-btn-close-register">
+    <button class="button-secondary button-outline button-me" (click)="close()">
+      {{ 'fechar' | translate }}
+    </button>
+  </div>
+
+  <div class="section-btns-register">
+    <div *ngIf="!readonly">
+      <button class="button-primary button-fill button-me d-flex align-items-center" (click)="defineAction()" [disabled]="loading">
+        <img src="../../../../../assets/icons/checked.svg">
+        {{ nCollection ? 'Salvar' : 'Concluir' }}
+      </button>
+    </div>
+
+    <div class="ms-3" *ngIf="stepperIndex !== 0">
+      <button #backButton class="button-primary button-outline button-me" (click)="backStepper(); removeFocus(backButton)">
+        <img class="back-icon" src="../../../../../assets/icons/arrow-left-green.svg">
+        {{ 'anterior' | translate }}&nbsp;
+      </button>
+    </div>
+
+    <div class="ms-3" *ngIf="stepperIndex < (steppers.length - 1)">
+      <button #nextButton class="button-primary button-outline button-me" (click)="nextStepper(); removeFocus(nextButton)">
+        &nbsp;{{ 'proximo' | translate }}
+        <img src="../../../../../assets/icons/arrow-left-green.svg">
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

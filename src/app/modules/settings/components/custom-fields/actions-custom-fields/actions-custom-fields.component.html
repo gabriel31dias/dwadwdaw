@@ -1,0 +1,277 @@
+<div class="custom-content">
+  <div class="inside-content-actions-without-stepper">
+    <div class="row mt-2">
+      <span class="title-register ps-0 mb-4">
+        {{ 'cadastroCampoPersonalizado' | translate }}
+      </span>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-12 col-sm-12 col-md-10 col-lg-4 col-xl-2 ps-0 pe-3 mb-md-4 mb-sm-4 mb-4">
+        <app-input label="codigo"
+          placeholder=""
+          [entry]="customField.codigo"
+          (entryChanged)="customField.codigo = $event"
+          [readonly]="true">
+        </app-input>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-10 col-lg-6 col-xl-3 ps-0 pe-3 mb-sm-2 mb-2">
+        <app-input label="nome"
+          placeholder=""
+          [required]="true"
+          [entry]="customField.nome"
+          (entryChanged)="customField.nome = $event">
+        </app-input>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-5 ps-0 pe-3 mb-md-4 mb-sm-2 mb-4">
+        <app-input label="textoAjuda"
+          placeholder=""
+          [entry]="customField.textoAjuda"
+          (entryChanged)="customField.textoAjuda = $event">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row pb-1">
+      <div class="col-12 col-sm-12 col-md-10 col-lg-2 col-xl-1 ps-0 pe-4">
+        <label class="radio radio-circle custom-text">
+          {{ 'habilitar' | translate }}
+          <input type="radio" [(ngModel)]="customField.habilitado" [value]="true"/>
+          <div class="radio-input clickable"></div>
+        </label>
+      </div>
+
+      <div class="col-12 col-sm-12 col-md-10 col-lg-2 col-xl-1 ps-0 ms-xl-4">
+        <label class="radio radio-circle custom-text">
+          {{ 'desabilitar' | translate }}
+          <input type="radio" [(ngModel)]="customField.habilitado" [value]="false"/>
+          <div class="radio-input clickable"></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="row mt-4 mb-3">
+      <span class="title-register ps-0">
+        {{ 'tipo' | translate }}
+      </span>
+    </div>
+
+    <div class="container-custom-fields mb-4">
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.Texto }"
+        (click)="setTypeField(TypeCustomField.Texto)">
+
+        <div class="section-preview-field mb-2">
+          <app-input label="Label*"
+            placeholder="Abcdef...">
+          </app-input>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'textoUmaLinha' | translate }}
+        </div>
+      </div>
+
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.TextoMultilinha }"
+        (click)="setTypeField(TypeCustomField.TextoMultilinha)">
+
+        <div class="section-preview-field mb-2 ">
+          <app-input-text-area label="Label*"
+            placeholder="Abcdefghij..."
+            height="3.375rem"
+            [desativeInformationMaxLenght]="true">
+          </app-input-text-area>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'textoMultilinha' | translate }}
+        </div>
+      </div>
+
+
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.CaixaSelecaoUnica }"
+        (click)="setTypeField(TypeCustomField.CaixaSelecaoUnica)">
+
+        <div class="section-preview-field mb-2">
+          <app-dropdown-default label="Label*"
+            placeholder="Abc">
+          </app-dropdown-default>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'caixaSelecaoUnica' | translate }}
+        </div>
+      </div>
+
+
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.CaixaSelecaoMultipla }"
+        (click)="setTypeField(TypeCustomField.CaixaSelecaoMultipla)">
+
+        <div class="section-preview-field mb-2">
+          <app-dropdown-default label="Label*"
+            placeholder="Abc">
+          </app-dropdown-default>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'caixaSelecaoMultipla' | translate }}
+        </div>
+      </div>
+
+
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.ListaSuspensa }"
+        (click)="setTypeField(TypeCustomField.ListaSuspensa)">
+
+        <div class="section-preview-field custom-list-checkbox-width mb-2">
+          <div class="flex-row ps-4 pe-2 custom-align-content">
+            <input class="checkbox-input" id="A" type="checkbox" [ngModel]="true">
+            <label class="checkbox-label" for="A"></label>
+            <span class="checkbox-text negative-margin-checkbox-text">{{ 'A' }}</span>
+
+            <input class="checkbox-input" id="B" type="checkbox" [ngModel]="false">
+            <label class="checkbox-label" for="B"></label>
+            <span class="checkbox-text negative-margin-checkbox-text">{{ 'B' }}</span>
+
+            <input class="checkbox-input" id="C" type="checkbox" [ngModel]="false">
+            <label class="checkbox-label" for="C"></label>
+            <span class="checkbox-text negative-margin-checkbox-text">{{ 'C' }}</span>
+
+            <input class="checkbox-input" id="D" type="checkbox" [ngModel]="true">
+            <label class="checkbox-label" for="D"></label>
+            <span class="checkbox-text negative-margin-checkbox-text">{{ 'D' }}</span>
+          </div>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'listaSuspensa' | translate }}
+        </div>
+      </div>
+
+
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.Numerico }"
+        (click)="setTypeField(TypeCustomField.Numerico)">
+
+        <div class="section-preview-field mb-2">
+          <app-input label="Label*"
+            placeholder="123...">
+          </app-input>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'numerico' | translate }}
+        </div>
+      </div>
+
+
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.Decimal }"
+        (click)="setTypeField(TypeCustomField.Decimal)">
+
+        <div class="section-preview-field mb-2">
+          <app-input label="Label*"
+            placeholder="10">
+          </app-input>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'decimal' | translate }}
+        </div>
+      </div>
+
+
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.Data }"
+        (click)="setTypeField(TypeCustomField.Data)">
+
+        <div class="section-preview-field custom-width-date-field mb-2">
+          <app-input label="Label*"
+            placeholder="DD/MM/AAAA">
+          </app-input>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'data' | translate }}
+        </div>
+      </div>
+
+
+      <div class="box-preview-field clickable"
+        [ngClass]="{ 'type-field-selected' : customField.tipo === TypeCustomField.Hora }"
+        (click)="setTypeField(TypeCustomField.Hora)">
+
+        <div class="section-preview-field mb-2">
+          <app-input label="Label*"
+            placeholder="00:00:00">
+          </app-input>
+        </div>
+
+        <div class="text-preview-field">
+          {{ 'hora' | translate }}
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="typeWithItemsSelected()">
+      <div class="row mt-4 mb-3">
+        <span class="title-register ps-0">
+          {{ 'preenchaInformacoesCampoPersonalizado' | translate }}
+        </span>
+      </div>
+
+      <div *ngFor="let item of items; let i = index" class="flex-row pt-2 mb-3">
+        <div class="col-3 ps-0 pe-3">
+          <app-input [label]="'Item ' + (i + 1)"
+            [placeholder]="'Item ' + (i + 1)"
+            [entry]="customField.itens[i]"
+            (entryChanged)="setValueItem($event, i)">
+          </app-input>
+        </div>
+        <div class="ps-1 pe-3 pt-1">
+          <img class="clickable" src="../../../../../assets/icons/add-grey.svg" (click)="addNewItem()"/>
+        </div>
+        <div class="ps-1 pt-1" *ngIf="items.length > 1">
+          <img class="clickable" src="../../../../../assets/icons/trash-grey.svg" (click)="removeItem(i)"/>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="section-btn-close-register">
+    <button class="btn-confirm btn-transparent-close" (click)="close()">
+      {{ "fechar" | translate }}
+    </button>
+  </div>
+
+  <div class="section-btns-register">
+    <div class="me-3" *ngIf="customField.codigo && customField.permiteExclusao">
+      <button class="btn-confirmation red" (click)="confirmDeleteField()">
+        {{ 'excluirCampoExtra' | translate }}&nbsp;
+      </button>
+    </div>
+
+    <div style="width: 8.3125rem">
+      <app-btn-confirm-action
+        [label]="customField.codigo ? 'salvar' : 'concluir'"
+        iconUrl="../../../../../assets/icons/checked.svg"
+        (clicked)="setField()"
+        [disabled]="loading">
+      </app-btn-confirm-action>
+    </div>
+  </div>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading" class="spinner-border" role="status">
+</div>
+

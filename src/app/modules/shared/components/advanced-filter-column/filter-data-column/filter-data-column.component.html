@@ -1,0 +1,33 @@
+<div appClickOutside [exceptions]="['.ng-select', '.ng-option']"
+  (clickOutside)="editFilter = false"
+  class="section-columns-selected">
+  <div class="column-selected clickable" (click)="editFilter = !editFilter">
+    <span class="text-column-selected"> {{ filter.columnParams.nome }}:
+      <span *ngIf="filter.columnParams.tipo === 'String'">
+        <span class="text-contains-equal" *ngIf="filter.typeSearch == 'Contains'">
+          {{ 'contem' | translate }}&nbsp;
+        </span>
+
+        <span class="text-contains-equal" *ngIf="filter.typeSearch == '=='">
+          {{ 'igual' | translate }}&nbsp;
+        </span>
+      </span>
+      <span *ngIf="filter.columnParams.tipo !== 'String' && filter.columnParams.tipo !== 'Number'">
+        {{ filter.search.nome }}
+      </span>
+
+      <span *ngIf="filter.columnParams.tipo === 'String' || filter.columnParams.tipo === 'Number'">
+        {{ filter.search.length > 10 ? filter.search.substr(0, 10).trim() : filter.search.trim() }}<span *ngIf="filter.search.length > 10">...</span>
+      </span>
+    </span>
+    <img class="clickable" src="../../../../../../assets/icons/remove-filter.svg" (click)="clear.emit(filter)">
+    <img class="arrow-down-data" src="../../../../../../assets/icons/arrow-down-select.svg" [ngClass]="editFilter ? 'open-data' : ''">
+  </div>
+
+  <div class="box-edit-filter-position" *ngIf="editFilter">
+    <app-filter-column-type [column]="filter.columnParams"
+      (close)="editFilter = false"
+      (apply)="updateFilter($event)">
+    </app-filter-column-type>
+  </div>
+</div>

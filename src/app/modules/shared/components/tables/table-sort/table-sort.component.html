@@ -1,0 +1,141 @@
+<table class="table table-sort" [ngClass]="{'invoiceTable': isConferenceNF}">
+  <thead>
+    <tr>
+      <th *ngFor="let header of headers" [ngClass]="header === 'quantidadeDeAlteracoes' ? 'text-center' : ''">
+        {{ header | translate }}
+        <img class="clickable icon-sort" (click)="sortData(header)" src="../../../../../../assets/icons/sort.svg">
+      </th>
+
+      <th *ngIf="viewDetailSection"></th>
+    </tr>
+  </thead>
+  <tbody [ngClass]="records.length > 5 ? 'padding-cell' : ''"
+    [ngClass]="maxHeight !== 'auto' ? 'height-limited' : ''"
+    [ngStyle]="{ 'height': height }">
+    <tr *ngFor="let record of records  | orderBy:sortBy:reverse">
+      <td *ngFor="let header of headers" [ngClass]="header === 'quantidadeDeAlteracoes' ? 'text-center' : ''">
+        <div *ngIf="!isConference && !isMovement && !isConferenceNF">
+          {{ record[header] }}
+        </div>
+
+        <!-- Verificação de se é uma conferência de volumes onde foi chamado o componente -->
+        <div *ngIf="isConference">
+          <div *ngIf="header !== 'conferenciaTratado' ">
+            {{ record[header] }}
+          </div>
+
+          <div *ngIf="header === 'conferenciaTratado'">
+            <div *ngIf="(record[header]).toLowerCase() === 'conferido'">
+              <div class="box-checked-conference">
+                <img src="../../../../../../assets/icons/check-circle.svg">
+                {{ 'conferido' | translate }}
+              </div>
+            </div>
+
+            <div *ngIf="(record[header]).toLowerCase() === 'não conferido'">
+              <div class="box-pending-conference" *ngIf="checkedWithDisagreement">
+                <img src="../../../../../../assets/icons/pending-conference.svg">
+                {{ 'naoConferido' | translate }}
+              </div>
+            </div>
+
+            <div *ngIf="(record[header]).toLowerCase() === 'não encontrado'">
+              <div class="box-not-fount-conference" (click)="this.addObservation.emit(record)">
+                <div class="tooltip">
+                  Etiqueta: {{ record['dcConfigEtiqueta'] }}
+                  <br>
+                  Código: {{ record['codigoBarraLido'] }}
+                </div>
+                <img src="../../../../../../assets/icons/cancel-red.svg" width="16">
+                {{ 'naoEncontrado' | translate }}
+              </div>
+
+              <!-- Botão para chamar a deleção de registro caso o usuário tenha permissão -->
+              <ng-container *ngIf="actionDelete && this.permissions.includes(authConference.ExcluirVolumeNaoEncontrado)">
+                <button class="icon-button-primary position-btn-print icon-delete-volum-not-found" (click)="this.deleteData.emit(record)"
+                  *ngIf="(record['conferenciaTratado']).toLowerCase() === 'não encontrado'">
+                  <img src="../../../../../assets/icons/delete-red.svg">
+                </button>
+              </ng-container>
+            </div>
+
+            <!-- Botão para chamar a impressão de etiqueta única com referência a nota clicada -->
+            <button class="icon-button-primary position-btn-print" (click)="this.printVolume.emit(record)"
+              *ngIf="(record['conferenciaTratado']).toLowerCase() !== 'não encontrado'">
+              <img src="../../../../../assets/icons/print.svg">
+            </button>
+          </div>
+        </div>
+
+        <!-- Verificação de se é uma conferência de notas onde foi chamado o componente -->
+        <div *ngIf="isConferenceNF">
+          <div *ngIf="header !== 'status'">
+            {{ record[header] }}
+          </div>
+
+          <div *ngIf="header === 'status'">
+            <div *ngIf="(record[header]).toLowerCase() === 'conferida'">
+              <div class="box-checked-conference">
+                <img src="../../../../../../assets/icons/check-circle.svg">
+                {{ 'conferida' | translate }}
+              </div>
+            </div>
+
+            <div *ngIf="(record[header]).toLowerCase() === 'não conferida'">
+              <div class="box-pending-conference" *ngIf="checkedWithDisagreement">
+                <img src="../../../../../../assets/icons/pending-conference.svg">
+                {{ 'naoConferida' | translate }}
+              </div>
+            </div>
+
+            <div *ngIf="(record[header]).toLowerCase() === 'não encontrada'">
+              <div class="box-not-fount-conference">
+                <div class="tooltip" style="max-width: 200px;">
+                  {{ record['chaveAcessoLido'] }}
+                  <!-- <br>
+                  Código: {{ record['codigoBarraLido'] }} -->
+                </div>
+                <img src="../../../../../../assets/icons/cancel-red.svg" width="16">
+                {{ 'naoEncontrada' | translate }}
+              </div>
+
+              <!-- Botão para chamar a deleção de registro caso o usuário tenha permissão -->
+              <ng-container *ngIf="actionDelete && this.permissions.includes(authConference.ExcluirNotaFiscalNaoEncontrada)">
+                <button class="icon-button-primary position-btn-print icon-delete-volum-not-found" (click)="this.deleteData.emit(record)"
+                  *ngIf="(record['status']).toLowerCase() === 'não encontrada'">
+                  <img src="../../../../../assets/icons/delete-red.svg">
+                </button>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <!-- Fim da verificação de se é uma conferência de notas onde foi chamado o componente -->
+
+        <!-- Verificação de se o componente foi chamado em movimentos da fatura -->
+        <div *ngIf="isMovement">
+          {{ record[header] }}
+          <ng-container *ngIf="header === 'usuario'">
+            <button class="icon-button-primary position-btn-print always-visible transparent-background"
+              (click)="this.movementEmitter.emit(record)">
+              <img src="../../../../../assets/icons/description.svg">
+            </button>
+          </ng-container>
+        </div>
+        <!-- Fim da verificação de se o componente foi chamado em movimentos da fatura -->
+
+      </td>
+
+      <td *ngIf="viewDetailSection && !viewDetailSectionRoutines">
+        <div class="clickable" (click)="viewDetail(record)">
+          <img class="icon-plus-view-more" src="../../../../../../assets/icons/plus-view-more.svg">
+          <span class="text-view-detail">{{ 'verDetalhes' | translate }}</span>
+        </div>
+      </td>
+      <td *ngIf="viewDetailSection && viewDetailSectionRoutines">
+        <div class="clickable" (click)="viewDetail(record)">
+          <img class="icon-plus-view-more" src="../../../../../../assets/icons/description.svg">
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

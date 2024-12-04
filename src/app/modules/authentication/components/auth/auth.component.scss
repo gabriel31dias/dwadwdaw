@@ -1,0 +1,36 @@
+.img-background {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('../../../../../assets/images/background-login.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.custom-align {
+  position: absolute;
+  float: right;
+
+  right: 15%;
+  top: calc(50% - 25rem/2);
+}
+
+.logo-active-corp {
+  float: right;
+}
+
+.login-section {
+  padding: 1.875rem;
+}
+
+.overflow-section {
+  padding: 0.1rem;
+  overflow: hidden;
+}
+
+.slide-wrapper {
+  height: 300px;
+  position: relative;
+}
+

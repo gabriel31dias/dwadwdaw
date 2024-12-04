@@ -1,0 +1,42 @@
+<div id="permissionsModal" tabindex="-1" class="permission-modal">
+  <div class="content">
+    <div class="header-modal">
+      <p class="title-modal" id="permissionsModalLabel">
+        Todas as permissões do Grupo {{ permissionGroups[0].grupo }}
+      </p>
+    </div>
+    <div class="body-modal">
+      <div *ngIf="permissionGroups">
+        <div class="users-group" *ngFor="let group of permissionGroups">
+          <div class="users-label-container">
+            <span class="users-label">Usuários:</span>
+            {{ formatarUsuarios(group.usuariosGrupo) }}
+          </div>
+          <div class="modulo-overflow">
+            <div
+              class="modulo-group-permission"
+              *ngFor="let moduloPermissao of group.moduloPermissao"
+            >
+              <p
+                class="modulo-permission"
+              >
+                {{ moduloPermissao.modulo}}
+              </p>
+              <ul class="permission">
+                <li
+                  class="list-permission"
+                  *ngFor="let permissao of moduloPermissao.permissoes"
+                >
+                  {{ permissao }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-btns-confirm">
+      <button class="btn-confirm btn-transparent-close" (click)="close()">{{ 'fechar' | translate }}</button>
+    </div>
+  </div>
+</div>

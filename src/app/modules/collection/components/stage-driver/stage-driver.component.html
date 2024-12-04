@@ -1,0 +1,78 @@
+<div class="flex-row mt-3" [ngClass]="driver.cnh_vencida && !readonly ? 'mb-2' : 'mb-4'">
+  <div class="col-4 pe-3">
+    <app-gm-driver [setDriver]="setDriver()"
+      (getDriver)="driverSelected($event)"
+      [readonly]="readonly">
+    </app-gm-driver>
+  </div>
+
+  <div class="col-4 pe-3">
+    <app-input label="rg" placeholder="placeholderRgMotorista" mask="rg" [entry]="driver.rg"
+      (entryChanged)="driver.rg = $event" [readonly]="true">
+    </app-input>
+  </div>
+
+  <div class="col-4 pe-3">
+    <app-input label="cpf" placeholder="placeholderCpfMotorista" mask="cpf" [entry]="driver.cpf"
+      (entryChanged)="driver.cpf = $event" [readonly]="true">
+    </app-input>
+  </div>
+</div>
+
+<div class="flex-row mt-2" [ngClass]="alertTruckPlate.alert1 || alertTruckPlate.alertVehicle ? 'mb-2' : 'mb-4'">
+  <div class="col-4 pe-3">
+    <app-select label="placaDoVeiculo" [searchable]="true" placeholder="placeholderPlacaVeiculo"
+      [options]="vehicleLicensePlateName" [shortListed]="driver.placaVeiculo ? driver.placaVeiculo : null"
+      (optionChanged)="selectVehicleLicensePlate($event)" (search)="searchVehicleLicensePlate($event)"
+      [readonly]="readonly" [alert]="alertTruckPlate.alertVehicle" [txtAlert]="'placaCarretaJaInserida'" [loading]="loadingPV">
+    </app-select>
+  </div>
+
+  <div class="col-4 pe-3">
+    <app-select label="tipoVeiculo" placeholder="placeholderTipoVeiculo" [options]="typesVehiclesName"
+      (optionChanged)="selectTypeVehicle($event)" [shortListed]="driver.tipoVeiculo ? driver.tipoVeiculo : null"
+      [readonly]="readonly">
+    </app-select>
+  </div>
+
+  <div class="col-4 pe-3">
+    <app-select label="placaDaCarreta1" [searchable]="true" placeholder="placeholderPlacaVeiculo"
+      [options]="truckLicensePlateName" [shortListed]="driver.placaCarreta ? driver.placaCarreta : null"
+      (optionChanged)="selectTruckLicensePlate($event, 1)" (search)="searchTruckLicensePlate($event, 1)"
+      [readonly]="readonly" [alert]="alertTruckPlate.alert1" [txtAlert]="'placaCarretaJaInserida'" [loading]="loadingPC1">
+    </app-select>
+  </div>
+</div>
+
+<div class="row mt-2">
+  <div class="col-8 ps-0 pe-0">
+    <div class="row">
+      <div *ngIf="totalFieldTruck >= 2" class="col-6 ps-0 pe-3">
+        <app-select label="placaDaCarreta2" [searchable]="true" placeholder="placeholderPlacaVeiculo"
+          [options]="truckLicensePlateName02" [shortListed]="driver.placaCarreta02 ? driver.placaCarreta02 : null"
+          (optionChanged)="selectTruckLicensePlate($event, 2)" (search)="searchTruckLicensePlate($event, 2)"
+          [readonly]="readonly" [alert]="alertTruckPlate.alert2" [txtAlert]="'placaCarretaJaInserida'" [loading]="loadingPC2">
+        </app-select>
+      </div>
+
+      <div *ngIf="totalFieldTruck === 3" class="col-6 ps-0 pe-3">
+        <app-select label="placaDaCarreta3" [searchable]="true" placeholder="placeholderPlacaVeiculo"
+          [options]="truckLicensePlateName03" [shortListed]="driver.placaCarreta03 ? driver.placaCarreta03 : null"
+          (optionChanged)="selectTruckLicensePlate($event, 3)" (search)="searchTruckLicensePlate($event, 3)"
+          [readonly]="readonly" [alert]="alertTruckPlate.alert3" [txtAlert]="'placaCarretaJaInserida'" [loading]="loadingPC3">
+        </app-select>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 ps-0 pe-3 d-flex justify-content-end">
+    <div *ngIf="totalFieldTruck !== 3 && !readonly">
+      <button class="btn-include-transparent" (click)="newFieldPlateTruck()">
+        <img src="../../../../../assets/icons/plus-grey.svg">
+        {{ 'incluirPlacaCarreta' | translate }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border" role="status"></div>

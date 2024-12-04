@@ -1,0 +1,42 @@
+<!-- Documentos de frete -->
+<div class="row mt-2 pb-1">
+  <span class="title-register ps-0">
+    {{ 'documentosDeFrete' | translate }}
+  </span>
+</div>
+
+<div class="flex-row actions-section mt-3" style="width: 95%;">
+  <ng-container *ngIf="verifyPermissionsToSearchCTe()">
+    <div class="col-5">
+      <app-input-search label="ct-e"
+        placeholder="placeholderChaveDeAcessoCTe"
+        (entryChanged)="doSearch($event)"
+        [mask]="'0*'"
+        [maxLength]="44"
+        [openModal]="true">
+      </app-input-search>
+    </div>
+  </ng-container>
+</div>
+
+<div class="mt-custom-grid" *ngIf="ctes.length >= 1" [ngClass]="disableFields ? 'pt-2' : ''">
+  <app-table-simple-grid idGrid="ctes-receivable"
+    [columnsHeader]="columns"
+    [dataset]="ctes"
+    [enableActionRow]="true"
+    [fitColumns]="true"
+    [heightGrid]="220"
+    [enableDelete]="disableFields ? false : true"
+    (dataToDelete)="goToDelete($event)">
+  </app-table-simple-grid>
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>

@@ -1,0 +1,114 @@
+.section-filter-columns {
+  display: flex;
+  width: 9.6875rem;
+  height: 2.1875rem;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  background-color: var(--color-green-500-mark);
+  border: 0.5px solid var(--color-green-500-mark);
+  border-radius: 0.3125rem;
+
+  color: var(--color-white);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.125rem;
+
+  span {
+    margin-right: 2px;
+  }
+}
+
+.arrow-down {
+  margin-right: -10px;
+  transition: all 0.4s ease;
+}
+
+.open {
+  background-color: var(--color-green-50) !important;
+  border-color: var(--color-green-900) !important;
+
+  .arrow-down {
+    transform: rotate(180deg);
+  }
+}
+
+.icon-filter {
+  width: 24px;
+  height: 24px;
+  -webkit-mask: url('../../../../../../assets/icons/filter.svg') no-repeat center;
+  mask: url('../../../../../../assets/icons/filter.svg') no-repeat center;
+  background-color: var(--color-green-700);
+}
+
+.icon-filter-open {
+  background-color: var(--color-green-900);
+}
+
+.section-btn-columns {
+  overflow: auto;
+  max-height: 11.8rem;
+  margin-top: 10px;
+}
+
+.btn-column {
+  text-align: left;
+  color: var(--color-grey-700-text);
+  font-size: 0.875rem;
+  font-weight: 400;
+
+  height: 2rem;
+  width: 100%;
+  border-radius: 0.3125rem;
+  background-color: var(--color-white);
+  border: solid 1px transparent;
+  outline: none;
+}
+
+.focus-btn, .btn-column:active  {
+  border-radius: 0.3125rem;
+  background: var(--color-green-50);
+}
+
+.box-filter-position {
+  position: absolute;
+  right: -0.81rem;
+  bottom: 7.688rem
+}
+
+.text-more {
+  color: var(--color-green-900);
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+}
+
+.box-more-filters {
+  margin-top: 0;
+  padding-top: 0.70rem;
+  height: auto;
+  width: auto;
+
+  align-items: baseline;
+
+  hr {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+}
+
+.title-filter-more {
+  color: var(--color-grey-700-text);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.00938rem;
+  margin-bottom: 0.5rem;
+}
+
+.text-clear-filter-comand {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-grey-700-text);
+  line-height: 20px;
+}

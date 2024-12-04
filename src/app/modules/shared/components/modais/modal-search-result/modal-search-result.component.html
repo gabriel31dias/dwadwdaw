@@ -1,0 +1,30 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">{{ 'resultadoDaPesquisa' | translate }}</p>
+    <div class="mb-4">
+      <p class="text-modal">
+        {{ text }}
+      </p>
+    </div>
+
+    <app-table-simple-grid idGrid="modal-search-result"
+                          [columnsHeader]="columns"
+                          [columnsHide]="columnsHide"
+                          [dataset]="data"
+                          (rowSelected)="getDataSelected($event)"
+                          (confirmSelected)="confirmSelected()"
+                          [enableRowSelection]="true">
+    </app-table-simple-grid>
+
+    <div class="section-btns-confirm">
+      <app-btn-confirm-action label="selecionar" (clicked)="confirmSelected()">
+      </app-btn-confirm-action>
+    </div>
+  </div>
+</div>

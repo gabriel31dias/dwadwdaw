@@ -1,0 +1,15 @@
+.section-permission {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  border-bottom: solid 1px var(--color-grey-50);
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.text-permission {
+  align-items: center;
+  font-size: 14px;
+  color: #455A64 !important;
+  justify-content: center;
+}

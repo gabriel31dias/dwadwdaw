@@ -1,0 +1,28 @@
+<div class="section-columns-selected">
+  <div class="column-selected-more clickable" (click)="editFilter = !editFilter" [ngClass]="editFilter ? 'open-data' : ''">
+    {{ filter.columnParams.nome }}:
+    <span class="text-contains-equal ps-1 pe-1" *ngIf="filter.typeSearch === 'Contains'">
+      {{ 'contem' | translate }}&nbsp;
+    </span>
+
+    <span class="text-contains-equal ps-1 pe-1" *ngIf="filter.typeSearch !== 'Contains'">
+      {{ 'igual' | translate }}&nbsp;
+    </span>
+
+    <span *ngIf="filter.columnParams.tipo !== 'String'">
+      {{ filter.search.nome }}
+    </span>
+
+    <span *ngIf="filter.columnParams.tipo === 'String'">
+      {{ filter.search.length > 10 ? filter.search.substr(0, 10).trim() : filter.search.trim() }}<span *ngIf="filter.search.length > 10">...</span>
+    </span>
+    <img class="clickable ps-2" src="../../../../../../assets/icons/remove-filter-more.svg" (click)="clear.emit(filter)">
+  </div>
+
+  <div class="box-edit-filter-position" *ngIf="editFilter">
+    <app-filter-column-type [column]="filter.columnParams"
+      (close)="editFilter = false"
+      (apply)="updateFilter($event)">
+    </app-filter-column-type>
+  </div>
+</div>

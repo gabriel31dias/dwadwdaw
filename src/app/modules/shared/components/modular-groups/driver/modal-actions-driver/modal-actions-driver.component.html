@@ -1,0 +1,269 @@
+<div class="margin-modal-actions">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal tab-enter">
+    <span class="title-modal mb-4" *ngIf="isCreate">{{ 'incluirMotorista' | translate }}</span>
+    <span class="title-modal mb-4" *ngIf="!isCreate">{{ 'editarMotorista' | translate }}</span>
+
+    <div class="row mt-2 mb-2">
+      <div class="col-4 ps-0 pe-3">
+        <app-input label="motorista"
+          placeholder="nomeMotorista"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="driver.dados_motorista.nome"
+          (entryChanged)="driver.dados_motorista.nome = $event"
+          [maxLength]="40">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-1 pe-3">
+        <app-input label="cpf"
+          placeholder="placeholderCPF"
+          mask="cpf"
+          [required]="true"
+          [changed]="alertRequired || alertCPF.alert"
+          [entry]="driver.dados_motorista.cpf"
+          (entryChanged)="driver.dados_motorista.cpf = $event; verifyCPF()"
+          [txtAlert]="alertCPF.message">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-1 pe-3">
+        <app-input label="rg"
+          placeholder="placeholderRG"
+          mask="rg"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="driver.dados_motorista.rg"
+          (entryChanged)="driver.dados_motorista.rg = $event">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-1 pe-3">
+        <app-select label="tipoMotorista"
+          placeholder="selecionar"
+          [options]="types"
+          [required]="true"
+          [changed]="alertRequired"
+          [shortListed]="driver.dados_motorista.tipo"
+          (optionChanged)="$event !== null ? driver.dados_motorista.tipo = types[$event] : driver.dados_motorista.tipo = null">
+        </app-select>
+      </div>
+
+      <div class="col-2 ps-1 pe-3">
+        <app-select label="status"
+          placeholder="selecionar"
+          [options]="status"
+          [required]="true"
+          [changed]="alertRequired"
+          [shortListed]="driver.dados_motorista.status"
+          (optionChanged)="$event !== null ? driver.dados_motorista.status = status[$event] : driver.dados_motorista.status === null">
+        </app-select>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-4 ps-0 pe-3">
+        <app-input label="apelido"
+          placeholder="apelidoMotorista"
+          [entry]="driver.dados_motorista.apelido"
+          (entryChanged)="driver.dados_motorista.apelido = $event"
+          [maxLength]="30">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-1 pe-3">
+        <app-input label="celularWpp"
+          placeholder="placeholderCelularWpp"
+          mask="cellphone"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="driver.dados_motorista.celular"
+          (entryChanged)="driver.dados_motorista.celular = $event">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-1 pe-3">
+        <app-select label="filial"
+          placeholder="selecioneFilial"
+          [required]="true"
+          [changed]="alertRequired"
+          [options]="subsidiariesName"
+          [shortListed]="driver.filial.nome_fantasia"
+          (optionChanged)="selectSubsidiary($event)"
+          [changed]="alertRequired">
+        </app-select>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-2 ps-0 pe-3">
+        <app-input label="numRegistroCNH"
+          placeholder="placeholderRegistroCNH"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="driver.dados_cnh.registro"
+          (entryChanged)="driver.dados_cnh.registro = $event"
+          [maxLength]="15">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-1 pe-3">
+        <app-input-date label="dataEmissaoCNH"
+          [required]="true"
+          [changed]="alertRequired || alertDateEmission.alert"
+          [date]="driver.dados_cnh.data_emissao"
+          (dateChanged)="driver.dados_cnh.data_emissao = $event; verifyDates()"
+          [alertMessage]="alertDateEmission.message">
+        </app-input-date>
+      </div>
+
+      <div class="col-2 ps-1 pe-3">
+        <app-input-date label="validadeCNH"
+          [required]="true"
+          [changed]="alertRequired || alertValidity.alert"
+          [date]="driver.dados_cnh.data_validade"
+          (dateChanged)="driver.dados_cnh.data_validade = $event; verifyDates()"
+          [alertMessage]="alertValidity.message">
+        </app-input-date>
+      </div>
+
+      <div class="col-2 ps-1 pe-3">
+        <app-input label="categoriaCNH"
+          placeholder="placeholderCategoriaCNH"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="driver.dados_cnh.categoria"
+          (entryChanged)="driver.dados_cnh.categoria  = $event"
+          [maxLength]="5">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-2 ps-0 pe-3">
+        <app-input label="cep"
+          placeholder="placeholderCEP"
+          mask="cep"
+          [required]="true"
+          [changed]="alertRequired || alertCEP.alert"
+          [entry]="driver.endereco_motorista.cep"
+          (entryChanged)="driver.endereco_motorista.cep = $event; searchCep(); verifyCEP()"
+          [txtAlert]="alertCEP.message">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-1 pe-3">
+        <app-input label="endereco"
+          placeholder="placeholderEndereco"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="driver.endereco_motorista.endereco"
+          (entryChanged)="driver.endereco_motorista.endereco = $event"
+          [maxLength]="40">
+        </app-input>
+      </div>
+
+      <div class="col-2 ps-1 pe-3">
+        <app-input label="numero"
+          placeholder="placeholderNumero"
+          mask="0*"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="driver.endereco_motorista.numero"
+          (entryChanged)="driver.endereco_motorista.numero = $event"
+          [maxLength]="6">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-1 pe-3">
+        <app-input label="complemento"
+          placeholder="placeholderComplemento"
+          [entry]="driver.endereco_motorista.complemento"
+          (entryChanged)="driver.endereco_motorista.complemento = $event"
+          [maxLength]="25">
+        </app-input>
+      </div>
+    </div>
+
+    <div class="row mb-4">
+      <div class="col-4 ps-0 pe-3">
+        <app-input label="bairro"
+          placeholder="placeholderBairro"
+          [required]="true"
+          [changed]="alertRequired"
+          [entry]="driver.endereco_motorista.bairro"
+          (entryChanged)="driver.endereco_motorista.bairro = $event"
+          [maxLength]="25">
+        </app-input>
+      </div>
+
+      <div class="col-4 ps-1 pe-3">
+        <app-select label="uf"
+          placeholder="placeholderUF"
+          [required]="true"
+          [changed]="alertRequired"
+          [options]="ufs"
+          [shortListed]="driver.endereco_motorista.uf"
+          (optionChanged)="selectUF($event)">
+        </app-select>
+      </div>
+
+      <div class="col-4 ps-1 pe-3">
+        <app-select label="cidade" placeholder="placeholderCidade"
+          [required]="true"
+          [changed]="alertRequired"
+          [searchable]="true"
+          [options]="citiesList.citiesName"
+          [shortListed]="driver.endereco_motorista.cidade"
+          (optionChanged)="selectCity($event)"
+          (search)="clearFieldsCity(); !driver.endereco_motorista.uf ? searchCity($event) : ''"
+          [loading]="loadingCity">
+        </app-select>
+      </div>
+    </div>
+
+    <div class="row d-flex justify-content-end pe-3">
+      <button class="button-secondary button-fill button-me me-3" (click)="close()">
+        {{ 'cancelar' | translate }}
+      </button>
+
+      <!-- Componente option-button-primary -->
+      <button class="option-button-primary" [disabled]="loading" (click)="confirm('select')">
+        {{ (isCreate ? 'incluirSelecionar' : 'salvarSelecionar') | translate }}
+      </button>
+      <button #btnOption class="option-button-primary-icon"
+        (click)="changeViewList() ? btnOption.blur() : null"
+        (blur)="openListOptions = false"
+        [disabled]="loading">
+        <img src="../../../../../assets/icons/vector.svg"
+          class="icon-button-options"
+          [ngClass]="{ 'rotation-icon' : openListOptions }">
+        <div class="app-list-options width-list-options-driver"
+          [ngClass]="{ 'd-block' : openListOptions }">
+          <div class="text-option" (click)="confirm('only-action')">
+            {{ (isCreate ? 'apenasIncluir' : 'apenasSalvar') | translate }}
+          </div>
+        </div>
+      </button>
+      <!-- Componente option-button-primary -->
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>
+

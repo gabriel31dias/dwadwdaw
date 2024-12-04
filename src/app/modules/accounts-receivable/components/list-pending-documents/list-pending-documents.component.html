@@ -1,0 +1,124 @@
+<ng-container *ngIf="permissions.includes(authReceivable.Visualizar)">
+  <div class="margin-listing">
+    <div class="section-segmented-buttons">
+      <app-segmented-button text="total"
+        [num]="total.total"
+        [value]="total.value"
+        [clicked]="total.selected"
+        (selected)="selectedTotal(indicatorsEnum.Total, $event)"
+        [firstTotalAfterValue]="true">
+      </app-segmented-button>
+      <app-segmented-button text="liberados"
+        [num]="released.total"
+        [value]="released.value"
+        [clicked]="released.selected"
+        (selected)="selectedTotal(indicatorsEnum.Liberados, $event)"
+        [firstTotalAfterValue]="true">
+      </app-segmented-button>
+      <app-segmented-button text="bloqueados"
+        [num]="blocked.total"
+        [value]="blocked.value"
+        [clicked]="blocked.selected"
+        (selected)="selectedTotal(indicatorsEnum.Bloqueados, $event)"
+        [firstTotalAfterValue]="true">
+      </app-segmented-button>
+    </div>
+
+    <div class="grid-section">
+      <div class="flex-row">
+        <div class="filters-custom-grid">
+          <app-filter-columns [columns]="columnsFilter"
+            [filtersSearch]="configFilterColumnSelected"
+            (sendRequest)="setFilterColumn($event)">
+          </app-filter-columns>
+        </div>
+
+        <div class="date-filter-grid flex-row">
+          <div class="dropdown-filter-date-grid">
+            <app-dropdown-default label="filtrarPor"
+              [options]="filterDate"
+              [shortListed]="filterDateSelected !== null ? filterDateEnum[filterDateSelected] : null"
+              (optionChanged)="filterDateSelected = $event; periodFilter.finalDate ? getDocuments() : ''">
+            </app-dropdown-default>
+          </div>
+
+          <div class="input-period-grid">
+            <app-period-two-dates [periodFilter]="periodFilter"
+              (periodEmitter)="setFilterDate($event)">
+            </app-period-two-dates>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex-row">
+        <div class="search-and-add flex-row">
+          <div class="search-section tooltip-content">
+            <app-input-search placeholder="pesquisaChaveAcessoNumeroCte"
+              [entry]="search"
+              (entryChanged)="doSearch($event)"
+              (lostFocus)="doSearch($event, true)">
+            </app-input-search>
+            <div class="tooltip-default"> {{ 'pesquisaChaveAcessoNumeroCte' | translate }}</div>
+          </div>
+
+          <div class="clear-filter-grid" style="margin-left: -3px;">
+            <span class="text-clear-filter-grid clickable" (click)="clearFilters()">{{ 'limparFiltros' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="icons-actions">
+          <div class="float-right flex-row">
+            <ng-container *ngIf="numsDocumentsSelecteds.length >= 1">
+              <button id="view-more" class="icon-button-primary tooltip-content" *ngIf="verifyStatus('Bloqueado') || verifyStatus('Liberado')">
+                <img src="../../../../../assets/icons/view-more.svg">
+                <span class="tooltip-default">{{ 'acoes' | translate }}</span>
+                <div class="box-actions">
+                  <p class="text-box-actions" *ngIf="verifyStatus('Bloqueado')" (click)="openModalConfirm('release')">
+                    {{ 'liberar' | translate }}
+                  </p>
+                  <p class="text-box-actions" *ngIf="verifyStatus('Liberado')" (click)="openModalConfirm('block')">
+                    {{ 'bloquear' | translate }}
+                  </p>
+                  <ng-container *ngIf="permissions.includes(authReceivable.Incluir)">
+                    <p class="text-box-actions" *ngIf="verifyStatus('Liberado')" (click)="openModalInvoice()">
+                      {{ 'faturar' | translate }}
+                    </p>
+                  </ng-container>
+                </div>
+              </button>
+            </ng-container>
+            <button #refresh class="icon-button-primary refresh tooltip-content" (click)="refreshGrid(); refresh.blur()" [style.transform]="'rotate(' + btnRotate + 'deg)'">
+              <img src="../../../../../assets/icons/refresh.svg">
+              <span class="tooltip-edge" *ngIf="!hideTooltip">{{ 'atualizarGrid' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="documents.length > 0">
+        <app-table-dinamic-grid idGrid="pending-documents-billing"
+          [columnsHeader]="columns"
+          [columnsHide]="columnsHide"
+          [dataset]="documents"
+          (columnsChanges)="columnsChanges($event)"
+          (rowsSelected)="rowsSelected($event)"
+          [totalItems]="totalLenght"
+          [itemsPerPage]="take"
+          [currentPage]="page"
+          (pageEmitter)="pageChange($event)">
+        </app-table-dinamic-grid>
+      </div>
+
+    </div>
+  </div>
+</ng-container>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

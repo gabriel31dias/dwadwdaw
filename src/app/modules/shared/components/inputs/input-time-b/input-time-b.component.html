@@ -1,0 +1,33 @@
+<div class="position-relative" (click)="changed = true">
+    <ng-select #inputTime
+        class="app-select input-time"
+        [searchable]="searchable"
+        placeholder="--:--"
+        [(ngModel)]="optionSelected"
+        (ngModelChange)="emitValue()"
+        [ngClass]="{ 'is-selected': selected(), 'required': validator() || alert}"
+        (keydown.enter)="enableKeydown ? keydown() : ''"
+        (search)="emitSearch($event)"
+        [disabled]="readonly">
+
+        <ng-option *ngFor="let hour of hours" [value]="hour">
+            <span>{{ hour }}</span>
+        </ng-option>
+    </ng-select>
+
+    <label class="app-select-label">
+        {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+    </label>
+
+    <div class="icon-clear-time clickable visible"  *ngIf="optionSelected && !readonly" (click)="clear()"></div>
+
+    <div class="app-select-icon icon-input-time clickable" (click)="inputTime.open()">
+        <img class="input-time-icon"
+            [style.mask]="'url(../../../../../../assets/icons/time.svg)'"
+            [ngClass]="validator() && !inputTime.focused ? 'input-time-icon-error' : ''"
+            (click)="inputTime.open()">
+    </div>
+</div>
+
+<p class="required-mensage" *ngIf="required && !txtAlert" [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+<p class="required-mensage" *ngIf="txtAlert" [ngClass]="txtAlert ? '' : 'hidden-text'">{{ txtAlert | translate }}</p>

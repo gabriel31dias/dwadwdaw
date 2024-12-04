@@ -1,0 +1,65 @@
+<ng-container *ngIf="!readonly">
+  <div class="position-relative" (click)="changed = true">
+    <ng-select #appCustomSelectMulti
+      class="app-custom-select-multi"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [placeholder]="placeholder | translate"
+      [(ngModel)]="optionsSelected"
+      [ngClass]="{ 'is-selected': selected(), 'required': validator() }"
+      (ngModelChange)="optionChanged.emit(optionsSelected)"
+      [items]="options"
+      [searchable]="false">
+
+      <ng-template ng-header-tmp>
+        <div>
+          <div class="app-custom-select-multi-all-checked" [ngStyle]="{ 'display': showAllCheckedIcon() ? 'flex' : 'none' }" (click)="toggleAllCheckedIcon()">
+            <img src="assets/icons/checked.svg" width="75%">
+          </div>
+          <input type="checkbox" [(ngModel)]="selectAll" (click)="selectAllItems(!selectAll)" (ngModelChange)="optionChanged.emit(optionsSelected)"/>
+        </div>
+        <span>{{ 'todos' | translate }}</span>
+      </ng-template>
+
+      <ng-template
+        ng-option-tmp
+        let-item="item"
+        let-item$="item$"
+        let-index="index">
+          <div class="position-relative">
+            <div class="app-custom-select-multi-checked" [ngStyle]="{ 'display': showCheckedIcon(item) ? 'flex' : 'none' }">
+              <img src="assets/icons/checked.svg" width="75%">
+            </div>
+            <input
+              id="item-{{ index }}"
+              type="checkbox"
+              [ngModel]="item$.selected"
+              [ngModelOptions]="{ standalone: true }"
+              (click)="showCheckedIcon(item)"
+            />
+          </div>
+          <span>{{ item }}</span>
+      </ng-template>
+
+      <ng-template ng-multi-label-tmp let-items="items">
+        <div class="ng-value" *ngFor="let item of items | slice: 0:3">
+          {{ item }}
+        </div>
+        <div class="app-custom-select-multi-more-values" *ngIf="items.length > 3">
+          <span>+{{ items.length - 3 }}</span>
+        </div>
+      </ng-template>
+    </ng-select>
+
+    <div class="icon-clear clickable" *ngIf="optionsSelected && optionsSelected.length >= 1" (click)="clear()"></div>
+
+    <label class="app-custom-select-multi-label">
+      {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+    </label>
+
+  </div>
+
+  <p class="required-mensage" *ngIf="required" [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+</ng-container>
+
+

@@ -1,0 +1,81 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal mb-3">{{ 'buscaDeNota' | translate }}</p>
+
+    <div class="col-12 mb-3 mt-2">
+      <app-filter-columns [columns]="columnsFilter"
+        [filtersSearch]="configFilterColumnSelected"
+        (sendRequest)="setAdvancedFilter($event)"
+        (clearFilters)="clearFilters()">
+      </app-filter-columns>
+    </div>
+
+    <div class="row col-11 mt-1" style="z-index: 1;">
+      <div class="col-6 ps-0 pe-0">
+        <div class="search-nf ps-0 pe-0">
+          <app-input-search placeholder="chaveDeAcessoOuNumNF"
+            [maxLength]="44"
+            [entry]="search"
+            (entryChanged)="doSearch($event)"
+            (lostFocus)="doSearch($event, true)">
+          </app-input-search>
+        </div>
+      </div>
+
+      <div class="col-6 mb-4 ps-0 pe-0">
+        <div class="row d-flex justify-content-end">
+          <div class="col-5 filter">
+            <app-select label="filtrarPor"
+              [options]="filtersDate"
+              [shortListed]="filterDateSelected !== null ? filtersDate[filterDateSelected] : null"
+              (optionChanged)="filterDateSelected = $event; periodFilter.finalDate ? getNfs() : ''">
+            </app-select>
+          </div>
+
+          <div class="period-grid">
+            <app-input-period [periodFilter]="periodFilter"
+              (periodEmitter)="setFilterDate($event)"
+              [required]="true">
+            </app-input-period>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-custom-grid mb-1" *ngIf="nfs.length >= 1" >
+    <app-table-grid-secondary idGrid="search-result-nf"
+      [columnsHeader]="columns"
+      [columnsHide]="columnsHide"
+      [dataset]="nfs"
+      [heightGrid]="220"
+      [enableCheckbox]="true"
+      (columnsChanges)="columnsChanges($event)"
+      (rowsSelected)="rowsSelected($event)"
+      (resetGrid)="resetGrid()">
+    </app-table-grid-secondary>
+  </div>
+
+  <div class="d-flex justify-content-end mt-4">
+    <button class="button-primary button-fill button-me" (click)="confirmSelect()"
+      [disabled]="nfSelecteds.length === 0 || loading">
+      {{ 'selecionar' | translate }}
+    </button>
+  </div>
+</div>
+
+<div *ngIf="loading"
+  class="spinner-border"
+  role="status">
+</div>
+
+<app-snackbar *ngIf="snackbar.open"
+  [snackbar]="snackbar"
+  (hide)="snackbar.open = $event">
+</app-snackbar>

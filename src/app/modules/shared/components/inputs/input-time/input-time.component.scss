@@ -1,0 +1,61 @@
+.input-time::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  display: block;
+  background: url("../../../../../../assets/icons/time.svg") no-repeat;
+  width: 22px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.worthless {
+  color: var(--color-grey-500-text)
+}
+
+::ng-deep .input-time .input-time::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  display: block;
+  background: url("../../../../../../assets/icons/time.svg") no-repeat;
+  width: 22px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.worthless {
+  color: var(--color-grey-500-text)
+}
+
+.icon-clear-time {
+  float: right;
+  margin-right: 0.5rem;
+  background-color: transparent;
+  position: relative;
+  margin-right: 35px;
+  width: 20px;
+  height: 20px;
+  line-height: center;
+
+  -webkit-mask: url('/assets/icons/close-select.svg') no-repeat center;
+  mask: url('/assets/icons/close-select.svg') no-repeat center;
+  background-color: var(--color-grey-500-text) !important;
+
+  &:hover {
+    background-color: var(--color-red) !important;
+  }
+
+  &:focus-within {
+    background-color: var(--color-red) !important;
+  }
+}
+
+
+
+// Código comentado para a solução que funciona no FireFox (Navegador), mas não é a prática correta
+// .calendar-icon {
+//   position: absolute;
+//   top: 4px;
+//   right: 3px;
+//   width: 25px;
+//   height: 25px;
+//   background: var(--color-white);
+//   pointer-events: none;
+// }

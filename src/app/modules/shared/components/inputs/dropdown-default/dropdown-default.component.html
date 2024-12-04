@@ -1,0 +1,38 @@
+<ng-container *ngIf="!readonly">
+  <div class="dropdown-group" (click)="changed = true">
+    <ng-select #dropdownDefault
+      class="dropdown-default"
+      [searchable]="searchable"
+      [placeholder]="placeholder | translate"
+      [(ngModel)]="optionSelected"
+      (ngModelChange)="emitValue()"
+      [ngClass]="{ 'is-selected': selected(), 'required': validator() || alert, 'hide-arrow': searchable }"
+      (keydown.enter)="enableKeydown ? keydown() : ''"
+      (search)="emitSearch($event)"
+      [loading]="loading">
+
+      <ng-option *ngFor="let option of options" [value]="option">
+        <span [ngClass]="option == 'Busca avançada' ? 'avanced-search' : ''">{{ option }}</span>
+      </ng-option>
+    </ng-select>
+
+    <label class="label-dropdown">
+      {{ label | translate }} <span [hidden]="!required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+    </label>
+    <div *ngIf="searchable" class="icon-search-dropdown clickable" (click)="dropdownDefault.focus()">
+      <img src="../../../../../../assets/icons/search.svg" [ngClass]="isCnpj && optionSelected ? 'invisible' : ''" (click)="btnSearchClicked.emit()">
+      <img src="../../../../../../assets/icons/edit-grey.svg" [ngClass]="isCnpj && optionSelected ? '' : 'invisible'" (click)="openEditClient()">
+    </div>
+  </div>
+
+  <p class="required-mensage" *ngIf="required && !alert" [ngClass]="validator() ? '' : 'hidden-text'">{{ "campoObrigatorio" | translate }}</p>
+  <p class="required-mensage" *ngIf="alert && !required" [ngClass]="validator() || alert ? '' : 'hidden-text'">{{ txtAlert | translate }}</p>
+</ng-container>
+
+<ng-container *ngIf="readonly">
+  <app-input [label]="label"
+    [entry]="optionSelected"
+    [readonly]="readonly"
+    [required]="required">
+  </app-input>
+</ng-container>

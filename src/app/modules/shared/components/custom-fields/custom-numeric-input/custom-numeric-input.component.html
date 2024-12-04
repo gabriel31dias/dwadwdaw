@@ -1,0 +1,16 @@
+<div class="input-group">
+  <input appEnterKeySubmit type="text"
+         [placeholder]="placeholder"
+         [(ngModel)]="entry"
+         (ngModelChange)="entryChanged.emit(entry)"
+         [ngClass]="{ 'filled': entry, 'required': validator() }"
+         (blur)="changed = true; lostFocus.emit()"
+         (focus)="entry ? changed = false : ''"
+         (keydown.enter)="keydown()"
+         [maxlength]="maxLength"
+          mask="0*">
+  <label>
+    {{ label }} <span *ngIf="required" [ngClass]="validator() ? 'color-red' : ''">*</span>
+  </label>
+</div>
+<p class="required-message" *ngIf="required" [ngClass]="validator() ? '' : 'hidden-text'">Campo obrigatório</p>

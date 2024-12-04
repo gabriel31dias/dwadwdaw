@@ -1,0 +1,17 @@
+<div class="checkbox-title-container mt-2 ms-4" [ngClass]="{
+  'small-grid': size === SizeCustomField.Pequeno,
+  'medium-grid': size === SizeCustomField.Medio,
+  'large-grid': size === SizeCustomField.Grande
+}">
+
+  <div *ngIf="label" class="checkboxes-title">{{ label }}</div>
+
+  <div class="checkboxes-container mt-2">
+
+    <div *ngFor="let item of items; let i = index" class="checkbox-item">
+      <input class="checkbox-input" [id]="'checkbox-' + i" type="checkbox" [checked]="selectedIndices.has(i)"
+        (change)="toggleSelection(i)">
+      <label class="checkbox-label" [for]="'checkbox-' + i"></label><span class="span-item">{{ item }}</span>
+    </div>
+  </div>
+</div>

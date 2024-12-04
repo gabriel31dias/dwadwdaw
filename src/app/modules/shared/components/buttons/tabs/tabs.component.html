@@ -1,0 +1,8 @@
+<div class="tabs" *ngFor="let stepper of steppers">
+  <button class="btn-tabs" (click)="setStepper(stepper)">
+    <span class="tab-text" [ngClass]="{ 'tab-selected' : verifyCurrentStepper(stepper) }">
+      {{ stepper | translate }}
+    </span>
+    <hr *ngIf="verifyCurrentStepper(stepper)" class="tab-hr" [ngClass]="{ 'tab-hr-selected' : verifyCurrentStepper(stepper) }">
+  </button>
+</div>

@@ -1,0 +1,52 @@
+<div class="margin-modal">
+  <div class="clearfix">
+    <button class="clickable close-modal" (click)="close()">
+      <img src="../../../../../../assets/icons/close.svg">
+    </button>
+  </div>
+
+  <div class="content-modal">
+    <p class="title-modal">
+      {{ 'preVisualizacaoNovaExibicao' | translate }}
+    </p>
+
+    <div class="preview-area">
+      <div class="custom-content custom-height-content">
+        <div class="row">
+          <div class="col-9 ps-2">
+            <app-breadcrumb [steppers]="steppers"
+              [stepperIndex]="0">
+            </app-breadcrumb>
+          </div>
+
+          <div class="inside-content-actions custom-height-inside-content-actions">
+            <div class="mt-2">
+              <app-template-custom-field [fields]="displayFields">
+              </app-template-custom-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-btn-close-register">
+          <button class="btn-confirm btn-transparent-close">
+            {{ 'fechar' | translate }}
+          </button>
+        </div>
+
+        <div class="section-btns-register">
+          <div style="width: 8.3125rem;">
+            <app-btn-confirm-action [label]="'concluir'"
+              iconUrl="../../../../../assets/icons/checked.svg">
+            </app-btn-confirm-action>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-btns-confirm">
+      <button class="btn-confirm btn-transparent-close" (click)="close()">
+        {{ 'fechar' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

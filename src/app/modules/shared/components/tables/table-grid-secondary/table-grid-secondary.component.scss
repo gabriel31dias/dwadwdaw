@@ -1,0 +1,21 @@
+::ng-deep .grid-secondary .slickgrid-container {
+  z-index: 0;
+  margin-top: -40px;
+  border-bottom: none;
+}
+
+::ng-deep .grid-secondary .slickgrid-container .grid-canvas .slick-cell.active {
+  border: none !important;
+}
+
+.slickgrid {
+  height: auto;
+}
+
+::ng-deep .grid-secondary .slickgrid-container .slick-row .slick-cell.active {
+  box-shadow: none !important;
+}
+
+::ng-deep .grid-secondary .slickgrid-container .grid-canvas {
+  margin-top: 0.5px
+}
